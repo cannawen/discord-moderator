@@ -1,0 +1,20 @@
+{
+  "name": "discord-moderator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf ./build && tsc",
+    "start": "node build/index.js",
+    "go": "npm run build && npm run start"
+  },
+  "keywords": [],
+  "author": "Canna Wen",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6"
+  }
+}
