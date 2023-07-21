@@ -1,21 +1,17 @@
 require("dotenv").config();
+import { Client, Events, Guild, VoiceChannel } from "discord.js";
 import cron from "node-cron";
-import Discord from "discord.js";
 
-// Create a new client instance
-const client = new Discord.Client({ intents: [131071] });
+const client = new Client({ intents: [131071] });
 
-interface BestDota {
-  guild: Discord.Guild;
-  churchOfRico: Discord.VoiceChannel;
-  dota2: Discord.VoiceChannel;
-  general: Discord.VoiceChannel;
-}
+let bestDota: {
+  guild: Guild;
+  churchOfRico: VoiceChannel;
+  dota2: VoiceChannel;
+  general: VoiceChannel;
+};
 
-let bestDota: BestDota;
-
-// When the client is ready, run this code (only once)
-client.once(Discord.Events.ClientReady, (c) => {
+client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 
   const guild = client.guilds.cache.find((g) => g.id === "761903068127428649")!;
@@ -27,22 +23,17 @@ client.once(Discord.Events.ClientReady, (c) => {
   };
 });
 
-function findVoiceChannel(guild: Discord.Guild, channelId: string) {
-  return guild.channels.cache.find(
-    (c) => c.id === channelId
-  ) as Discord.VoiceChannel;
+function findVoiceChannel(guild: Guild, channelId: string) {
+  return guild.channels.cache.find((c) => c.id === channelId) as VoiceChannel;
 }
 
-function foundRicoInChannel(channel: Discord.VoiceChannel) {
+function foundRicoInChannel(channel: VoiceChannel) {
   return (
     channel.members.find((m) => m.id === "212986339212263434") !== undefined
   );
 }
 
-function moveAllUsers(
-  fromChannel: Discord.VoiceChannel,
-  toChannel: Discord.VoiceChannel
-) {
+function moveAllUsers(fromChannel: VoiceChannel, toChannel: VoiceChannel) {
   fromChannel.members.forEach((m) => m.voice.setChannel(toChannel));
 }
 
@@ -54,5 +45,4 @@ cron.schedule("*/2 * * * * *", () => {
   }
 });
 
-// Log in to Discord with your client's token
 client.login(process.env.DISCORD_PRIVATE_TOKEN);
