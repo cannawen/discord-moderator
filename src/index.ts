@@ -1,48 +1,38 @@
 require("dotenv").config();
-import { Client, Events, Guild, VoiceChannel } from "discord.js";
-import cron from "node-cron";
+import { Client, Events, Guild } from "discord.js";
+import fs from "fs";
+import path from "path";
+import Rule from "./Rule";
 
 const client = new Client({ intents: [131071] });
 
-let bestDota: {
-  guild: Guild;
-  churchOfRico: VoiceChannel;
-  dota2: VoiceChannel;
-  general: VoiceChannel;
-};
+function registerRules(guild: Guild) {
+  const dirPath = path.join(__dirname, "rules");
+  fs.readdirSync(dirPath)
+    // .js and because it gets transpiled in /build directory
+    // .ts and because during testing, it stays in the /src directory
+    // TODO Kinda sketch that we need the || for tests only ...
+    .filter((file) => file.endsWith(".js") || file.endsWith(".ts"))
+    .map((file) => path.join(dirPath, file))
+    // eslint-disable-next-line global-require
+    .map((filePath) => require(filePath))
+    // register modules that return a `Rule` or array of `Rule`s
+    .forEach((module) => {
+      const rulesArray = Array.isArray(module.default)
+        ? module.default
+        : [module.default];
+      rulesArray
+        .filter((m: unknown) => m instanceof Rule)
+        .forEach((rule: Rule) => rule.register(guild));
+    });
+}
 
 client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 
   const guild = client.guilds.cache.find((g) => g.id === "761903068127428649")!;
-  bestDota = {
-    guild,
-    churchOfRico: findVoiceChannel(guild, "1113512037780303995"),
-    dota2: findVoiceChannel(guild, "798885243322499073"),
-    general: findVoiceChannel(guild, "773552279265083412"),
-  };
-});
 
-function findVoiceChannel(guild: Guild, channelId: string) {
-  return guild.channels.cache.find((c) => c.id === channelId) as VoiceChannel;
-}
-
-function foundRicoInChannel(channel: VoiceChannel) {
-  return (
-    channel.members.find((m) => m.id === "212986339212263434") !== undefined
-  );
-}
-
-function moveAllUsers(fromChannel: VoiceChannel, toChannel: VoiceChannel) {
-  fromChannel.members.forEach((m) => m.voice.setChannel(toChannel));
-}
-
-cron.schedule("*/2 * * * * *", () => {
-  if (foundRicoInChannel(bestDota.dota2)) {
-    moveAllUsers(bestDota.dota2, bestDota.churchOfRico);
-  } else if (foundRicoInChannel(bestDota.general)) {
-    moveAllUsers(bestDota.general, bestDota.churchOfRico);
-  }
+  registerRules(guild);
 });
 
 client.login(process.env.DISCORD_PRIVATE_TOKEN);
