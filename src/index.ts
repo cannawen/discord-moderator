@@ -30,7 +30,9 @@ function registerRules(guild: Guild) {
 client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 
-  const guild = client.guilds.cache.find((g) => g.id === "761903068127428649")!;
+  const guild = client.guilds.cache.find(
+    (g) => g.id === process.env.BEST_DOTA_GUILD_ID
+  )!;
 
   registerRules(guild);
 });

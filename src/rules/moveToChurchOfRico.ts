@@ -12,7 +12,7 @@ function findVoiceChannel(guild: Guild, channelId: string) {
 
 function foundRicoInChannel(channel: VoiceChannel) {
   return (
-    channel.members.find((m) => m.id === "212986339212263434") !== undefined
+    channel.members.find((m) => m.id === process.env.USER_ID_RICO) !== undefined
   );
 }
 
@@ -29,8 +29,10 @@ cron.schedule("*/2 * * * * *", () => {
 });
 
 export default new Rule((guild) => {
-  churchOfRico = findVoiceChannel(guild, "1113512037780303995");
-  dota2 = findVoiceChannel(guild, "798885243322499073");
-  general = findVoiceChannel(guild, "773552279265083412");
-  console.log("found church channel", churchOfRico);
+  churchOfRico = findVoiceChannel(
+    guild,
+    process.env.CHANNEL_ID_CHURCH_OF_RICO!
+  );
+  dota2 = findVoiceChannel(guild, process.env.CHANNEL_ID_DOTA_2!);
+  general = findVoiceChannel(guild, process.env.CHANNEL_ID_GENERAL!);
 });
