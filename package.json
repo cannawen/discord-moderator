@@ -13,6 +13,7 @@
   "author": "Canna Wen",
   "license": "MIT",
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.3.3",
     "@types/node": "^20.4.2",
     "rimraf": "^5.0.1",
     "typescript": "^5.1.6"
