@@ -6,34 +6,46 @@ function findVoiceChannel(guild: Guild, channelId: string): VoiceChannel {
   return guild.channels.cache.find((c) => c.id === channelId) as VoiceChannel;
 }
 
-function foundUserInChannel(userId: string, channel: VoiceChannel): boolean {
-  return channel.members.find((m) => m.id === userId) !== undefined;
+function foundRicoInChannel(guild: Guild, channelId: string): boolean {
+  return (
+    findVoiceChannel(guild, channelId).members.find(
+      (m) => m.id === process.env.USER_ID_RICO
+    ) !== undefined
+  );
 }
 
-function moveAllUsers(
-  fromChannel: VoiceChannel,
-  toChannel: VoiceChannel
-): void {
+function moveAllUsersToChurch(guild: Guild, fromChannelId: string): void {
+  const fromChannel = findVoiceChannel(guild, fromChannelId);
+  const toChannel = findVoiceChannel(
+    guild,
+    process.env.CHANNEL_ID_CHURCH_OF_RICO!
+  );
+
   fromChannel.members.forEach((m) => m.voice.setChannel(toChannel));
+}
+
+function moveRicoToChurch(guild: Guild) {
+  guild.members.cache
+    .find((u) => u.id === process.env.USER_ID_RICO)
+    ?.voice.setChannel(
+      findVoiceChannel(guild, process.env.CHANNEL_ID_CHURCH_OF_RICO!)
+    );
+}
+
+function findRicoAndMoveEveryoneToChurch(guild: Guild, channelId: string) {
+  if (foundRicoInChannel(guild, channelId)) {
+    moveRicoToChurch(guild);
+    moveAllUsersToChurch(guild, channelId);
+  }
 }
 
 export default new Rule({
   description:
     "when Rico joins the Dota 2 or General channel, move him and everyone in that channel to The Church of Rico",
   registerGuild: (guild) => {
-    const churchOfRico = findVoiceChannel(
-      guild,
-      process.env.CHANNEL_ID_CHURCH_OF_RICO!
-    );
-    const dota2 = findVoiceChannel(guild, process.env.CHANNEL_ID_DOTA_2!);
-    const general = findVoiceChannel(guild, process.env.CHANNEL_ID_GENERAL!);
-
     cron.schedule("*/1 * * * * *", () => {
-      if (foundUserInChannel(process.env.USER_ID_RICO!, dota2)) {
-        moveAllUsers(dota2, churchOfRico);
-      } else if (foundUserInChannel(process.env.USER_ID_RICO!, general)) {
-        moveAllUsers(general, churchOfRico);
-      }
+      findRicoAndMoveEveryoneToChurch(guild, process.env.CHANNEL_ID_DOTA_2!);
+      findRicoAndMoveEveryoneToChurch(guild, process.env.CHANNEL_ID_GENERAL!);
     });
   },
 });
