@@ -10,47 +10,50 @@ function theChurchOfRicoChannel(guild: Guild) {
   ) as VoiceBasedChannel;
 }
 
-// the bot listens when Canna says "take me/us to church" and moves users to the The Church of Rico
-export default ((_, guild, onTick) => {
-  let listening = false;
+export default new Rule({
+  description:
+    'the bot listens when Canna says "take me/us to church" and moves users to the The Church of Rico',
+  registerGuild: (guild, onTick) => {
+    let listening = false;
 
-  onTick(() => {
-    const connection = getVoiceConnection(guild.id);
-    if (connection && !listening) {
-      listening = true;
+    onTick(() => {
+      const connection = getVoiceConnection(guild.id);
+      if (connection && !listening) {
+        listening = true;
 
-      connection.receiver.speaking.on("start", (userId) => {
-        if (userId === constants.userIds.CANNA) {
-          stt.transcribe(connection.receiver, userId).then((utterance) => {
-            if (!utterance) return;
+        connection.receiver.speaking.on("start", (userId) => {
+          if (userId === constants.userIds.CANNA) {
+            stt.transcribe(connection.receiver, userId).then((utterance) => {
+              if (!utterance) return;
 
-            console.log(utterance);
+              console.log(utterance);
 
-            if (utterance.match(/^take us to( church)?$/)) {
-              guild.members.cache
-                .filter((m) => m.voice.channel)
-                .forEach((m) => {
-                  m.voice.setChannel(theChurchOfRicoChannel(guild));
-                });
-            }
+              if (utterance.match(/^take us to( church)?$/)) {
+                guild.members.cache
+                  .filter((m) => m.voice.channel)
+                  .forEach((m) => {
+                    m.voice.setChannel(theChurchOfRicoChannel(guild));
+                  });
+              }
 
-            if (utterance.match(/^take me to( church)?$/)) {
-              const fromChannelId = guild.members.cache.find(
-                (m) => m.id === constants.userIds.CANNA
-              )?.voice.channelId;
-              const fromChannel = guild.channels.cache.find(
-                (c) => c.id === fromChannelId
-              ) as VoiceBasedChannel;
-              fromChannel.members.forEach((m) =>
-                m.voice.setChannel(theChurchOfRicoChannel(guild))
-              );
-            }
-          });
-        }
-      });
-    }
-    if (!connection) {
-      listening = false;
-    }
-  });
-}) as Rule;
+              if (utterance.match(/^take me to( church)?$/)) {
+                const fromChannelId = guild.members.cache.find(
+                  (m) => m.id === constants.userIds.CANNA
+                )?.voice.channelId;
+                const fromChannel = guild.channels.cache.find(
+                  (c) => c.id === fromChannelId
+                ) as VoiceBasedChannel;
+                fromChannel.members.forEach((m) =>
+                  m.voice.setChannel(theChurchOfRicoChannel(guild))
+                );
+              }
+            });
+          }
+        });
+      }
+      if (!connection) {
+        listening = false;
+      }
+    });
+  },
+});

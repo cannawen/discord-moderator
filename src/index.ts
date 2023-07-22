@@ -19,9 +19,21 @@ function registerRules(guild: Guild) {
     .map((filePath) => require(filePath))
     // register modules that return a `Rule` or array of `Rule`s
     .forEach((module) => {
-      (module.default as Rule)(client, guild, (f) => {
-        cron.schedule("*/1 * * * * *", f);
-      });
+      const rulesArray = Array.isArray(module.default)
+        ? module.default
+        : [module.default];
+      rulesArray
+        .filter((m: unknown) => m instanceof Rule)
+        .forEach((rule: Rule) => {
+          if (rule.registerClient) {
+            rule.registerClient(client);
+          }
+          if (rule.registerGuild) {
+            rule.registerGuild(guild, (f) => {
+              cron.schedule("*/1 * * * * *", f);
+            });
+          }
+        });
     });
 }
 
