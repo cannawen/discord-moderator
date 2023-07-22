@@ -1,8 +1,14 @@
-import { getVoiceConnection, VoiceConnection } from "@discordjs/voice";
+import { Guild, VoiceBasedChannel } from "discord.js";
 import cron from "node-cron";
+import { getVoiceConnection } from "@discordjs/voice";
 import Rule from "../Rule";
 import stt from "../speechToText";
-import { VoiceBasedChannel } from "discord.js";
+
+function theChurchOfRicoChannel(guild: Guild) {
+  return guild.channels.cache.find(
+    (c) => c.id === process.env.CHANNEL_ID_CHURCH_OF_RICO
+  ) as VoiceBasedChannel;
+}
 
 export default new Rule((guild) => {
   let listening = false;
@@ -19,16 +25,24 @@ export default new Rule((guild) => {
 
             console.log(utterance);
 
-            if (utterance?.match(/^take us to church$/)) {
+            if (utterance.match(/^take us to( church)?$/)) {
               guild.members.cache
                 .filter((m) => m.voice.channel)
                 .forEach((m) => {
-                  m.voice.setChannel(
-                    guild.channels.cache.find(
-                      (c) => c.id === process.env.CHANNEL_ID_CHURCH_OF_RICO
-                    ) as VoiceBasedChannel
-                  );
+                  m.voice.setChannel(theChurchOfRicoChannel(guild));
                 });
+            }
+
+            if (utterance.match(/^take me to( church)?$/)) {
+              const fromChannelId = guild.members.cache.find(
+                (m) => m.id === process.env.USER_ID_CANNA
+              )?.voice.channelId;
+              const fromChannel = guild.channels.cache.find(
+                (c) => c.id === fromChannelId
+              ) as VoiceBasedChannel;
+              fromChannel.members.forEach((m) =>
+                m.voice.setChannel(theChurchOfRicoChannel(guild))
+              );
             }
           });
         }
