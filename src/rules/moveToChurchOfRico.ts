@@ -1,6 +1,5 @@
 import { Guild, VoiceChannel } from "discord.js";
 import constants from "../constants";
-import cron from "node-cron";
 import Rule from "../Rule";
 
 function findVoiceChannel(guild: Guild, channelId: string): VoiceChannel {
@@ -43,8 +42,8 @@ function findRicoAndMoveEveryoneToChurch(guild: Guild, channelId: string) {
 export default new Rule({
   description:
     "when Rico joins the Dota 2 or General channel, move him and everyone in that channel to The Church of Rico",
-  registerGuild: (guild) => {
-    cron.schedule("*/1 * * * * *", () => {
+  registerGuild: (guild, onTick) => {
+    onTick(() => {
       findRicoAndMoveEveryoneToChurch(guild, constants.channelIds.DOTA_2);
       findRicoAndMoveEveryoneToChurch(guild, constants.channelIds.GENERAL);
     });

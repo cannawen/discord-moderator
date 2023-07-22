@@ -1,6 +1,5 @@
 import { Guild, VoiceBasedChannel } from "discord.js";
 import constants from "../constants";
-import cron from "node-cron";
 import { getVoiceConnection } from "@discordjs/voice";
 import Rule from "../Rule";
 import stt from "../speechToText";
@@ -14,10 +13,10 @@ function theChurchOfRicoChannel(guild: Guild) {
 export default new Rule({
   description:
     'the bot listens when Canna says "take me/us to church" and moves users to the The Church of Rico',
-  registerGuild: (guild) => {
+  registerGuild: (guild, onTick) => {
     let listening = false;
 
-    cron.schedule("*/1 * * * * *", () => {
+    onTick(() => {
       const connection = getVoiceConnection(guild.id);
       if (connection && !listening) {
         listening = true;

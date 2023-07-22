@@ -1,19 +1,18 @@
 import { joinVoiceChannel, VoiceConnection } from "@discordjs/voice";
 import constants from "../constants";
-import cron from "node-cron";
 import Rule from "../Rule";
 import { VoiceBasedChannel } from "discord.js";
 
 export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
-  registerGuild: (guild) => {
+  registerGuild: (guild, onTick) => {
     const canna = guild.members.cache.find(
       (m) => m.id === constants.userIds.CANNA
     );
     let connection: VoiceConnection;
     let cannaChannel: VoiceBasedChannel | undefined;
 
-    cron.schedule("*/1 * * * * *", () => {
+    onTick(() => {
       const currentChannel = canna?.voice.channel;
 
       // if Canna is currently in a channel different from saved channel

@@ -1,5 +1,6 @@
 import { Client, Events, Guild } from "discord.js";
 import constants from "./constants";
+import cron from "node-cron";
 import fs from "fs";
 import path from "path";
 import Rule from "./Rule";
@@ -28,7 +29,9 @@ function registerRules(guild: Guild) {
             rule.registerClient(client);
           }
           if (rule.registerGuild) {
-            rule.registerGuild(guild);
+            rule.registerGuild(guild, (f) => {
+              cron.schedule("*/1 * * * * *", f);
+            });
           }
         });
     });
