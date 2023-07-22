@@ -40,24 +40,32 @@ client.once(Events.ClientReady, (c) => {
 
   const rules = getRules();
 
-  rules.filter((r) => r.start).map((r) => r.start!(guild, client));
+  rules.filter((r) => r.start).map((r) => r.start!(client));
 
+  // this flag here is very sketchy - there must be a better way to do this
+  let listening = false;
   cron.schedule("*/1 * * * * *", () => {
-    rules.filter((r) => r.tick).map((r) => r.tick!(guild, client));
-  });
+    rules.filter((r) => r.tick).map((r) => r.tick!(guild));
 
-  const connection = getVoiceConnection(guild.id);
-  connection?.receiver.speaking.on("start", (userId) => {
-    if (userId === constants.userIds.CANNA) {
-      stt.transcribe(connection.receiver, userId).then((utterance) => {
-        if (!utterance) return;
+    const connection = getVoiceConnection(guild.id);
+    if (connection && !listening) {
+      listening = true;
+      connection?.receiver.speaking.on("start", (userId) => {
+        if (userId === constants.userIds.CANNA) {
+          stt.transcribe(connection.receiver, userId).then((utterance) => {
+            if (!utterance) return;
 
-        console.log(utterance);
+            console.log(utterance);
 
-        rules
-          .filter((r) => r.utterance)
-          .map((r) => r.utterance!(guild, utterance));
+            rules
+              .filter((r) => r.utterance)
+              .map((r) => r.utterance!(guild, utterance));
+          });
+        }
       });
+    }
+    if (!connection && listening) {
+      listening = false;
     }
   });
 });
