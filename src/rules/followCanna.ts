@@ -12,7 +12,7 @@ export default new Rule(
     let connection: VoiceConnection;
     let cannaChannel: VoiceBasedChannel | undefined;
 
-    cron.schedule("*/2 * * * * *", () => {
+    cron.schedule("*/1 * * * * *", () => {
       const currentChannel = canna?.voice.channel;
 
       // if Canna is currently in a channel different from saved channel

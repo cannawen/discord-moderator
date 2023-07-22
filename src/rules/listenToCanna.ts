@@ -15,7 +15,7 @@ export default new Rule(
   (guild) => {
     let listening = false;
 
-    cron.schedule("*/2 * * * * *", () => {
+    cron.schedule("*/1 * * * * *", () => {
       const connection = getVoiceConnection(guild.id);
       if (connection && !listening) {
         listening = true;

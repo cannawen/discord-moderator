@@ -27,7 +27,7 @@ export default new Rule(
     const dota2 = findVoiceChannel(guild, process.env.CHANNEL_ID_DOTA_2!);
     const general = findVoiceChannel(guild, process.env.CHANNEL_ID_GENERAL!);
 
-    cron.schedule("*/2 * * * * *", () => {
+    cron.schedule("*/1 * * * * *", () => {
       if (foundUserInChannel(process.env.USER_ID_RICO!, dota2)) {
         moveAllUsers(dota2, churchOfRico);
       } else if (foundUserInChannel(process.env.USER_ID_RICO!, general)) {
