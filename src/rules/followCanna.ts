@@ -1,4 +1,5 @@
 import { joinVoiceChannel, VoiceConnection } from "@discordjs/voice";
+import constants from "../constants";
 import cron from "node-cron";
 import Rule from "../Rule";
 import { VoiceBasedChannel } from "discord.js";
@@ -7,7 +8,7 @@ export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
   registerGuild: (guild) => {
     const canna = guild.members.cache.find(
-      (m) => m.id === process.env.USER_ID_CANNA!
+      (m) => m.id === constants.userIds.CANNA
     );
     let connection: VoiceConnection;
     let cannaChannel: VoiceBasedChannel | undefined;

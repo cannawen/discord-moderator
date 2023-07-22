@@ -1,4 +1,5 @@
 import { Guild, VoiceChannel } from "discord.js";
+import constants from "../constants";
 import cron from "node-cron";
 import Rule from "../Rule";
 
@@ -9,7 +10,7 @@ function findVoiceChannel(guild: Guild, channelId: string): VoiceChannel {
 function foundRicoInChannel(guild: Guild, channelId: string): boolean {
   return (
     findVoiceChannel(guild, channelId).members.find(
-      (m) => m.id === process.env.USER_ID_RICO
+      (m) => m.id === constants.userIds.RICO
     ) !== undefined
   );
 }
@@ -18,7 +19,7 @@ function moveAllUsersToChurch(guild: Guild, fromChannelId: string): void {
   const fromChannel = findVoiceChannel(guild, fromChannelId);
   const toChannel = findVoiceChannel(
     guild,
-    process.env.CHANNEL_ID_THE_CHURCH_OF_RICO!
+    constants.channelIds.THE_CHURCH_OF_RICO
   );
 
   fromChannel.members.forEach((m) => m.voice.setChannel(toChannel));
@@ -26,9 +27,9 @@ function moveAllUsersToChurch(guild: Guild, fromChannelId: string): void {
 
 function moveRicoToChurch(guild: Guild) {
   guild.members.cache
-    .find((u) => u.id === process.env.USER_ID_RICO)
+    .find((u) => u.id === constants.userIds.RICO)
     ?.voice.setChannel(
-      findVoiceChannel(guild, process.env.CHANNEL_ID_THE_CHURCH_OF_RICO!)
+      findVoiceChannel(guild, constants.channelIds.THE_CHURCH_OF_RICO)
     );
 }
 
@@ -44,8 +45,8 @@ export default new Rule({
     "when Rico joins the Dota 2 or General channel, move him and everyone in that channel to The Church of Rico",
   registerGuild: (guild) => {
     cron.schedule("*/1 * * * * *", () => {
-      findRicoAndMoveEveryoneToChurch(guild, process.env.CHANNEL_ID_DOTA_2!);
-      findRicoAndMoveEveryoneToChurch(guild, process.env.CHANNEL_ID_GENERAL!);
+      findRicoAndMoveEveryoneToChurch(guild, constants.channelIds.DOTA_2);
+      findRicoAndMoveEveryoneToChurch(guild, constants.channelIds.GENERAL);
     });
   },
 });

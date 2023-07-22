@@ -1,5 +1,5 @@
-require("dotenv").config();
 import { Client, Events, Guild } from "discord.js";
+import constants from "./constants";
 import fs from "fs";
 import path from "path";
 import Rule from "./Rule";
@@ -38,10 +38,10 @@ client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 
   const guild = client.guilds.cache.find(
-    (g) => g.id === process.env.GUILD_ID_BEST_DOTA
+    (g) => g.id === constants.guildIds.BEST_DOTA
   )!;
 
   registerRules(guild);
 });
 
-client.login(process.env.DISCORD_PRIVATE_TOKEN);
+client.login(constants.discord.PRIVATE_TOKEN);
