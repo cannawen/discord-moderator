@@ -1,6 +1,21 @@
-import { findVoiceChannel, foundUserInChannel, moveAllUsers } from "../helpers";
+import { Guild, VoiceChannel } from "discord.js";
 import cron from "node-cron";
 import Rule from "../Rule";
+
+function findVoiceChannel(guild: Guild, channelId: string): VoiceChannel {
+  return guild.channels.cache.find((c) => c.id === channelId) as VoiceChannel;
+}
+
+function foundUserInChannel(userId: string, channel: VoiceChannel): boolean {
+  return channel.members.find((m) => m.id === userId) !== undefined;
+}
+
+function moveAllUsers(
+  fromChannel: VoiceChannel,
+  toChannel: VoiceChannel
+): void {
+  fromChannel.members.forEach((m) => m.voice.setChannel(toChannel));
+}
 
 export default new Rule((guild) => {
   const churchOfRico = findVoiceChannel(
