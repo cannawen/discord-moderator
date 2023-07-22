@@ -1,4 +1,4 @@
-import { Client, Guild } from "discord.js";
+import { Guild } from "discord.js";
 
 export default class Rule {
   public readonly register: (guild: Guild) => void;
