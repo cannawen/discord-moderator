@@ -23,6 +23,9 @@
     "@discordjs/voice": "^0.16.0",
     "discord.js": "^14.11.0",
     "dotenv": "^16.3.1",
-    "node-cron": "^3.0.2"
+    "ffmpeg-static": "^5.1.0",
+    "libsodium-wrappers": "^0.7.11",
+    "node-cron": "^3.0.2",
+    "opusscript": "^0.0.8"
   }
 }

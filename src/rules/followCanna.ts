@@ -1,13 +1,13 @@
+import { joinVoiceChannel, VoiceConnection } from "@discordjs/voice";
 import cron from "node-cron";
 import Rule from "../Rule";
-import Voice from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
 
 export default new Rule((guild) => {
   const canna = guild.members.cache.find(
     (m) => m.id === process.env.USER_ID_CANNA!
   );
-  let connection: Voice.VoiceConnection;
+  let connection: VoiceConnection;
   let cannaChannel: VoiceBasedChannel | undefined;
 
   cron.schedule("*/2 * * * * *", () => {
@@ -18,7 +18,7 @@ export default new Rule((guild) => {
       // save channel
       cannaChannel = currentChannel;
       // join bot to channel
-      connection = Voice.joinVoiceChannel({
+      connection = joinVoiceChannel({
         adapterCreator: currentChannel.guild.voiceAdapterCreator,
         channelId: currentChannel.id,
         guildId: guild.id,
