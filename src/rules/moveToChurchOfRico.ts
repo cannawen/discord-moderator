@@ -18,7 +18,7 @@ function moveAllUsersToChurch(guild: Guild, fromChannelId: string): void {
   const fromChannel = findVoiceChannel(guild, fromChannelId);
   const toChannel = findVoiceChannel(
     guild,
-    process.env.CHANNEL_ID_CHURCH_OF_RICO!
+    process.env.CHANNEL_ID_THE_CHURCH_OF_RICO!
   );
 
   fromChannel.members.forEach((m) => m.voice.setChannel(toChannel));
@@ -28,7 +28,7 @@ function moveRicoToChurch(guild: Guild) {
   guild.members.cache
     .find((u) => u.id === process.env.USER_ID_RICO)
     ?.voice.setChannel(
-      findVoiceChannel(guild, process.env.CHANNEL_ID_CHURCH_OF_RICO!)
+      findVoiceChannel(guild, process.env.CHANNEL_ID_THE_CHURCH_OF_RICO!)
     );
 }
 

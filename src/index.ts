@@ -38,7 +38,7 @@ client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 
   const guild = client.guilds.cache.find(
-    (g) => g.id === process.env.BEST_DOTA_GUILD_ID
+    (g) => g.id === process.env.GUILD_ID_BEST_DOTA
   )!;
 
   registerRules(guild);

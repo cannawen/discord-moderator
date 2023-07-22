@@ -6,7 +6,7 @@ import stt from "../speechToText";
 
 function theChurchOfRicoChannel(guild: Guild) {
   return guild.channels.cache.find(
-    (c) => c.id === process.env.CHANNEL_ID_CHURCH_OF_RICO
+    (c) => c.id === process.env.CHANNEL_ID_THE_CHURCH_OF_RICO
   ) as VoiceBasedChannel;
 }
 
