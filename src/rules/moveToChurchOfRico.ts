@@ -32,7 +32,7 @@ function moveRicoToChurch(guild: Guild) {
     );
 }
 
-function findRicoAndMoveEveryoneToChurch(guild: Guild, channelId: string) {
+function ifRicoFoundMoveEveryoneToChurch(guild: Guild, channelId: string) {
   if (foundRicoInChannel(guild, channelId)) {
     moveRicoToChurch(guild);
     moveAllUsersToChurch(guild, channelId);
@@ -42,10 +42,8 @@ function findRicoAndMoveEveryoneToChurch(guild: Guild, channelId: string) {
 export default new Rule({
   description:
     "when Rico joins the Dota 2 or General channel, move him and everyone in that channel to The Church of Rico",
-  registerGuild: (guild, onTick) => {
-    onTick(() => {
-      findRicoAndMoveEveryoneToChurch(guild, constants.channelIds.DOTA_2);
-      findRicoAndMoveEveryoneToChurch(guild, constants.channelIds.GENERAL);
-    });
+  tick: (guild) => {
+    ifRicoFoundMoveEveryoneToChurch(guild, constants.channelIds.DOTA_2);
+    ifRicoFoundMoveEveryoneToChurch(guild, constants.channelIds.GENERAL);
   },
 });

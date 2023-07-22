@@ -2,19 +2,19 @@ import { Client, Guild } from "discord.js";
 
 export default class Rule {
   public readonly description: string;
-  public readonly registerClient?: (client: Client) => void;
-  public readonly registerGuild?: (
-    guild: Guild,
-    onTick: (f: () => void) => void
-  ) => void;
+  public readonly start?: (guild: Guild, client: Client) => void;
+  public readonly tick?: (guild: Guild, client: Client) => void;
+  public readonly utterance?: (guild: Guild, utterance: string) => void;
 
   constructor(params: {
     description: string;
-    registerClient?: (client: Client) => void;
-    registerGuild?: (guild: Guild, onTick: (f: () => void) => void) => void;
+    start?: (guild: Guild, client: Client) => void;
+    tick?: (guild: Guild, client: Client) => void;
+    utterance?: (guild: Guild, utterance: string) => void;
   }) {
     this.description = params.description;
-    this.registerClient = params.registerClient;
-    this.registerGuild = params.registerGuild;
+    this.start = params.start;
+    this.tick = params.tick;
+    this.utterance = params.utterance;
   }
 }
