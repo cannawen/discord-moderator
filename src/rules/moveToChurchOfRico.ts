@@ -17,9 +17,10 @@ function moveAllUsers(
   fromChannel.members.forEach((m) => m.voice.setChannel(toChannel));
 }
 
-export default new Rule(
-  "when Rico joins the Dota 2 or General channel, move him and everyone in that channel to The Church of Rico",
-  (guild) => {
+export default new Rule({
+  description:
+    "when Rico joins the Dota 2 or General channel, move him and everyone in that channel to The Church of Rico",
+  registerGuild: (guild) => {
     const churchOfRico = findVoiceChannel(
       guild,
       process.env.CHANNEL_ID_CHURCH_OF_RICO!
@@ -34,5 +35,5 @@ export default new Rule(
         moveAllUsers(general, churchOfRico);
       }
     });
-  }
-);
+  },
+});

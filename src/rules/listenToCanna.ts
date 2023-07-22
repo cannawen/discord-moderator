@@ -10,9 +10,10 @@ function theChurchOfRicoChannel(guild: Guild) {
   ) as VoiceBasedChannel;
 }
 
-export default new Rule(
-  'the bot listens when Canna says "take me/us to church" and moves users to the The Church of Rico',
-  (guild) => {
+export default new Rule({
+  description:
+    'the bot listens when Canna says "take me/us to church" and moves users to the The Church of Rico',
+  registerGuild: (guild) => {
     let listening = false;
 
     cron.schedule("*/1 * * * * *", () => {
@@ -54,5 +55,5 @@ export default new Rule(
         listening = false;
       }
     });
-  }
-);
+  },
+});

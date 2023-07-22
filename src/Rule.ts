@@ -1,11 +1,17 @@
-import { Guild } from "discord.js";
+import { Client, Guild } from "discord.js";
 
 export default class Rule {
-  public readonly register: (guild: Guild) => void;
   public readonly description: string;
+  public readonly registerClient?: (client: Client) => void;
+  public readonly registerGuild?: (guild: Guild) => void;
 
-  constructor(description: string, register: (guild: Guild) => void) {
-    this.description = description;
-    this.register = register;
+  constructor(params: {
+    description: string;
+    registerClient?: (client: Client) => void;
+    registerGuild?: (guild: Guild) => void;
+  }) {
+    this.description = params.description;
+    this.registerClient = params.registerClient;
+    this.registerGuild = params.registerGuild;
   }
 }

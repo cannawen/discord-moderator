@@ -23,7 +23,14 @@ function registerRules(guild: Guild) {
         : [module.default];
       rulesArray
         .filter((m: unknown) => m instanceof Rule)
-        .forEach((rule: Rule) => rule.register(guild));
+        .forEach((rule: Rule) => {
+          if (rule.registerClient) {
+            rule.registerClient(client);
+          }
+          if (rule.registerGuild) {
+            rule.registerGuild(guild);
+          }
+        });
     });
 }
 
