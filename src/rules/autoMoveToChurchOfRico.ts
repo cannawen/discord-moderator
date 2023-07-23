@@ -9,12 +9,12 @@ function findVoiceChannel(guild: Guild, channelId: string): VoiceChannel {
 function foundRicoInChannel(guild: Guild, channelId: string): boolean {
   return (
     findVoiceChannel(guild, channelId).members.find(
-      (m) => m.id === constants.userIds.RICO
+      (m) => m.id === constants.memberIds.RICO
     ) !== undefined
   );
 }
 
-function moveAllUsersToChurch(guild: Guild, fromChannelId: string): void {
+function moveAllMembersToChurch(guild: Guild, fromChannelId: string): void {
   const fromChannel = findVoiceChannel(guild, fromChannelId);
   const toChannel = findVoiceChannel(
     guild,
@@ -26,7 +26,7 @@ function moveAllUsersToChurch(guild: Guild, fromChannelId: string): void {
 
 function moveRicoToChurch(guild: Guild) {
   guild.members.cache
-    .find((u) => u.id === constants.userIds.RICO)
+    .find((u) => u.id === constants.memberIds.RICO)
     ?.voice.setChannel(
       findVoiceChannel(guild, constants.channelIds.THE_CHURCH_OF_RICO)
     );
@@ -35,7 +35,7 @@ function moveRicoToChurch(guild: Guild) {
 function ifRicoFoundMoveEveryoneToChurch(guild: Guild, channelId: string) {
   if (foundRicoInChannel(guild, channelId)) {
     moveRicoToChurch(guild);
-    moveAllUsersToChurch(guild, channelId);
+    moveAllMembersToChurch(guild, channelId);
   }
 }
 

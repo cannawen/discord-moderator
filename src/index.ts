@@ -50,19 +50,19 @@ client.once(Events.ClientReady, (c) => {
     const connection = getVoiceConnection(guild.id);
     if (connection && !listening) {
       listening = true;
-      connection?.receiver.speaking.on("start", (userId) => {
+      connection?.receiver.speaking.on("start", (memberId) => {
         stt
-          .transcribe(connection.receiver, userId)
+          .transcribe(connection.receiver, memberId)
           .then((utterance) => {
             if (!utterance) return;
 
-            if (userId === constants.userIds.CANNA) {
+            if (memberId === constants.memberIds.CANNA) {
               console.log(utterance);
             }
 
             rules
               .filter((r) => r.utterance)
-              .map((r) => r.utterance!(guild, utterance, userId));
+              .map((r) => r.utterance!(guild, utterance, memberId));
           })
           .catch(() => {});
       });

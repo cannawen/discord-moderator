@@ -9,7 +9,7 @@ export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
   tick: (guild) => {
     const canna = guild.members.cache.find(
-      (m) => m.id === constants.userIds.CANNA
+      (m) => m.id === constants.memberIds.CANNA
     )!;
     const currentChannel = canna?.voice.channel;
 

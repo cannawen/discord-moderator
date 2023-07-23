@@ -17,15 +17,18 @@ function moveToChannel(guild: Guild, memberIds: string[], toChannelId: string) {
 export default new Rule({
   description:
     '"should I stay or should I go" triggers in house mode, listening to "radiant" or "dire"',
-  utterance: (guild, utterance, userId) => {
+  utterance: (guild, utterance, memberId) => {
     if (splittingMode) {
       if (utterance.match(/^radiant$/i)) {
-        radiantTeam.push(userId);
+        radiantTeam.push(memberId);
       }
       if (utterance.match(/^(dyer)|(dire)$/i)) {
-        direTeam.push(userId);
+        direTeam.push(memberId);
       }
-      if (userId === constants.userIds.CANNA || utterance.match(/^done$/i)) {
+      if (
+        memberId === constants.memberIds.CANNA ||
+        utterance.match(/^done$/i)
+      ) {
         splittingMode = false;
         moveToChannel(guild, radiantTeam, constants.channelIds.RADIANT);
         moveToChannel(guild, direTeam, constants.channelIds.DIRE);

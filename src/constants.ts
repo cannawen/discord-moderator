@@ -17,9 +17,9 @@ export default {
   roleIds: {
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
   },
-  userIds: {
-    CANNA: process.env.USER_ID_CANNA!,
-    DOTA_COACH: process.env.USER_ID_DOTA_COACH!,
-    RICO: process.env.USER_ID_RICO!,
+  memberIds: {
+    CANNA: process.env.MEMBER_ID_CANNA!,
+    DOTA_COACH: process.env.MEMBER_ID_DOTA_COACH!,
+    RICO: process.env.MEMBER_ID_RICO!,
   },
 };

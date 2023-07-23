@@ -11,8 +11,8 @@ if (!fs.existsSync(STT_DIRECTORY)) {
   fs.mkdirSync(STT_DIRECTORY, { recursive: true });
 }
 
-function sttPath(userId: string) {
-  return path.join(STT_DIRECTORY, `${userId}.ogg`);
+function sttPath(memberId: string) {
+  return path.join(STT_DIRECTORY, `${memberId}.ogg`);
 }
 
 // This file is a mashup of:
@@ -72,10 +72,10 @@ function transcribeNetworkCall(
 
 function transcribe(
   receiver: Voice.VoiceReceiver,
-  userId: string
+  memberId: string
 ): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
-    const source = receiver.subscribe(userId, {
+    const source = receiver.subscribe(memberId, {
       end: {
         behavior: Voice.EndBehaviorType.AfterSilence,
         duration: 300,
@@ -83,7 +83,7 @@ function transcribe(
     });
     setTimeout(() => {
       source.destroy(
-        new Error(`${userId.substring(0, 10)} talking for too long`)
+        new Error(`${memberId.substring(0, 10)} talking for too long`)
       );
     }, 5000);
 
@@ -92,7 +92,7 @@ function transcribe(
       frameSize: 960,
       rate: 48000,
     });
-    const destination = fs.createWriteStream(sttPath(userId));
+    const destination = fs.createWriteStream(sttPath(memberId));
 
     // https://github.com/discordjs/voice-examples/blob/main/recorder/src/createListeningStream.ts
     stream.pipeline(source, decoder, destination, (err) => {
@@ -102,7 +102,7 @@ function transcribe(
       } else {
         resolve(
           transcribeNetworkCall(
-            convertAudioFromStereoToMono(fs.readFileSync(sttPath(userId)))
+            convertAudioFromStereoToMono(fs.readFileSync(sttPath(memberId)))
           )
         );
       }
