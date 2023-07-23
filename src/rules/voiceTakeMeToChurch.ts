@@ -1,5 +1,6 @@
 import { Guild, VoiceBasedChannel } from "discord.js";
 import constants from "../constants";
+import { playAudio } from "../helpers";
 import Rule from "../Rule";
 
 function theChurchOfRicoChannel(guild: Guild) {
@@ -36,6 +37,7 @@ export default [
           .forEach((m) => {
             m.voice.setChannel(theChurchOfRicoChannel(guild));
           });
+        playAudio(guild.id, "holy.mp3");
       }
     },
   }),
