@@ -25,7 +25,7 @@ export default new Rule({
       if (utterance.match(/^(dyer)|(dire)$/i)) {
         direTeam.push(userId);
       }
-      if (userId === constants.userIds.CANNA) {
+      if (userId === constants.userIds.CANNA || utterance.match(/^done$/i)) {
         splittingMode = false;
         moveToChannel(guild, radiantTeam, constants.channelIds.RADIANT);
         moveToChannel(guild, direTeam, constants.channelIds.DIRE);
