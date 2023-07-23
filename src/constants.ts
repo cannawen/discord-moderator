@@ -11,6 +11,8 @@ export default {
     THE_CHURCH_OF_RICO: process.env.CHANNEL_ID_THE_CHURCH_OF_RICO!,
     DOTA_2: process.env.CHANNEL_ID_DOTA_2!,
     GENERAL: process.env.CHANNEL_ID_GENERAL!,
+    RADIANT: process.env.CHANNEL_ID_RADIANT!,
+    DIRE: process.env.CHANNEL_ID_DIRE!,
   },
   roleIds: {
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
