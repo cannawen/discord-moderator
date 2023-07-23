@@ -51,17 +51,17 @@ client.once(Events.ClientReady, (c) => {
     if (connection && !listening) {
       listening = true;
       connection?.receiver.speaking.on("start", (userId) => {
-        if (userId === constants.userIds.CANNA) {
-          stt.transcribe(connection.receiver, userId).then((utterance) => {
-            if (!utterance) return;
+        stt.transcribe(connection.receiver, userId).then((utterance) => {
+          if (!utterance) return;
 
+          if (userId === constants.userIds.CANNA) {
             console.log(utterance);
+          }
 
-            rules
-              .filter((r) => r.utterance)
-              .map((r) => r.utterance!(guild, utterance));
-          });
-        }
+          rules
+            .filter((r) => r.utterance)
+            .map((r) => r.utterance!(guild, utterance, userId));
+        });
       });
     }
     if (!connection && listening) {

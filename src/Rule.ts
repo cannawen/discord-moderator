@@ -4,13 +4,17 @@ export default class Rule {
   public readonly description: string;
   public readonly start?: (client: Client) => void;
   public readonly tick?: (guild: Guild) => void;
-  public readonly utterance?: (guild: Guild, utterance: string) => void;
+  public readonly utterance?: (
+    guild: Guild,
+    utterance: string,
+    userId: string
+  ) => void;
 
   constructor(params: {
     description: string;
     start?: (client: Client) => void;
     tick?: (guild: Guild) => void;
-    utterance?: (guild: Guild, utterance: string) => void;
+    utterance?: (guild: Guild, utterance: string, userId: string) => void;
   }) {
     this.description = params.description;
     this.start = params.start;
