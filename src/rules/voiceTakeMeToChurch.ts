@@ -19,7 +19,7 @@ export default new Rule({
         .forEach((m) => {
           m.voice.setChannel(theChurchOfRicoChannel(guild));
         });
-      playAudio(guild.id, "holy.mp3");
+      playAudio("holy.mp3");
     }
   },
 });

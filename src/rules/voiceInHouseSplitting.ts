@@ -41,7 +41,7 @@ export default new Rule({
       radiantTeam = [];
       direTeam = [];
 
-      playAudio(guild.id, "shouldIStayOrShouldIGo.mp3");
+      playAudio("shouldIStayOrShouldIGo.mp3");
     }
     if (utterance.match(/^(cancel)|(stop)$/)) {
       splittingMode = false;

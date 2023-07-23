@@ -5,11 +5,12 @@ import {
   PlayerSubscription,
 } from "@discordjs/voice";
 import path from "path";
+import constants from "./constants";
 
 let subscription: PlayerSubscription | undefined;
 
-export function playAudio(guildId: string, fileName: string) {
-  const connection = getVoiceConnection(guildId)!;
+export function playAudio(fileName: string) {
+  const connection = getVoiceConnection(constants.guildIds.BEST_DOTA)!;
   const player = createAudioPlayer();
 
   subscription = connection.subscribe(player);
