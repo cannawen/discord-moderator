@@ -1,11 +1,20 @@
+import {
+  PlayerSubscription,
+  createAudioPlayer,
+  createAudioResource,
+  getVoiceConnection,
+} from "@discordjs/voice";
 import { Guild, VoiceChannel } from "discord.js";
-import Rule from "../Rule";
 import constants from "../constants";
+import Rule from "../Rule";
+import path from "path";
 
 let splittingMode = false;
 
 let radiantTeam: string[] = [];
 let direTeam: string[] = [];
+
+let subscription: PlayerSubscription | undefined;
 
 function moveToChannel(guild: Guild, memberIds: string[], toChannelId: string) {
   const toChannel = guild.channels.cache.find((c) => c.id === toChannelId);
@@ -28,6 +37,7 @@ export default new Rule({
         splittingMode = false;
         moveToChannel(guild, radiantTeam, constants.channelIds.RADIANT);
         moveToChannel(guild, direTeam, constants.channelIds.DIRE);
+        subscription?.player.stop();
       }
     }
     if (utterance.match(/^should i stay or should i go$/i)) {
@@ -35,10 +45,21 @@ export default new Rule({
 
       radiantTeam = [];
       direTeam = [];
+
+      const connection = getVoiceConnection(guild.id)!;
+      const player = createAudioPlayer();
+
+      subscription = connection.subscribe(player);
+      subscription?.player.play(
+        createAudioResource(
+          path.join(__dirname, "../../audio/shouldIStayOrShouldIGo.mp3")
+        )
+      );
       // add user feedback
     }
     if (utterance.match(/^cancel$/)) {
       splittingMode = false;
+      subscription?.player.stop();
     }
   },
 });
