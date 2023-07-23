@@ -19,6 +19,7 @@ export default {
   },
   userIds: {
     CANNA: process.env.USER_ID_CANNA!,
+    DOTA_COACH: process.env.USER_ID_DOTA_COACH!,
     RICO: process.env.USER_ID_RICO!,
   },
 };
