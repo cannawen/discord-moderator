@@ -22,7 +22,7 @@ export default new Rule({
       if (utterance.match(/^radiant$/i)) {
         radiantTeam.push(memberId);
       }
-      if (utterance.match(/^(dyer)|(dire)$/i)) {
+      if (utterance.match(/^(dyer)|(tire)|(dire)$/i)) {
         direTeam.push(memberId);
       }
       if (
