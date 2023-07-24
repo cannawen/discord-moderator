@@ -5,13 +5,10 @@ import Rule from "../Rule";
 
 let splittingMode = false;
 
-let radiantTeam: string[] = [];
-let direTeam: string[] = [];
-
-function moveToChannel(guild: Guild, memberIds: string[], toChannelId: string) {
+function moveToChannel(guild: Guild, memberId: string, toChannelId: string) {
   const toChannel = guild.channels.cache.find((c) => c.id === toChannelId);
-  const members = guild.members.cache.filter((m) => memberIds.includes(m.id));
-  members.forEach((m) => m.voice.setChannel(toChannel as VoiceChannel));
+  const member = guild.members.cache.find((m) => m.id === memberId);
+  member?.voice.setChannel(toChannel as VoiceChannel);
 }
 
 export default new Rule({
@@ -20,27 +17,21 @@ export default new Rule({
   utterance: (guild, utterance, memberId) => {
     if (splittingMode) {
       if (utterance.match(/^radiant$/i)) {
-        radiantTeam.push(memberId);
+        moveToChannel(guild, memberId, constants.channelIds.RADIANT);
       }
       if (utterance.match(/^(dyer)|(tire)|(dire)$/i)) {
-        direTeam.push(memberId);
+        moveToChannel(guild, memberId, constants.channelIds.DIRE);
       }
       if (
         memberId === constants.memberIds.CANNA ||
         utterance.match(/^done$/i)
       ) {
         splittingMode = false;
-        moveToChannel(guild, radiantTeam, constants.channelIds.RADIANT);
-        moveToChannel(guild, direTeam, constants.channelIds.DIRE);
         stopAudio();
       }
     }
     if (utterance.match(/^should i stay or should i go$/i)) {
       splittingMode = true;
-
-      radiantTeam = [];
-      direTeam = [];
-
       playAudio("shouldIStayOrShouldIGo.mp3");
     }
     if (utterance.match(/^(cancel)|(stop)$/)) {
