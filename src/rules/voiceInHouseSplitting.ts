@@ -22,19 +22,12 @@ export default new Rule({
       if (utterance.match(/^(dyer)|(tire)|(dire)$/i)) {
         moveToChannel(guild, memberId, constants.channelIds.DIRE);
       }
-      if (
-        memberId === constants.memberIds.CANNA ||
-        utterance.match(/^done$/i)
-      ) {
-        splittingMode = false;
-        stopAudio();
-      }
     }
     if (utterance.match(/^should i stay or should i go$/i)) {
       splittingMode = true;
       playAudio("shouldIStayOrShouldIGo.mp3");
     }
-    if (utterance.match(/^(cancel)|(stop)$/)) {
+    if (utterance.match(/^(done)|(cancel)|(stop)$/)) {
       splittingMode = false;
       stopAudio();
     }
