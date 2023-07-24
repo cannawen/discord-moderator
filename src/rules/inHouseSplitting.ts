@@ -1,15 +1,8 @@
-import { Guild, VoiceChannel } from "discord.js";
-import { playAudio, stopAudio } from "../helpers";
+import { findMember, findVoiceChannel, playAudio, stopAudio } from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
 
 let splittingMode = false;
-
-function moveToChannel(guild: Guild, memberId: string, toChannelId: string) {
-  const toChannel = guild.channels.cache.find((c) => c.id === toChannelId);
-  const member = guild.members.cache.find((m) => m.id === memberId);
-  member?.voice.setChannel(toChannel as VoiceChannel);
-}
 
 export default [
   new Rule({
@@ -28,10 +21,14 @@ export default [
     utterance: (guild, utterance, memberId) => {
       if (splittingMode) {
         if (utterance.match(/^(radiant)|(radiance)$/i)) {
-          moveToChannel(guild, memberId, constants.channelIds.RADIANT);
+          findMember(memberId).voice.setChannel(
+            findVoiceChannel(constants.channelIds.RADIANT)
+          );
         }
         if (utterance.match(/^(dyer)|(tire)|(dire)$/i)) {
-          moveToChannel(guild, memberId, constants.channelIds.DIRE);
+          findMember(memberId).voice.setChannel(
+            findVoiceChannel(constants.channelIds.DIRE)
+          );
         }
       }
     },

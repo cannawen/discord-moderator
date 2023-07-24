@@ -1,13 +1,12 @@
-import { Client, Events, Guild } from "discord.js";
+import { Client, Events } from "discord.js";
 import constants from "./constants";
 import cron from "node-cron";
+import client from "./discordClient";
 import fs from "fs";
 import { getVoiceConnection } from "@discordjs/voice";
 import path from "path";
 import Rule from "./Rule";
 import stt from "./speechToText";
-
-const client = new Client({ intents: [131071] });
 
 function getRules(): Rule[] {
   const dirPath = path.join(__dirname, "rules");

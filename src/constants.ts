@@ -16,7 +16,7 @@ export default {
     DIRE: process.env.CHANNEL_ID_DIRE!,
   },
   roleIds: {
-    DRABZ: process.env.ROLE_ID_DRABZ,
+    DRABZ: process.env.ROLE_ID_DRABZ!,
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
   },
   memberIds: {

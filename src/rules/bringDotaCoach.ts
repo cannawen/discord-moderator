@@ -1,16 +1,14 @@
-import { VoiceChannel } from "discord.js";
-import Rule from "../Rule";
 import constants from "../constants";
+import { findMember } from "../helpers";
+import Rule from "../Rule";
 
 export default new Rule({
   description: "bring dota-coach to a member's voice channel",
-  utterance: (guild, utterance, memberId) => {
+  utterance: (_, utterance, memberId) => {
     if (utterance.match(/^coach me$/i)) {
-      const member = guild.members.cache.find((m) => m.id === memberId);
-      const bot = guild.members.cache.find(
-        (m) => m.id === constants.memberIds.DOTA_COACH
+      findMember(constants.memberIds.DOTA_COACH).voice.setChannel(
+        findMember(memberId).voice.channel
       );
-      bot?.voice.setChannel(member?.voice.channel as VoiceChannel);
     }
   },
 });

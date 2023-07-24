@@ -1,15 +1,12 @@
 import { Guild, VoiceBasedChannel } from "discord.js";
 import Rule from "../Rule";
 import constants from "../constants";
+import { findVoiceChannel } from "../helpers";
 
 function moveMembersToLobby(guild: Guild, fromChannelId: string) {
-  const fromChannel = guild.channels.cache.find(
-    (c) => c.id === fromChannelId
-  ) as VoiceBasedChannel;
-  const toChannel = guild.channels.cache.find(
-    (c) => c.id === constants.channelIds.LOBBY
-  ) as VoiceBasedChannel;
-  fromChannel?.members.forEach((m) => m.voice.setChannel(toChannel));
+  findVoiceChannel(fromChannelId).members.forEach((m) =>
+    m.voice.setChannel(findVoiceChannel(constants.channelIds.LOBBY))
+  );
 }
 
 export default new Rule({

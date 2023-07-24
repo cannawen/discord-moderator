@@ -1,5 +1,6 @@
 import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import constants from "../constants";
+import { findMember } from "../helpers";
 import Rule from "../Rule";
 import { VoiceBasedChannel } from "discord.js";
 
@@ -8,9 +9,7 @@ let savedCannaChannel: VoiceBasedChannel | undefined;
 export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
   tick: (guild) => {
-    const canna = guild.members.cache.find(
-      (m) => m.id === constants.memberIds.CANNA
-    )!;
+    const canna = findMember(constants.memberIds.CANNA);
     const currentChannel = canna?.voice.channel;
 
     // if Canna is currently in a channel different from saved channel

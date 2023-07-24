@@ -1,41 +1,29 @@
-import { Guild, VoiceChannel } from "discord.js";
+import {
+  findMember,
+  findVoiceChannel,
+  moveMemberToVoiceChannel,
+} from "../helpers";
 import constants from "../constants";
+import { Guild } from "discord.js";
 import Rule from "../Rule";
-
-function findVoiceChannel(guild: Guild, channelId: string): VoiceChannel {
-  return guild.channels.cache.find((c) => c.id === channelId) as VoiceChannel;
-}
 
 function foundRicoInChannel(guild: Guild, channelId: string): boolean {
   return (
-    findVoiceChannel(guild, channelId).members.find(
+    findVoiceChannel(channelId).members.find(
       (m) => m.id === constants.memberIds.RICO
     ) !== undefined
   );
 }
 
-function moveAllMembersToChurch(guild: Guild, fromChannelId: string): void {
-  const fromChannel = findVoiceChannel(guild, fromChannelId);
-  const toChannel = findVoiceChannel(
-    guild,
-    constants.channelIds.THE_CHURCH_OF_RICO
-  );
-
-  fromChannel.members.forEach((m) => m.voice.setChannel(toChannel));
-}
-
-function moveRicoToChurch(guild: Guild) {
-  guild.members.cache
-    .find((u) => u.id === constants.memberIds.RICO)
-    ?.voice.setChannel(
-      findVoiceChannel(guild, constants.channelIds.THE_CHURCH_OF_RICO)
-    );
-}
-
 function ifRicoFoundMoveEveryoneToChurch(guild: Guild, channelId: string) {
   if (foundRicoInChannel(guild, channelId)) {
-    moveRicoToChurch(guild);
-    moveAllMembersToChurch(guild, channelId);
+    moveMemberToVoiceChannel(
+      constants.memberIds.RICO,
+      constants.channelIds.THE_CHURCH_OF_RICO
+    );
+    findVoiceChannel(channelId).members.forEach((m) =>
+      moveMemberToVoiceChannel(m, constants.channelIds.THE_CHURCH_OF_RICO)
+    );
   }
 }
 

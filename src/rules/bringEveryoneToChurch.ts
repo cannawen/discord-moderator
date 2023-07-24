@@ -1,13 +1,6 @@
-import { Guild, VoiceBasedChannel } from "discord.js";
+import { findVoiceChannel, playAudio } from "../helpers";
 import constants from "../constants";
-import { playAudio } from "../helpers";
 import Rule from "../Rule";
-
-function theChurchOfRicoChannel(guild: Guild) {
-  return guild.channels.cache.find(
-    (c) => c.id === constants.channelIds.THE_CHURCH_OF_RICO
-  ) as VoiceBasedChannel;
-}
 
 export default new Rule({
   description:
@@ -17,7 +10,9 @@ export default new Rule({
       guild.members.cache
         .filter((m) => m.voice.channel)
         .forEach((m) => {
-          m.voice.setChannel(theChurchOfRicoChannel(guild));
+          m.voice.setChannel(
+            findVoiceChannel(constants.channelIds.THE_CHURCH_OF_RICO)
+          );
         });
       playAudio("holy.mp3");
     }
