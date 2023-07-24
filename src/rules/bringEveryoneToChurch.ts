@@ -14,7 +14,9 @@ export default new Rule({
             findVoiceChannel(constants.channelIds.THE_CHURCH_OF_RICO)
           );
         });
-      playAudio("holy.mp3");
+      setTimeout(() => {
+        playAudio("holy.mp3");
+      }, 1000);
     }
   },
 });
