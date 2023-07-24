@@ -37,10 +37,6 @@ export function findMember(memberId: string) {
   ) as GuildMember;
 }
 
-export function findRole(roleId: string) {
-  return findGuild().roles.cache.find((r) => r.id === roleId) as Role;
-}
-
 export function findVoiceChannel(channelId: string) {
   return findGuild().channels.cache.find(
     (c) => c.id === channelId
