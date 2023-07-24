@@ -14,7 +14,7 @@ function moveToChannel(guild: Guild, memberId: string, toChannelId: string) {
 export default [
   new Rule({
     description: '"should I stay or should I go" triggers splitting mode',
-    utterance: (guild, utterance, memberId) => {
+    utterance: (_, utterance) => {
       if (utterance.match(/^should i stay or should i go$/i)) {
         splittingMode = true;
         playAudio("shouldIStayOrShouldIGo.mp3");
@@ -25,7 +25,7 @@ export default [
     description: 'if we are in splitting mode, listen to "radiant" or "dire"',
     utterance: (guild, utterance, memberId) => {
       if (splittingMode) {
-        if (utterance.match(/^radiant$/i)) {
+        if (utterance.match(/^(radiant)|(radiance)$/i)) {
           moveToChannel(guild, memberId, constants.channelIds.RADIANT);
         }
         if (utterance.match(/^(dyer)|(tire)|(dire)$/i)) {
@@ -36,7 +36,7 @@ export default [
   }),
   new Rule({
     description: "end splitting mode",
-    utterance: (guild, utterance, memberId) => {
+    utterance: (_, utterance) => {
       if (utterance.match(/^(done)|(cancel)|(stop)$/)) {
         splittingMode = false;
         stopAudio();
