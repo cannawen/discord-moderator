@@ -1,5 +1,3 @@
-import { Client, Guild } from "discord.js";
-
 export default class Rule {
   public readonly description: string;
   public readonly start?: () => void;

@@ -1,8 +1,4 @@
-import {
-  findMember,
-  findVoiceChannel,
-  moveMemberToVoiceChannel,
-} from "../helpers";
+import { findVoiceChannel, moveMemberToVoiceChannel } from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
 

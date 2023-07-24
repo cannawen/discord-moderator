@@ -1,7 +1,7 @@
-import { Client, Events } from "discord.js";
+import client from "./discordClient";
 import constants from "./constants";
 import cron from "node-cron";
-import client from "./discordClient";
+import { Events } from "discord.js";
 import fs from "fs";
 import { getVoiceConnection } from "@discordjs/voice";
 import path from "path";

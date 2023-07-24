@@ -4,10 +4,10 @@ import {
   getVoiceConnection,
   PlayerSubscription,
 } from "@discordjs/voice";
-import path from "path";
-import constants from "./constants";
-import client from "./discordClient";
 import { Guild, GuildMember, Role, VoiceChannel } from "discord.js";
+import client from "./discordClient";
+import constants from "./constants";
+import path from "path";
 
 let subscription: PlayerSubscription | undefined;
 
