@@ -40,7 +40,7 @@ client.once(Events.ClientReady, (c) => {
 
   const rules = getRules();
 
-  rules.filter((r) => r.start).map((r) => r.start!(client));
+  rules.filter((r) => r.start).map((r) => r.start!(client, guild));
 
   // this flag here is very sketchy - there must be a better way to do this
   let listening = false;
