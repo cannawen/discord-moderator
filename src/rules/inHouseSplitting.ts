@@ -20,12 +20,12 @@ export default [
     description: 'if we are in splitting mode, listen to "radiant" or "dire"',
     utterance: (guild, utterance, memberId) => {
       if (splittingMode) {
-        if (utterance.match(/^(radiant)|(radiance)$/i)) {
+        if (utterance.match(/^radiant|radiance$/i)) {
           findMember(memberId).voice.setChannel(
             findVoiceChannel(constants.channelIds.RADIANT)
           );
         }
-        if (utterance.match(/^(dyer)|(tire)|(dire)$/i)) {
+        if (utterance.match(/^dyer|tire|dire$/i)) {
           findMember(memberId).voice.setChannel(
             findVoiceChannel(constants.channelIds.DIRE)
           );
@@ -35,8 +35,12 @@ export default [
   }),
   new Rule({
     description: "end splitting mode",
-    utterance: (_, utterance) => {
-      if (utterance.match(/^(done)|(cancel)|(stop)$/)) {
+    utterance: (_, utterance, memberId) => {
+      if (
+        utterance.match(/^done|cancel|stop$/) ||
+        (utterance.match(/^radiant|radiance|dyer|tire|dire$/i) &&
+          memberId === constants.memberIds.CANNA)
+      ) {
         splittingMode = false;
         stopAudio();
       }
