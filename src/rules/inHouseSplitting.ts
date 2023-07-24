@@ -15,7 +15,9 @@ export default [
   new Rule({
     description: '"should I stay or should I go" triggers splitting mode',
     utterance: (_, utterance) => {
-      if (utterance.match(/^should i stay or should i go$/i)) {
+      if (
+        utterance.match(/^(should i stay or should i go)|(start in house)$/i)
+      ) {
         splittingMode = true;
         playAudio("shouldIStayOrShouldIGo.mp3");
       }

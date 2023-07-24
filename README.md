@@ -4,6 +4,7 @@
 
 ## Voice commands
 
-- `Should I stay or should I go` enters in-house splitting mode and listens to when members say `radiant` or `dire` [#5]
-- `Take me to church` moves all members from any voice channel to `The Church of Rico` [#3]
+- `Start in house` enters in-house splitting mode and listens to when members say `Radiant` or `Dire` to move them to the appropriate voice channel
+- `Reset in house` brings `Radiant` or `Dire` voice channels back to `Lobby`
+- `Take me to church` moves all members from any voice channel to `The Church of Rico`
 - `Coach me` brings dota-coach bot over to the member's current voice channel

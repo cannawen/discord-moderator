@@ -15,7 +15,7 @@ function moveMembersToLobby(guild: Guild, fromChannelId: string) {
 export default new Rule({
   description: "move Radiant and Dire members to Lobby",
   utterance: (guild, utterance) => {
-    if (utterance.match(/^reset in house$/i)) {
+    if (utterance.match(/^(reset)|(stop) in house$/i)) {
       moveMembersToLobby(guild, constants.channelIds.RADIANT);
       moveMembersToLobby(guild, constants.channelIds.DIRE);
     }
