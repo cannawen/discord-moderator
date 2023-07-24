@@ -11,25 +11,36 @@ function moveToChannel(guild: Guild, memberId: string, toChannelId: string) {
   member?.voice.setChannel(toChannel as VoiceChannel);
 }
 
-export default new Rule({
-  description:
-    '"should I stay or should I go" triggers in house mode, listening to "radiant" or "dire"',
-  utterance: (guild, utterance, memberId) => {
-    if (splittingMode) {
-      if (utterance.match(/^radiant$/i)) {
-        moveToChannel(guild, memberId, constants.channelIds.RADIANT);
+export default [
+  new Rule({
+    description: '"should I stay or should I go" triggers splitting mode',
+    utterance: (guild, utterance, memberId) => {
+      if (utterance.match(/^should i stay or should i go$/i)) {
+        splittingMode = true;
+        playAudio("shouldIStayOrShouldIGo.mp3");
       }
-      if (utterance.match(/^(dyer)|(tire)|(dire)$/i)) {
-        moveToChannel(guild, memberId, constants.channelIds.DIRE);
+    },
+  }),
+  new Rule({
+    description: 'if we are in splitting mode, listen to "radiant" or "dire"',
+    utterance: (guild, utterance, memberId) => {
+      if (splittingMode) {
+        if (utterance.match(/^radiant$/i)) {
+          moveToChannel(guild, memberId, constants.channelIds.RADIANT);
+        }
+        if (utterance.match(/^(dyer)|(tire)|(dire)$/i)) {
+          moveToChannel(guild, memberId, constants.channelIds.DIRE);
+        }
       }
-    }
-    if (utterance.match(/^should i stay or should i go$/i)) {
-      splittingMode = true;
-      playAudio("shouldIStayOrShouldIGo.mp3");
-    }
-    if (utterance.match(/^(done)|(cancel)|(stop)$/)) {
-      splittingMode = false;
-      stopAudio();
-    }
-  },
-});
+    },
+  }),
+  new Rule({
+    description: "end splitting mode",
+    utterance: (guild, utterance, memberId) => {
+      if (utterance.match(/^(done)|(cancel)|(stop)$/)) {
+        splittingMode = false;
+        stopAudio();
+      }
+    },
+  }),
+];
