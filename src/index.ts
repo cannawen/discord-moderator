@@ -39,12 +39,12 @@ client.once(Events.ClientReady, (c) => {
 
   const rules = getRules();
 
-  rules.filter((r) => r.start).map((r) => r.start!(client, guild));
+  rules.filter((r) => r.start).map((r) => r.start!());
 
   // this flag here is very sketchy - there must be a better way to do this
   let listening = false;
   cron.schedule("*/1 * * * * *", () => {
-    rules.filter((r) => r.tick).map((r) => r.tick!(guild));
+    rules.filter((r) => r.tick).map((r) => r.tick!());
 
     const connection = getVoiceConnection(guild.id);
     if (connection && !listening) {
@@ -61,7 +61,7 @@ client.once(Events.ClientReady, (c) => {
 
             rules
               .filter((r) => r.utterance)
-              .map((r) => r.utterance!(guild, utterance, memberId));
+              .map((r) => r.utterance!(utterance, memberId));
           })
           .catch(() => {});
       });

@@ -4,10 +4,9 @@ import {
   moveMemberToVoiceChannel,
 } from "../helpers";
 import constants from "../constants";
-import { Guild } from "discord.js";
 import Rule from "../Rule";
 
-function foundRicoInChannel(guild: Guild, channelId: string): boolean {
+function foundRicoInChannel(channelId: string): boolean {
   return (
     findVoiceChannel(channelId).members.find(
       (m) => m.id === constants.memberIds.RICO
@@ -15,8 +14,8 @@ function foundRicoInChannel(guild: Guild, channelId: string): boolean {
   );
 }
 
-function ifRicoFoundMoveEveryoneToChurch(guild: Guild, channelId: string) {
-  if (foundRicoInChannel(guild, channelId)) {
+function ifRicoFoundMoveEveryoneToChurch(channelId: string) {
+  if (foundRicoInChannel(channelId)) {
     moveMemberToVoiceChannel(
       constants.memberIds.RICO,
       constants.channelIds.THE_CHURCH_OF_RICO
@@ -30,8 +29,8 @@ function ifRicoFoundMoveEveryoneToChurch(guild: Guild, channelId: string) {
 export default new Rule({
   description:
     "when Rico joins the Dota 2 or General channel, move him and everyone in that channel to The Church of Rico",
-  tick: (guild) => {
-    ifRicoFoundMoveEveryoneToChurch(guild, constants.channelIds.DOTA_2);
-    ifRicoFoundMoveEveryoneToChurch(guild, constants.channelIds.GENERAL);
+  tick: () => {
+    ifRicoFoundMoveEveryoneToChurch(constants.channelIds.DOTA_2);
+    ifRicoFoundMoveEveryoneToChurch(constants.channelIds.GENERAL);
   },
 });

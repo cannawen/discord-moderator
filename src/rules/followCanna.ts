@@ -8,7 +8,7 @@ let savedCannaChannel: VoiceBasedChannel | undefined;
 
 export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
-  tick: (guild) => {
+  tick: () => {
     const canna = findMember(constants.memberIds.CANNA);
     const currentChannel = canna?.voice.channel;
 
@@ -20,7 +20,7 @@ export default new Rule({
       joinVoiceChannel({
         adapterCreator: currentChannel.guild.voiceAdapterCreator,
         channelId: currentChannel.id,
-        guildId: guild.id,
+        guildId: constants.guildIds.BEST_DOTA,
         selfDeaf: false,
         selfMute: false,
       });
@@ -29,7 +29,7 @@ export default new Rule({
     // if Canna is not in a channel but we have a saved channel
     if (!currentChannel && savedCannaChannel) {
       // disconnect bot
-      getVoiceConnection(guild.id)?.destroy();
+      getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
       // reset saved channel
       savedCannaChannel = undefined;
     }

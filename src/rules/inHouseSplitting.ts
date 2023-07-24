@@ -7,7 +7,7 @@ let splittingMode = false;
 export default [
   new Rule({
     description: '"should I stay or should I go" triggers splitting mode',
-    utterance: (_, utterance) => {
+    utterance: (utterance) => {
       if (
         utterance.match(/^(should i stay or should i go)|(start in house)$/i)
       ) {
@@ -18,7 +18,7 @@ export default [
   }),
   new Rule({
     description: 'if we are in splitting mode, listen to "radiant" or "dire"',
-    utterance: (guild, utterance, memberId) => {
+    utterance: (utterance, memberId) => {
       if (splittingMode) {
         if (utterance.match(/^radiant|radiance$/i)) {
           findMember(memberId).voice.setChannel(
@@ -35,7 +35,7 @@ export default [
   }),
   new Rule({
     description: "end splitting mode",
-    utterance: (_, utterance, memberId) => {
+    utterance: (utterance, memberId) => {
       if (
         utterance.match(/^done|cancel|stop$/) ||
         (utterance.match(/^radiant|radiance|dyer|tire|dire$/i) &&

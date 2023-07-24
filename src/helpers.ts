@@ -25,24 +25,24 @@ export function stopAudio() {
   subscription?.player.stop();
 }
 
-function bestDotaGuild() {
+export function findGuild() {
   return client.guilds.cache.find(
     (g) => g.id === constants.guildIds.BEST_DOTA
   ) as Guild;
 }
 
 export function findMember(memberId: string) {
-  return bestDotaGuild().members.cache.find(
+  return findGuild().members.cache.find(
     (m) => m.id === memberId
   ) as GuildMember;
 }
 
 export function findRole(roleId: string) {
-  return bestDotaGuild().roles.cache.find((r) => r.id === roleId) as Role;
+  return findGuild().roles.cache.find((r) => r.id === roleId) as Role;
 }
 
 export function findVoiceChannel(channelId: string) {
-  return bestDotaGuild().channels.cache.find(
+  return findGuild().channels.cache.find(
     (c) => c.id === channelId
   ) as VoiceChannel;
 }
