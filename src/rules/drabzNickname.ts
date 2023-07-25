@@ -1,5 +1,6 @@
 import constants from "../constants";
 import { findMember } from "../helpers";
+import Holidays from "date-holidays";
 import Rule from "../Rule";
 
 const nightAnchor = new Date(2023, 6, 3, 0, 0, 0, 0).getTime();
@@ -8,7 +9,16 @@ const dayAnchor = new Date(2023, 6, 31, 0, 0, 0, 0).getTime();
 
 const sixWeeksInMs = 6 * 7 * 24 * 60 * 60 * 1000;
 
+const holidays = new Holidays("CA", "AB");
+
 function drabzString(date: Date) {
+  const isHoliday = holidays.isHoliday(date);
+  if (isHoliday instanceof Array) {
+    if (isHoliday.reduce((memo, h) => h.type === "public" || memo, false)) {
+      return "Drabz (holiday)";
+    }
+  }
+
   const leftovers = (date.getTime() - nightAnchor) % sixWeeksInMs;
   if (leftovers < sixWeeksInMs / 3) {
     return "Drabz (night)";
