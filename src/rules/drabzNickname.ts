@@ -10,10 +10,10 @@ const sixWeeksInMs = 6 * 7 * 24 * 60 * 60 * 1000;
 
 function drabzString(date: Date) {
   const leftovers = (date.getTime() - nightAnchor) % sixWeeksInMs;
-  if (leftovers < leftovers / 3) {
+  if (leftovers < sixWeeksInMs / 3) {
     return "Drabz (night)";
   }
-  if (leftovers < (2 * leftovers) / 3) {
+  if (leftovers < (2 * sixWeeksInMs) / 3) {
     return "Drabz (afternoon)";
   }
 
