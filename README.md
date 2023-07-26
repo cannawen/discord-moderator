@@ -8,3 +8,7 @@
 - `Reset in house` brings `Radiant` or `Dire` voice channels back to `Lobby`
 - `Take me to church` moves all members from any voice channel to `The Church of Rico`
 - `Coach me` brings dota-coach bot over to the member's current voice channel
+
+## Slash commands
+
+- Anyone can `/disable` or `/enable` the bot

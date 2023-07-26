@@ -2,6 +2,7 @@ require("dotenv").config();
 
 export default {
   discord: {
+    APPLICATION_ID: process.env.DISCORD_APPLICATION_ID!,
     PRIVATE_TOKEN: process.env.DISCORD_PRIVATE_TOKEN!,
   },
   guildIds: {
@@ -20,6 +21,7 @@ export default {
   },
   memberIds: {
     CANNA: process.env.MEMBER_ID_CANNA!,
+    CANNA_BOT: process.env.MEMBER_ID_CANNA_BOT!,
     DOTA_COACH: process.env.MEMBER_ID_DOTA_COACH!,
     DRABZ: process.env.MEMBER_ID_DRABZ!,
     RICO: process.env.MEMBER_ID_RICO!,
