@@ -4,11 +4,13 @@
 
 ## Voice commands
 
-- `Start in house` enters in-house splitting mode and listens to when members say `Radiant` or `Dire` to move them to the appropriate voice channel
-- `Reset in house` brings `Radiant` or `Dire` voice channels back to `Lobby`
-- `Take me to church` moves all members from any voice channel to `The Church of Rico`
+- `Start in house` or `Should I stay or should I go` enters in-house splitting mode
+  - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
+  - `Cancel`, `Stop`, or `Done` stops in-house splitting mode
+- `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
+- `Take me to church/general` moves all members from any voice channel to `The Church of Rico` or `General`
 - `Coach me` brings dota-coach bot over to the member's current voice channel
 
 ## Slash commands
 
-- Anyone can `/disable` or `/enable` the bot
+- Anyone can `/disable` the bot for 2 hours
