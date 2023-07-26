@@ -11,7 +11,10 @@ function moveMembersToLobby(fromChannelId: string) {
 export default new Rule({
   description: "move Radiant and Dire members to Lobby",
   utterance: (utterance) => {
-    if (utterance.match(/^(reset|stop) in house$/i)) {
+    if (
+      utterance.match(/^(reset|stop) in house$/i) ||
+      utterance.match(/^take (us|me) to lobby$/i)
+    ) {
       moveMembersToLobby(constants.channelIds.RADIANT);
       moveMembersToLobby(constants.channelIds.DIRE);
     }
