@@ -9,6 +9,7 @@ import Rule from "./Rule";
 import stt from "./speechToText";
 import { findMember } from "./helpers";
 
+// find all rules
 function getRules(): Rule[] {
   const dirPath = path.join(__dirname, "rules");
   return (
@@ -31,44 +32,42 @@ function getRules(): Rule[] {
   );
 }
 
+const rules = getRules();
+
+// let each rule know the app has started
 client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 
-  const guild = client.guilds.cache.find(
-    (g) => g.id === constants.guildIds.BEST_DOTA
-  )!;
-
-  const rules = getRules();
-
   rules.filter((r) => r.start).map((r) => r.start!());
+});
 
-  // this flag here is very sketchy - there must be a better way to do this
-  let listening = false;
-  cron.schedule("*/1 * * * * *", () => {
-    const connection = getVoiceConnection(guild.id);
-    if (connection && !listening) {
-      listening = true;
-      connection?.receiver.speaking.on("start", (memberId) => {
-        stt
-          .transcribe(connection.receiver, memberId)
-          .then((utterance) => {
-            if (!utterance) return;
+// this flag here is very sketchy - there must be a better way to do this
+let listening = false;
+// poll for voice connection so we can capture voice to speech-to-text
+cron.schedule("*/1 * * * * *", () => {
+  const connection = getVoiceConnection(constants.guildIds.BEST_DOTA);
+  if (connection && !listening) {
+    listening = true;
+    connection?.receiver.speaking.on("start", (memberId) => {
+      stt
+        .transcribe(connection.receiver, memberId)
+        .then((utterance) => {
+          if (!utterance) return;
 
-            if (memberId === constants.memberIds.CANNA) {
-              console.log(utterance);
-            }
+          if (memberId === constants.memberIds.CANNA) {
+            console.log(utterance);
+          }
 
-            rules
-              .filter((r) => r.utterance)
-              .map((r) => r.utterance!(utterance, memberId));
-          })
-          .catch(() => {});
-      });
-    }
-    if (!connection && listening) {
-      listening = false;
-    }
-  });
+          rules
+            .filter((r) => r.utterance)
+            .map((r) => r.utterance!(utterance, memberId));
+        })
+        .catch(() => {});
+    });
+  }
+  if (!connection && listening) {
+    listening = false;
+  }
 });
 
 // Register slash commands
