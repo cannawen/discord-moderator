@@ -9,8 +9,6 @@ import Rule from "./Rule";
 import stt from "./speechToText";
 import { findMember } from "./helpers";
 
-let botEnabled = true;
-
 function getRules(): Rule[] {
   const dirPath = path.join(__dirname, "rules");
   return (
@@ -51,8 +49,6 @@ client.once(Events.ClientReady, (c) => {
     if (connection && !listening) {
       listening = true;
       connection?.receiver.speaking.on("start", (memberId) => {
-        if (!botEnabled) return;
-
         stt
           .transcribe(connection.receiver, memberId)
           .then((utterance) => {
@@ -88,12 +84,8 @@ client.once(Events.ClientReady, (c) => {
         {
           body: [
             new SlashCommandBuilder()
-              .setName("disable")
-              .setDescription("Disable the bot for 2 hours"),
-
-            new SlashCommandBuilder()
-              .setName("enable")
-              .setDescription("Enable the bot"),
+              .setName("disconnect")
+              .setDescription("Force the bot to disconnect"),
           ],
         }
       );
@@ -109,21 +101,10 @@ client.on(Events.InteractionCreate, (interaction) => {
   const command = interaction.commandName;
 
   switch (command) {
-    case "disable":
-      botEnabled = false;
+    case "disconnect":
       findMember(constants.memberIds.CANNA_BOT).voice.disconnect();
-      setTimeout(() => {
-        botEnabled = true;
-      }, 2 * 60 * 1000);
       interaction.reply({
-        content: "canna-bot disabled for 2 hours",
-        ephemeral: true,
-      });
-      break;
-    case "enable":
-      botEnabled = true;
-      interaction.reply({
-        content: "canna-bot enabled",
+        content: "canna-bot disconnected",
         ephemeral: true,
       });
       break;
