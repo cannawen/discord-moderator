@@ -1,32 +1,37 @@
+import { Events, GuildMember } from "discord.js";
 import { findVoiceChannel, moveMemberToVoiceChannel } from "../helpers";
+import client from "../discordClient";
 import constants from "../constants";
 import Rule from "../Rule";
 
-function foundRicoInChannel(channelId: string): boolean {
-  return (
-    findVoiceChannel(channelId).members.find(
-      (m) => m.id === constants.memberIds.RICO
-    ) !== undefined
+function moveMembersToChurch(members: GuildMember[]) {
+  members.forEach((m) =>
+    moveMemberToVoiceChannel(m, constants.channelIds.THE_CHURCH_OF_RICO)
   );
-}
-
-function ifRicoFoundMoveEveryoneToChurch(channelId: string) {
-  if (foundRicoInChannel(channelId)) {
-    moveMemberToVoiceChannel(
-      constants.memberIds.RICO,
-      constants.channelIds.THE_CHURCH_OF_RICO
-    );
-    findVoiceChannel(channelId).members.forEach((m) =>
-      moveMemberToVoiceChannel(m, constants.channelIds.THE_CHURCH_OF_RICO)
-    );
-  }
 }
 
 export default new Rule({
   description:
     "when Rico joins the Dota 2 or General channel, move him and everyone in that channel to The Church of Rico",
-  tick: () => {
-    ifRicoFoundMoveEveryoneToChurch(constants.channelIds.DOTA_2);
-    ifRicoFoundMoveEveryoneToChurch(constants.channelIds.GENERAL);
+  start: () => {
+    client.on(Events.VoiceStateUpdate, (_, voiceStatus) => {
+      if (voiceStatus.member?.id !== constants.memberIds.RICO) return;
+
+      const ricoChannel = voiceStatus.channelId;
+
+      if (ricoChannel === constants.channelIds.DOTA_2) {
+        moveMembersToChurch([
+          voiceStatus.member,
+          ...findVoiceChannel(constants.channelIds.DOTA_2).members.values(),
+        ]);
+      }
+
+      if (ricoChannel === constants.channelIds.GENERAL) {
+        moveMembersToChurch([
+          voiceStatus.member,
+          ...findVoiceChannel(constants.channelIds.GENERAL).members.values(),
+        ]);
+      }
+    });
   },
 });
