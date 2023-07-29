@@ -7,6 +7,7 @@ app = "canna-bot"
 primary_region = "yyz"
 
 [env]
+  TZ="America/Edmonton"
   GUILD_ID_BEST_DOTA = "761903068127428649"
   CHANNEL_ID_THE_CHURCH_OF_RICO = "1113512037780303995"
   CHANNEL_ID_DOTA_2 = "798885243322499073"
