@@ -1,4 +1,10 @@
-import { findMember, findVoiceChannel, playAudio, stopAudio } from "../helpers";
+import {
+  findMember,
+  findVoiceChannel,
+  moveToVoiceChannel,
+  playAudio,
+  stopAudio,
+} from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
 
@@ -19,17 +25,13 @@ export default [
   new Rule({
     description: 'if we are in splitting mode, listen to "radiant" or "dire"',
     utterance: (utterance, memberId) => {
-      if (splittingMode) {
-        if (utterance.match(/^radiant|radiance$/i)) {
-          findMember(memberId).voice.setChannel(
-            findVoiceChannel(constants.channelIds.RADIANT)
-          );
-        }
-        if (utterance.match(/^dyer|tire|dire$/i)) {
-          findMember(memberId).voice.setChannel(
-            findVoiceChannel(constants.channelIds.DIRE)
-          );
-        }
+      if (!splittingMode) return;
+
+      if (utterance.match(/^radiant|radiance$/i)) {
+        moveToVoiceChannel(memberId, constants.channelIds.RADIANT);
+      }
+      if (utterance.match(/^dyer|tire|dire$/i)) {
+        moveToVoiceChannel(memberId, constants.channelIds.DIRE);
       }
     },
   }),
