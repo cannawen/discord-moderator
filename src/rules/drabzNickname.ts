@@ -22,23 +22,26 @@ function isHoliday(date: Date) {
   return false;
 }
 
-function msIntoCycle(date: Date) {
-  return (date.getTime() - NIGHT_ANCHOR.getTime()) % SIX_WEEKS_IN_MS;
+function percentageInto6WeekCycle(date: Date) {
+  return (
+    ((date.getTime() - NIGHT_ANCHOR.getTime()) % SIX_WEEKS_IN_MS) /
+    SIX_WEEKS_IN_MS
+  );
 }
 
 function isNightShift(date: Date) {
-  return msIntoCycle(date) < SIX_WEEKS_IN_MS / 3;
+  return percentageInto6WeekCycle(date) < 1 / 3;
 }
 
 function isAfternoonShift(date: Date) {
   return (
-    msIntoCycle(date) >= SIX_WEEKS_IN_MS / 3 &&
-    msIntoCycle(date) < (2 * SIX_WEEKS_IN_MS) / 3
+    percentageInto6WeekCycle(date) >= 1 / 3 &&
+    percentageInto6WeekCycle(date) < 2 / 3
   );
 }
 
 function isDayShift(date: Date) {
-  return msIntoCycle(date) >= (2 * SIX_WEEKS_IN_MS) / 3;
+  return percentageInto6WeekCycle(date) >= 2 / 3;
 }
 
 function drabzNicknameString(date: Date) {
