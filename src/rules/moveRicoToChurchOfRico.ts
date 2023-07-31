@@ -1,13 +1,20 @@
-import { Events, GuildMember } from "discord.js";
-import { findVoiceChannel, moveMemberToVoiceChannel } from "../helpers";
+import { findMember, findVoiceChannel, moveToVoiceChannel } from "../helpers";
 import client from "../discordClient";
 import constants from "../constants";
+import { Events } from "discord.js";
 import Rule from "../Rule";
 
-function moveMembersToChurch(members: GuildMember[]) {
-  members.forEach((m) =>
-    moveMemberToVoiceChannel(m, constants.channelIds.THE_CHURCH_OF_RICO)
-  );
+function moveToChurchIfRicoFound(channel: string) {
+  if (findMember(constants.memberIds.RICO).voice.channelId === channel) {
+    moveToVoiceChannel(
+      constants.memberIds.RICO,
+      constants.channelIds.THE_CHURCH_OF_RICO
+    );
+    moveToVoiceChannel(
+      findVoiceChannel(channel).members,
+      constants.channelIds.THE_CHURCH_OF_RICO
+    );
+  }
 }
 
 export default new Rule({
@@ -17,21 +24,8 @@ export default new Rule({
     client.on(Events.VoiceStateUpdate, (_, voiceStatus) => {
       if (voiceStatus.member?.id !== constants.memberIds.RICO) return;
 
-      const ricoChannel = voiceStatus.channelId;
-
-      if (ricoChannel === constants.channelIds.DOTA_2) {
-        moveMembersToChurch([
-          voiceStatus.member,
-          ...findVoiceChannel(constants.channelIds.DOTA_2).members.values(),
-        ]);
-      }
-
-      if (ricoChannel === constants.channelIds.GENERAL) {
-        moveMembersToChurch([
-          voiceStatus.member,
-          ...findVoiceChannel(constants.channelIds.GENERAL).members.values(),
-        ]);
-      }
+      moveToChurchIfRicoFound(constants.channelIds.DOTA_2);
+      moveToChurchIfRicoFound(constants.channelIds.GENERAL);
     });
   },
 });

@@ -5,7 +5,7 @@ import Rule from "../Rule";
 
 export default new Rule({
   description:
-    'disconnects user on "see you later (nerds)" and stops coaching when Canna says it',
+    'disconnects user on "see you later nerds" and stops coaching when Canna says it',
   utterance: (utterance, memberId) => {
     if (utterance.match(/^see you later nerds?$/i)) {
       findMember(memberId).voice.disconnect();

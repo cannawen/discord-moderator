@@ -1,10 +1,11 @@
+import { findVoiceChannel, moveToVoiceChannel } from "../helpers";
 import constants from "../constants";
-import { findVoiceChannel } from "../helpers";
 import Rule from "../Rule";
 
 function moveMembersToLobby(fromChannelId: string) {
-  findVoiceChannel(fromChannelId).members.forEach((m) =>
-    m.voice.setChannel(findVoiceChannel(constants.channelIds.LOBBY))
+  moveToVoiceChannel(
+    findVoiceChannel(fromChannelId).members,
+    constants.channelIds.LOBBY
   );
 }
 

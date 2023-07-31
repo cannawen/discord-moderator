@@ -4,7 +4,7 @@ import {
   getVoiceConnection,
   PlayerSubscription,
 } from "@discordjs/voice";
-import { Guild, GuildMember, Role, VoiceChannel } from "discord.js";
+import { Collection, Guild, GuildMember, Role, VoiceChannel } from "discord.js";
 import client from "./discordClient";
 import constants from "./constants";
 import path from "path";
@@ -43,14 +43,19 @@ export function findVoiceChannel(channelId: string) {
   ) as VoiceChannel;
 }
 
-export function moveMemberToVoiceChannel(
-  member: string | GuildMember,
+export function moveToVoiceChannel(
+  member: string | GuildMember | Collection<string, GuildMember>,
   channelId: string
 ) {
+  let members: GuildMember[] = [];
+
   if (typeof member === "string") {
-    findMember(member).voice.setChannel(findVoiceChannel(channelId));
+    members = [findMember(member)];
+  } else if (member instanceof GuildMember) {
+    members = [member];
+  } else {
+    members = [...member.values()];
   }
-  if (member instanceof GuildMember) {
-    member.voice.setChannel(findVoiceChannel(channelId));
-  }
+
+  members.forEach((m) => m.voice.setChannel(findVoiceChannel(channelId)));
 }

@@ -1,14 +1,18 @@
-import { findGuild, findMember, findVoiceChannel, playAudio } from "../helpers";
+import {
+  findGuild,
+  findMember,
+  moveToVoiceChannel,
+  playAudio,
+} from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
 import { PermissionsBitField } from "discord.js";
 
 function bringAllToChannel(channelId: string) {
-  findGuild()
-    .members.cache.filter((m) => m.voice.channel)
-    .forEach((m) => {
-      m.voice.setChannel(findVoiceChannel(channelId));
-    });
+  moveToVoiceChannel(
+    findGuild().members.cache.filter((m) => m.voice.channel),
+    channelId
+  );
 }
 
 function hasSecretPermission(memberId: string) {
