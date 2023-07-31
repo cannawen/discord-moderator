@@ -4,28 +4,60 @@ import { findMember } from "../helpers";
 import Holidays from "date-holidays";
 import Rule from "../Rule";
 
-const nightAnchor = new Date(2023, 6, 3, 0, 0, 0, 0).getTime();
-const sixWeeksInMs = 6 * 7 * 24 * 60 * 60 * 1000;
+const NIGHT_ANCHOR = new Date(2023, 6, 3, 0, 0, 0, 0);
+const SIX_WEEKS_IN_MS = 6 * 7 * 24 * 60 * 60 * 1000;
 
-const holidays = new Holidays("CA", "AB");
+function isWeekend(date: Date) {
+  return date.getDay() === 6 || date.getDay() === 0;
+}
 
-function drabzString(date: Date) {
-  const isHoliday = holidays.isHoliday(date);
-  if (isHoliday instanceof Array) {
-    if (isHoliday.reduce((memo, h) => h.type === "public" || memo, false)) {
-      return "Drabz (holiday)";
-    }
+function isHoliday(date: Date) {
+  const holidaysOnDate = new Holidays("CA", "AB").isHoliday(date);
+  if (holidaysOnDate instanceof Array) {
+    return holidaysOnDate.reduce(
+      (memo, h) => h.type === "public" || memo,
+      false
+    );
   }
+  return false;
+}
 
-  const leftovers = (date.getTime() - nightAnchor) % sixWeeksInMs;
-  if (leftovers < sixWeeksInMs / 3) {
+function msIntoCycle(date: Date) {
+  return (date.getTime() - NIGHT_ANCHOR.getTime()) % SIX_WEEKS_IN_MS;
+}
+
+function isNightShift(date: Date) {
+  return msIntoCycle(date) < SIX_WEEKS_IN_MS / 3;
+}
+
+function isAfternoonShift(date: Date) {
+  return (
+    msIntoCycle(date) >= SIX_WEEKS_IN_MS / 3 &&
+    msIntoCycle(date) < (2 * SIX_WEEKS_IN_MS) / 3
+  );
+}
+
+function isDayShift(date: Date) {
+  return msIntoCycle(date) >= (2 * SIX_WEEKS_IN_MS) / 3;
+}
+
+function drabzNicknameString(date: Date) {
+  if (isWeekend(date)) {
+    return "Drabz (weekend)";
+  }
+  if (isHoliday(date)) {
+    return "Drabz (holiday)";
+  }
+  if (isNightShift(date)) {
     return "Drabz (night)";
   }
-  if (leftovers < (2 * sixWeeksInMs) / 3) {
+  if (isAfternoonShift(date)) {
     return "Drabz (afternoon)";
   }
-
-  return "Drabz (day)";
+  if (isDayShift(date)) {
+    return "Drabz (day)";
+  }
+  return "Drabz";
 }
 
 export default new Rule({
@@ -34,14 +66,7 @@ export default new Rule({
   start: () => {
     cron.schedule("0 0 * * *", () => {
       const drabz = findMember(constants.memberIds.DRABZ);
-      const now = new Date();
-
-      let drabzNick: string;
-      if (now.getDay() === 6 || now.getDay() === 0) {
-        drabzNick = "Drabz (weekend)";
-      } else {
-        drabzNick = drabzString(now);
-      }
+      const drabzNick = drabzNicknameString(new Date());
 
       if (drabz.nickname !== drabzNick) {
         drabz.edit({ nick: drabzNick });
