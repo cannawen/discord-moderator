@@ -1,6 +1,5 @@
 import { findMember, moveToVoiceChannel } from "../helpers";
 import constants from "../constants";
-import https from "https";
 import Rule from "../Rule";
 
 export default new Rule({
