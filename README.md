@@ -16,7 +16,7 @@ The bot automatically joins the voice channel if Canna is present
 ## Protected voice commands
 
 - `Take me to secrets` brings everyone to the top secret channel
-- `Mute JP` server mutes jproperly for 3 minutes
+- `Mute JP` server mutes jproperly for 2 minutes
 
 ## Slash commands
 

@@ -5,7 +5,7 @@ import Rule from "../Rule";
 const TIMEOUT_DURATION_IN_MS = 2 * 60 * 1000;
 
 export default new Rule({
-  description: "voice command to time out jproperly for 3 minutes",
+  description: "voice command to time out jproperly for 2 minutes",
   utterance: (utterance, memberId) => {
     try {
       if (
