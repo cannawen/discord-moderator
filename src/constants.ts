@@ -13,12 +13,14 @@ export default {
     DOTA_2: process.env.CHANNEL_ID_DOTA_2!,
     GENERAL: process.env.CHANNEL_ID_GENERAL!,
     SECRETS: process.env.CHANNEL_ID_SECRETS!,
+    LFS: process.env.CHANNEL_ID_LFS!,
     LOBBY: process.env.CHANNEL_ID_LOBBY!,
     RADIANT: process.env.CHANNEL_ID_RADIANT!,
     DIRE: process.env.CHANNEL_ID_DIRE!,
   },
   roleIds: {
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
+    LFS: process.env.ROLE_ID_LFS!,
   },
   memberIds: {
     CANNA: process.env.MEMBER_ID_CANNA!,
@@ -27,5 +29,8 @@ export default {
     DRABZ: process.env.MEMBER_ID_DRABZ!,
     JPROPERLY: process.env.MEMBER_ID_JPROPERLY!,
     RICO: process.env.MEMBER_ID_RICO!,
+  },
+  messageIds: {
+    LFS_REACT_MESSAGE: process.env.MESSAGE_ID_LFS_REACT!,
   },
 };

@@ -27,3 +27,4 @@ The bot automatically joins the voice channel if Canna is present
 - Moves everyone in `General` or `Dota 2` into `The Church of Rico` if Rico joins
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname depending on which shift he is working
+- Tag members who react to `looking-for-stack` pinned message as `lfs`

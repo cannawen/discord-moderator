@@ -4,7 +4,14 @@ import {
   getVoiceConnection,
   PlayerSubscription,
 } from "@discordjs/voice";
-import { Collection, Guild, GuildMember, Role, VoiceChannel } from "discord.js";
+import {
+  Collection,
+  Guild,
+  GuildMember,
+  Role,
+  TextChannel,
+  VoiceChannel,
+} from "discord.js";
 import client from "./discordClient";
 import constants from "./constants";
 import path from "path";
@@ -37,10 +44,16 @@ export function findMember(memberId: string) {
   ) as GuildMember;
 }
 
+function findChannel(channelId: string) {
+  return findGuild().channels.cache.find((c) => c.id === channelId);
+}
+
 export function findVoiceChannel(channelId: string) {
-  return findGuild().channels.cache.find(
-    (c) => c.id === channelId
-  ) as VoiceChannel;
+  return findChannel(channelId) as VoiceChannel;
+}
+
+export function fetchMessage(channelId: string, messageId: string) {
+  return (findChannel(channelId) as TextChannel).messages.fetch(messageId);
 }
 
 export function moveToVoiceChannel(
