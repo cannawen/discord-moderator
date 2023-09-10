@@ -12,6 +12,7 @@ The bot automatically joins the voice channel if Canna is present
 - `Take me to church/general` moves all members from any voice channel to `The Church of Rico` or `General`
 - `See you later nerds` disconnects the speaker
 - `Coach me` brings dota-coach bot over to the member's current voice channel
+- `Win/Lose/Slay together` triggers the ceb voiceline
 
 ## Protected voice commands
 
