@@ -15,6 +15,7 @@ export default {
     SECRETS: process.env.CHANNEL_ID_SECRETS!,
     LFS: process.env.CHANNEL_ID_LFS!,
     LOBBY: process.env.CHANNEL_ID_LOBBY!,
+    CLIPS: process.env.CHANNEL_ID_CLIPS!,
     RADIANT: process.env.CHANNEL_ID_RADIANT!,
     DIRE: process.env.CHANNEL_ID_DIRE!,
   },

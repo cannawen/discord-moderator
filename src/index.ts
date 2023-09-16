@@ -1,13 +1,19 @@
+import {
+  Events,
+  GuildMember,
+  REST,
+  Routes,
+  SlashCommandBuilder,
+} from "discord.js";
+import { findMember, findTextChannel } from "./helpers";
 import client from "./discordClient";
 import constants from "./constants";
 import cron from "node-cron";
-import { Events, REST, Routes, SlashCommandBuilder } from "discord.js";
 import fs from "fs";
 import { getVoiceConnection } from "@discordjs/voice";
 import path from "path";
 import Rule from "./Rule";
 import stt from "./speechToText";
-import { findMember } from "./helpers";
 
 // find all rules
 function getRules(): Rule[] {
@@ -85,6 +91,18 @@ cron.schedule("*/1 * * * * *", () => {
             new SlashCommandBuilder()
               .setName("disconnect")
               .setDescription("Force the bot to disconnect"),
+            new SlashCommandBuilder()
+              .setName("clip")
+              .addStringOption((option) =>
+                option.setName("link").setDescription("link to clip")
+              )
+              .addStringOption((option) =>
+                option.setName("comment").setDescription("comment about clip")
+              )
+              .addStringOption((option) =>
+                option.setName("matchid").setDescription("match id (optional)")
+              )
+              .setDescription("Post a clip"),
           ],
         }
       );
@@ -107,7 +125,40 @@ client.on(Events.InteractionCreate, (interaction) => {
         ephemeral: true,
       });
       break;
+    case "clip":
+      {
+        const member = interaction.member as GuildMember;
+        const userName = member.displayName;
 
+        const link = interaction.options.getString("link");
+        const matchId = interaction.options.getString("matchid");
+        const comment = interaction.options.getString("comment");
+
+        let messageText = `${userName}:`;
+        if (comment) {
+          messageText += ` "${comment}"`;
+        }
+        if (link) {
+          messageText += `\n\n${link}`;
+        }
+        if (matchId) {
+          messageText += ` (match id ${matchId})`;
+        }
+
+        findTextChannel(constants.channelIds.CLIPS)
+          .send(messageText)
+          .then((message) => {
+            message
+              .startThread({ name: `${userName}'s clip` })
+              .then((thread) => thread.members.add(member));
+          });
+        interaction.reply({
+          content: "Your clip has been posted to the #clips channel",
+          ephemeral: true,
+        });
+      }
+
+      break;
     default:
       break;
   }

@@ -22,6 +22,7 @@ The bot automatically joins the voice channel if Canna is present
 ## Slash commands
 
 - Anyone can `/disconnect` the bot
+- `/clip` allows anyone to post to the #clips channel
 
 ## What else does the bot do?
 

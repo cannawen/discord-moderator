@@ -48,6 +48,10 @@ function findChannel(channelId: string) {
   return findGuild().channels.cache.find((c) => c.id === channelId);
 }
 
+export function findTextChannel(channelId: string) {
+  return findChannel(channelId) as TextChannel;
+}
+
 export function findVoiceChannel(channelId: string) {
   return findChannel(channelId) as VoiceChannel;
 }
