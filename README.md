@@ -9,24 +9,24 @@ The bot automatically joins the voice channel if Canna is present
   - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
   - `Cancel`, `Stop`, or `Done` stops in-house splitting mode
 - `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
-- `Take me to church/general` moves all members from any voice channel to `The Church of Rico` or `General`
+- `Take me to church/general` moves all members from any voice channel to `Rico's Pizza` or `General`
 - `See you later nerds` disconnects the speaker
 - `Coach me` brings dota-coach bot over to the member's current voice channel
 - `Win/Lose/Slay together` triggers the ceb voiceline
 
 ## Protected voice commands
 
-- `Take me to secrets` brings everyone to the top secret channel
+- `Take me to secrets` brings everyone to the fake secret channel
 - `Mute JP` server mutes jproperly for 2 minutes
 
 ## Slash commands
 
-- Anyone can `/disconnect` the bot
+- Anyone can `/disconnect` the bot from a voice channel
 - `/clip` allows anyone to post to the #clips channel
 
 ## What else does the bot do?
 
-- Moves everyone in `General` or `Dota 2` into `The Church of Rico` if Rico joins
+- Moves everyone in `General` or `Dota 2` into `Rico's Pizza` if Rico joins
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
-- Changes Drabz's nickname depending on which shift he is working
-- Tag members who react to `looking-for-stack` pinned message as `lfs`
+- Changes Drabz's nickname every two weeks depending on which shift he is working
+- Tag members who react 👀 to the `looking for stack` pinned message with the `lfs` role
