@@ -94,13 +94,16 @@ cron.schedule("*/1 * * * * *", () => {
             new SlashCommandBuilder()
               .setName("clip")
               .addStringOption((option) =>
-                option.setName("link").setDescription("link to clip")
-              )
-              .addStringOption((option) =>
                 option.setName("comment").setDescription("comment about clip")
               )
               .addStringOption((option) =>
-                option.setName("matchid").setDescription("match id (optional)")
+                option.setName("link").setDescription("link to clip")
+              )
+              .addAttachmentOption((option) =>
+                option.setName("file").setDescription("attach clip as a file")
+              )
+              .addStringOption((option) =>
+                option.setName("matchid").setDescription("match id")
               )
               .setDescription("Post a clip"),
           ],
@@ -128,13 +131,13 @@ client.on(Events.InteractionCreate, (interaction) => {
     case "clip":
       {
         const member = interaction.member as GuildMember;
-        const userName = member.displayName;
 
-        const link = interaction.options.getString("link");
-        const matchId = interaction.options.getString("matchid");
         const comment = interaction.options.getString("comment");
+        const link = interaction.options.getString("link");
+        const attachment = interaction.options.getAttachment("file");
+        const matchId = interaction.options.getString("matchid");
 
-        let messageText = `${userName}:`;
+        let messageText = `<@${interaction.user.id}>:`;
         if (comment) {
           messageText += ` "${comment}"`;
         }
@@ -145,13 +148,25 @@ client.on(Events.InteractionCreate, (interaction) => {
           messageText += ` (match id ${matchId})`;
         }
 
+        let messagePayload;
+
+        if (attachment) {
+          messagePayload = {
+            content: messageText,
+            files: [{ attachment: attachment.url }],
+          };
+        } else {
+          messagePayload = messageText;
+        }
+
         findTextChannel(constants.channelIds.CLIPS)
-          .send(messageText)
+          .send(messagePayload)
           .then((message) => {
-            message
-              .startThread({ name: `${userName}'s clip` })
-              .then((thread) => thread.members.add(member));
+            message.startThread({
+              name: `${member.displayName}'s clip`,
+            });
           });
+
         interaction.reply({
           content: "Your clip has been posted to the #clips channel",
           ephemeral: true,
