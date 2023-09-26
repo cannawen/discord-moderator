@@ -12,6 +12,8 @@ FROM base
 
 LABEL fly_launch_runtime="Node.js"
 
+WORKDIR /app
+
 # Set production environment
 ENV NODE_ENV=production
 
