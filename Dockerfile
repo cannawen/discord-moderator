@@ -62,4 +62,5 @@ RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 CMD ["/app/start.sh"]
 
 FROM base
-CMD [ "npm", "run", "start" ]
+CMD ["ls"]
+RUN npm run start
