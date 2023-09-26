@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - tailscale
 jobs:
   deploy:
     name: Deploy app
