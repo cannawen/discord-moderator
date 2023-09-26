@@ -1,17 +1,19 @@
 # syntax = docker/dockerfile:1
 
+# Adjust NODE_VERSION as desired
+ARG NODE_VERSION=18.15.0
+FROM node:${NODE_VERSION}-slim as base
+
 FROM alpine:latest as builder
 WORKDIR /app
 COPY . ./
 
-# Adjust NODE_VERSION as desired
-FROM node:18.15.0-slim as base
+FROM base
 
 LABEL fly_launch_runtime="Node.js"
 
 # Set production environment
 ENV NODE_ENV=production
-
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
