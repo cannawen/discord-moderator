@@ -34,4 +34,8 @@ export default {
   messageIds: {
     LFS_REACT_MESSAGE: process.env.MESSAGE_ID_LFS_REACT!,
   },
+  obs: {
+    WEBSOCKET_SERVER: process.env.OBS_WEBSOCKET_SERVER!,
+    WEBSOCKET_SERVER_PASSWORD: process.env.OBS_WEBSOCKET_SERVER_PASSWORD!,
+  },
 };

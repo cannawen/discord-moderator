@@ -11,9 +11,12 @@ import constants from "./constants";
 import cron from "node-cron";
 import fs from "fs";
 import { getVoiceConnection } from "@discordjs/voice";
+import obs from "./obsClient";
 import path from "path";
 import Rule from "./Rule";
 import stt from "./speechToText";
+
+obs.connect(); // TODO init when canna joins or on voice command
 
 // find all rules
 function getRules(): Rule[] {
