@@ -24,12 +24,6 @@ function hasSecretPermission(memberId: string) {
 export default new Rule({
   description: '"take me/us to <channel>" moves everyone to <channel>',
   utterance: (utterance, memberId) => {
-    if (utterance.match(/^take (me|us) to church$/i)) {
-      bringAllToChannel(constants.channelIds.THE_CHURCH_OF_RICO);
-      setTimeout(() => {
-        playAudio("holy.mp3");
-      }, 1000);
-    }
     if (utterance.match(/^take (me|us) to general$/i)) {
       bringAllToChannel(constants.channelIds.GENERAL);
     }
