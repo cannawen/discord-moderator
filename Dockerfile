@@ -9,9 +9,6 @@ FROM node:18.15.0-slim as base
 
 LABEL fly_launch_runtime="Node.js"
 
-# Node.js app lives here
-WORKDIR /app
-
 # Set production environment
 ENV NODE_ENV=production
 
@@ -44,7 +41,6 @@ COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "npm", "run", "start" ]
 
 # https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds
 FROM alpine:latest
@@ -60,3 +56,5 @@ RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
 # Run on container startup.
 CMD ["/app/start.sh"]
+
+CMD [ "npm", "run", "start" ]
