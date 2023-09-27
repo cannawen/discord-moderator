@@ -60,7 +60,3 @@ RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
 # Run on container startup.
 CMD ["/app/start.sh"]
-
-FROM base
-WORKDIR /app
-CMD [ "npm", "run", "start" ]
