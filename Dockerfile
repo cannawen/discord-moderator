@@ -1,17 +1,23 @@
 # syntax = docker/dockerfile:1
 
-FROM node:current-alpine3.17
-WORKDIR /app
-COPY . ./
+FROM node:current-alpine3.17 as base
 
 LABEL fly_launch_runtime="Node.js"
+
+# Node.js app lives here
+WORKDIR /app
 
 # Set production environment
 ENV NODE_ENV=production
 
+# Throw-away build stage to reduce size of final image
+FROM base as build
+
 # Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install -y python-is-python3 pkg-config build-essential 
+RUN apk update && \
+    apk add ca-certificates iptables ip6tables && \
+    apk add python-is-python3 pkg-config build-essential && \
+    rm -rf /var/cache/apk/*
 
 # Install node modules
 COPY --link package-lock.json package.json ./
@@ -26,15 +32,17 @@ RUN npm run build
 # Remove development dependencies
 RUN npm prune --omit=dev
 
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
 
-RUN apk update && apk add ca-certificates iptables ip6tables && rm -rf /var/cache/apk/*
+# Final stage for app image
+FROM base
 
-# Copy Tailscale binaries from the tailscale image on Docker Hub.
 COPY --from=docker.io/tailscale/tailscale:stable /usr/local/bin/tailscaled /app/tailscaled
 COPY --from=docker.io/tailscale/tailscale:stable /usr/local/bin/tailscale /app/tailscale
 RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
-# Run on container startup.
+# Copy built application
+COPY --from=build /app /app
+
+# Start the server by default, this can be overwritten at runtime
+EXPOSE 3000
 CMD ["/app/start.sh"]
