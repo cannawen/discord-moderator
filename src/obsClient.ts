@@ -4,10 +4,7 @@ let obs = new OBSWebSocket();
 
 function connect() {
   return obs
-    .connect(
-      constants.obs.WEBSOCKET_SERVER,
-      constants.obs.WEBSOCKET_SERVER_PASSWORD
-    )
+    .connect(`ws://${constants.obs.SERVER}:4455`, constants.obs.SERVER_PASSWORD)
     .catch((e) => {
       console.log("failed to connect to OBS");
       throw e;
