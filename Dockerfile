@@ -1,8 +1,6 @@
 # syntax = docker/dockerfile:1
 
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=18.15.0
-FROM node:${NODE_VERSION}-slim as base
+FROM node:alpine as base
 
 LABEL fly_launch_runtime="Node.js"
 
@@ -12,13 +10,8 @@ WORKDIR /app
 # Set production environment
 ENV NODE_ENV=production
 
-
 # Throw-away build stage to reduce size of final image
 FROM base as build
-
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install -y python-is-python3 pkg-config build-essential 
 
 # Install node modules
 COPY --link package-lock.json package.json ./
@@ -37,9 +30,18 @@ RUN npm prune --omit=dev
 # Final stage for app image
 FROM base
 
+# Install packages for tailscale
+RUN apk update && \
+    apk add ca-certificates iptables ip6tables && \
+    rm -rf /var/cache/apk/*
+
+COPY --from=docker.io/tailscale/tailscale:stable /usr/local/bin/tailscaled /app/tailscaled
+COPY --from=docker.io/tailscale/tailscale:stable /usr/local/bin/tailscale /app/tailscale
+RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
+
 # Copy built application
 COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "npm", "run", "start" ]
+CMD ["/app/start.sh"]
