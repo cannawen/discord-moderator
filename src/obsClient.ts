@@ -5,6 +5,13 @@ let obs = new OBSWebSocket();
 function connect() {
   return obs
     .connect(`ws://${constants.obs.SERVER}:4455`, constants.obs.SERVER_PASSWORD)
+    .then(() =>
+      obs.call("GetReplayBufferStatus").then((response) => {
+        if (!response.outputActive) {
+          obs.call("StartReplayBuffer");
+        }
+      })
+    )
     .catch((e) => {
       console.log("failed to connect to OBS");
       throw e;
@@ -12,7 +19,7 @@ function connect() {
 }
 
 function disconnect() {
-  return obs.disconnect();
+  return obs.call("StopReplayBuffer").finally(() => obs.disconnect());
 }
 
 function clip() {
