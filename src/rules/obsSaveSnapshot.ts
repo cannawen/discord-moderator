@@ -3,7 +3,7 @@ import obsClient from "../obsClient";
 import { playAudio } from "../helpers";
 
 export default new Rule({
-  description: "when someone says 'clip it' then record OBS stream",
+  description: "when someone says 'snapshot' or 'unlucky' record OBS stream",
   utterance: (utterance) => {
     if (utterance.match(/^(snapshot|Snapchat|unlucky)$/i)) {
       obsClient
