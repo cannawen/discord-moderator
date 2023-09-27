@@ -1,14 +1,8 @@
 # syntax = docker/dockerfile:1
 
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=18.15.0
-FROM node:${NODE_VERSION}-slim as base
-
-FROM alpine:latest as builder
+FROM mhart/alpine-node:latest as builder
 WORKDIR /app
 COPY . ./
-
-FROM base
 
 LABEL fly_launch_runtime="Node.js"
 
@@ -16,9 +10,6 @@ WORKDIR /app
 
 # Set production environment
 ENV NODE_ENV=production
-
-# Throw-away build stage to reduce size of final image
-FROM base as build
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
@@ -37,21 +28,13 @@ RUN npm run build
 # Remove development dependencies
 RUN npm prune --omit=dev
 
-# Final stage for app image
-FROM base
-
 # Copy built application
 COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
 
-# https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds
-FROM alpine:latest
 RUN apk update && apk add ca-certificates iptables ip6tables && rm -rf /var/cache/apk/*
-
-# Copy binary to production image.
-COPY --from=builder /app/start.sh /app/start.sh
 
 # Copy Tailscale binaries from the tailscale image on Docker Hub.
 COPY --from=docker.io/tailscale/tailscale:stable /usr/local/bin/tailscaled /app/tailscaled
