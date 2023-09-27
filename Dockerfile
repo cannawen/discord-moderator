@@ -1,12 +1,10 @@
 # syntax = docker/dockerfile:1
 
-FROM mhart/alpine-node:latest as builder
+FROM node:current-alpine3.17
 WORKDIR /app
 COPY . ./
 
 LABEL fly_launch_runtime="Node.js"
-
-WORKDIR /app
 
 # Set production environment
 ENV NODE_ENV=production
@@ -27,9 +25,6 @@ RUN npm run build
 
 # Remove development dependencies
 RUN npm prune --omit=dev
-
-# Copy built application
-COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
