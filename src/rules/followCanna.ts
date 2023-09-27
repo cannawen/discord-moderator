@@ -1,9 +1,10 @@
 import { Events, VoiceBasedChannel } from "discord.js";
+import { findMember, playAudio } from "../helpers";
 import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import client from "../discordClient";
 import constants from "../constants";
-import { findMember } from "../helpers";
 import Rule from "../Rule";
+import obsClient from "../obsClient";
 
 function joinChannel(channel: VoiceBasedChannel | null) {
   if (channel) {
@@ -34,12 +35,14 @@ export default new Rule({
       if (cannaChannel && botChannel !== cannaChannel) {
         // join bot to channel
         joinChannel(cannaChannel);
+        obsClient.connect().catch(() => playAudio("error.mp3"));
       }
 
       // if Canna is not in a channel but bot is in a channel
       if (!cannaChannel && botChannel) {
         // disconnect bot
         getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
+        obsClient.disconnect();
       }
     });
   },

@@ -8,7 +8,6 @@ import {
   Collection,
   Guild,
   GuildMember,
-  Role,
   TextChannel,
   VoiceChannel,
 } from "discord.js";

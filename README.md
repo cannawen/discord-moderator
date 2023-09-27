@@ -13,6 +13,8 @@ The bot automatically joins the voice channel if Canna is present
 - `See you later nerds` disconnects the speaker
 - `Coach me` brings dota-coach bot over to the member's current voice channel
 - `Win/Lose/Slay together` triggers the ceb voiceline
+- `Snapshot` or `Unlucky` clips the last 60 seconds of video via OBS WebSockets x Tailscale
+- `Reconnect` tries to reconnect to OBS
 
 ## Protected voice commands
 
