@@ -16,7 +16,6 @@ FROM base as build
 # Install packages needed to build node modules
 RUN apk update && \
     apk add ca-certificates iptables ip6tables && \
-    apk add python-is-python3 pkg-config build-essential && \
     rm -rf /var/cache/apk/*
 
 # Install node modules
