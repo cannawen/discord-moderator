@@ -35,7 +35,7 @@ export default new Rule({
       if (cannaChannel && botChannel !== cannaChannel) {
         // join bot to channel
         joinChannel(cannaChannel);
-        obsClient.connect();
+        obsClient.connect().catch(() => playAudio("error.mp3"));
       }
 
       // if Canna is not in a channel but bot is in a channel
