@@ -8,7 +8,7 @@ export default new Rule({
     if (utterance.match(/^(snapshot|Snapchat)$/i)) {
       obsClient
         .clip()
-        .then(() => playAudio("success.mp3"))
+        .then(() => playAudio("photo.mp3"))
         .catch(() => playAudio("error.mp3"));
     }
   },
