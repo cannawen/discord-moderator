@@ -4,7 +4,10 @@ let obs = new OBSWebSocket();
 
 function connect() {
   return obs
-    .connect(`ws://${constants.obs.SERVER}:4455`, constants.obs.SERVER_PASSWORD)
+    .connect(
+      `ws://${constants.obs.CANNA_STREAM_SERVER}:4455`,
+      constants.obs.CANNA_STREAM_SERVER_PASSWORD
+    )
     .then(() =>
       obs.call("GetReplayBufferStatus").then((response) => {
         if (!response.outputActive) {

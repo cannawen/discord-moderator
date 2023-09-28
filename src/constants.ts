@@ -35,7 +35,7 @@ export default {
     LFS_REACT_MESSAGE: process.env.MESSAGE_ID_LFS_REACT!,
   },
   obs: {
-    SERVER: process.env.OBS_SERVER!,
-    SERVER_PASSWORD: process.env.OBS_SERVER_PASSWORD!,
+    CANNA_STREAM_SERVER: process.env.OBS_SERVER_CANNA_STREAM!,
+    CANNA_STREAM_SERVER_PASSWORD: process.env.OBS_SERVER_CANNA_STREAM_PASSWORD!,
   },
 };
