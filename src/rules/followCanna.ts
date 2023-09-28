@@ -42,7 +42,7 @@ export default new Rule({
       if (!cannaChannel && botChannel) {
         // disconnect bot
         getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
-        obsClient.disconnect().catch(() => {});
+        obsClient.disconnect();
       }
     });
   },
