@@ -1,17 +1,22 @@
 import OBSWebSocket from "obs-websocket-js";
 import constants from "./constants";
-let obs = new OBSWebSocket();
+let obsStream = new OBSWebSocket();
+let obsGame = new OBSWebSocket();
 
 function connect() {
-  return obs
+  const gamePromise = obsGame.connect(
+    `ws://${constants.obs.CANNA_GAME_SERVER}:4455`,
+    constants.obs.CANNA_GAME_SERVER_PASSWORD
+  );
+  const streamPromise = obsStream
     .connect(
       `ws://${constants.obs.CANNA_STREAM_SERVER}:4455`,
       constants.obs.CANNA_STREAM_SERVER_PASSWORD
     )
     .then(() =>
-      obs.call("GetReplayBufferStatus").then((response) => {
+      obsStream.call("GetReplayBufferStatus").then((response) => {
         if (!response.outputActive) {
-          obs.call("StartReplayBuffer");
+          obsStream.call("StartReplayBuffer");
         }
       })
     )
@@ -19,14 +24,20 @@ function connect() {
       console.log("failed to connect to OBS");
       throw e;
     });
+
+  return Promise.all([gamePromise, streamPromise]);
 }
 
 function disconnect() {
-  return obs.call("StopReplayBuffer").finally(() => obs.disconnect());
+  obsGame.disconnect();
+
+  return obsStream
+    .call("StopReplayBuffer")
+    .finally(() => obsStream.disconnect());
 }
 
 function clip() {
-  return obs.call("SaveReplayBuffer").catch((e) => {
+  return obsStream.call("SaveReplayBuffer").catch((e) => {
     console.log("failed to save replay buffer");
     throw e;
   });
