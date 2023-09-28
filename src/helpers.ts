@@ -18,7 +18,11 @@ import path from "path";
 let subscription: PlayerSubscription | undefined;
 
 export function playAudio(fileName: string) {
-  const connection = getVoiceConnection(constants.guildIds.BEST_DOTA)!;
+  const connection = getVoiceConnection(constants.guildIds.BEST_DOTA);
+  if (!connection) {
+    console.log(`no voice connection; cannot play file ${fileName}`);
+    return;
+  }
   const player = createAudioPlayer();
 
   subscription = connection.subscribe(player);
