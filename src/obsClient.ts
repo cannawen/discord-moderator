@@ -29,11 +29,10 @@ function connect() {
 }
 
 function disconnect() {
-  obsGame.disconnect();
-
-  return obsStream
-    .call("StopReplayBuffer")
-    .finally(() => obsStream.disconnect());
+  return Promise.all([
+    obsGame.disconnect(),
+    obsStream.call("StopReplayBuffer").finally(() => obsStream.disconnect()),
+  ]);
 }
 
 function clip() {
