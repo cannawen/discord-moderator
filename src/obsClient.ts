@@ -50,10 +50,13 @@ function disconnect() {
 }
 
 function clip() {
-  return obsStream.call("SaveReplayBuffer").catch((e) => {
-    console.log("failed to save replay buffer");
-    throw e;
-  });
+  return Promise.all([
+    obsGame.reidentify({}),
+    obsStream.call("SaveReplayBuffer").catch((e) => {
+      console.log("failed to save replay buffer");
+      throw e;
+    }),
+  ]);
 }
 
 export default {
