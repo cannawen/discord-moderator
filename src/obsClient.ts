@@ -1,5 +1,6 @@
 import OBSWebSocket from "obs-websocket-js";
 import constants from "./constants";
+
 let obsStream = new OBSWebSocket();
 let obsGame = new OBSWebSocket();
 

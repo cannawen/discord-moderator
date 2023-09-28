@@ -100,7 +100,11 @@ cron.schedule("*/1 * * * * *", () => {
                 option.setName("link").setDescription("link to clip")
               )
               .addAttachmentOption((option) =>
-                option.setName("file").setDescription("attach clip as a file")
+                option
+                  .setName("file")
+                  .setDescription(
+                    "attach clip as a file (beta feature - may not work)"
+                  )
               )
               .addStringOption((option) =>
                 option.setName("matchid").setDescription("match id")
