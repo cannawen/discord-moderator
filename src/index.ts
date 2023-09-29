@@ -94,6 +94,9 @@ cron.schedule("*/1 * * * * *", () => {
             new SlashCommandBuilder()
               .setName("clip")
               .addStringOption((option) =>
+                option.setName("title").setDescription("title of the thread")
+              )
+              .addStringOption((option) =>
                 option.setName("comment").setDescription("comment about clip")
               )
               .addStringOption((option) =>
@@ -103,7 +106,7 @@ cron.schedule("*/1 * * * * *", () => {
                 option
                   .setName("file")
                   .setDescription(
-                    "attach clip as a file (beta feature - may not work)"
+                    "attach clip as a file (beta feature - may not work; must be < 25mb)"
                   )
               )
               .addStringOption((option) =>
@@ -136,6 +139,7 @@ client.on(Events.InteractionCreate, (interaction) => {
       {
         const member = interaction.member as GuildMember;
 
+        const title = interaction.options.getString("title");
         const comment = interaction.options.getString("comment");
         const link = interaction.options.getString("link");
         const attachment = interaction.options.getAttachment("file");
@@ -167,7 +171,7 @@ client.on(Events.InteractionCreate, (interaction) => {
           .send(messagePayload)
           .then((message) => {
             message.startThread({
-              name: `${member.displayName}'s clip`,
+              name: title || `${member.displayName}'s clip`,
             });
           });
 
