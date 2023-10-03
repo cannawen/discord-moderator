@@ -18,7 +18,7 @@ function bringAllToChannel(channelId: string) {
 function hasSecretPermission(memberId: string) {
   return findMember(memberId)
     .permissionsIn(constants.channelIds.SECRETS)
-    .has(PermissionsBitField.Flags.ViewChannel);
+    .has(PermissionsBitField.Flags.Connect);
 }
 
 export default new Rule({
