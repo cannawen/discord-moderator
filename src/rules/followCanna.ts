@@ -38,8 +38,8 @@ export default new Rule({
         obsClient.connect().catch(() => playAudio("error.mp3"));
       }
 
-      // if Canna is not in a channel but bot is in a channel
-      if (!cannaChannel && botChannel) {
+      // if Canna is no longer in a channel
+      if (!cannaChannel) {
         // disconnect bot
         getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
         obsClient.disconnect();
