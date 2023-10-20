@@ -41,12 +41,10 @@ function connect() {
 }
 
 function disconnect() {
-  Promise.all([
+  return Promise.all([
     obsGame.disconnect(),
     obsStream.call("StopReplayBuffer").finally(() => obsStream.disconnect()),
-  ]).catch(() => {
-    console.log("failed to stop replay buffer or disconnect from OBS");
-  });
+  ]).catch(() => {});
 }
 
 function clip() {
