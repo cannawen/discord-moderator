@@ -22,24 +22,37 @@ function joinChannel(channel: VoiceBasedChannel | null) {
 export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
   start: () => {
-    joinChannel(findMember(constants.memberIds.CANNA).voice.channel);
+    joinChannel(
+      findMember(constants.memberIds.CANNA).voice.channel ||
+        findMember(constants.memberIds.TEAZY).voice.channel
+    );
 
     client.on(Events.VoiceStateUpdate, (_, voiceStatus) => {
-      if (voiceStatus.member?.id !== constants.memberIds.CANNA) return;
+      if (
+        voiceStatus.member?.id !== constants.memberIds.CANNA &&
+        voiceStatus.member?.id !== constants.memberIds.TEAZY
+      )
+        return;
 
-      const cannaChannel = voiceStatus.channel;
       const botChannel = findMember(constants.memberIds.CANNA_BOT).voice
         .channel;
+      const cannaChannel = findMember(constants.memberIds.CANNA).voice.channel;
+      const teazyChannel = findMember(constants.memberIds.TEAZY).voice.channel;
 
-      // if bot is currently in a channel different from Canna
+      // if bot is not in Canna's channel
       if (cannaChannel && botChannel !== cannaChannel) {
-        // join bot to channel
+        // join bot to Canna channel
         joinChannel(cannaChannel);
         obsClient.connect().catch(() => playAudio("error.mp3"));
       }
+      // if Canna is not connected, and the bot is not in Teazy's channel
+      if (!cannaChannel && teazyChannel && botChannel !== teazyChannel) {
+        // connect bot to Teazy's channel
+        joinChannel(teazyChannel);
+      }
 
-      // if Canna is no longer in a channel
-      if (!cannaChannel) {
+      // if Canna and Teazy are disconnected but the bot is still connected
+      if (!cannaChannel && !teazyChannel && botChannel) {
         // disconnect bot
         getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
         obsClient.disconnect();
