@@ -13,6 +13,7 @@ export default {
     DOTA_2: process.env.CHANNEL_ID_DOTA_2!,
     GENERAL: process.env.CHANNEL_ID_GENERAL!,
     SECRETS: process.env.CHANNEL_ID_SECRETS!,
+    REAL_SECRETS: process.env.CHANNEL_ID_REAL_SECRETS!,
     LFS: process.env.CHANNEL_ID_LFS!,
     LOBBY: process.env.CHANNEL_ID_LOBBY!,
     CLIPS: process.env.CHANNEL_ID_CLIPS!,
