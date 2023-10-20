@@ -30,7 +30,7 @@ export default {
     DOTA_COACH: process.env.MEMBER_ID_DOTA_COACH!,
     DRABZ: process.env.MEMBER_ID_DRABZ!,
     JPROPERLY: process.env.MEMBER_ID_JPROPERLY!,
-    RICO: process.env.MEMBER_ID_RICO!,
+    TEAZY: process.env.MEMBER_ID_TEAZY!,
   },
   messageIds: {
     LFS_REACT_MESSAGE: process.env.MESSAGE_ID_LFS_REACT!,
