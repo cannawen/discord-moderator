@@ -6,19 +6,19 @@
 
 ## Voice commands
 
-`canna-bot` automatically joins Canna's voice channel and listens to what you are saying, so behave yourselves
+`canna-bot` automatically joins Canna or Teazy's voice channel
 
 ### Clips
 
-- `Snapshot` records the last 60 seconds of Canna's screen via OBS (saved onto a local machine)
+- `Snapshot` records the last 120 seconds of Canna's screen via OBS (saved onto a local machine)
 - `Reconnect` tries to reconnect to OBS
 
 ### Member movement
 
 - `Take me to general` moves all members from any voice channel to `General`
 - `Take me to (real) secrets` brings everyone to the secret channel (Protected command)
-- `See you later nerds` disconnects the speaker
-- `Coach me` brings dota-coach bot over to the member's current voice channel
+- `See you later nerds` or `Disconnect` disconnects the speaker from Discord
+- `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
 
 ### In-house
 
