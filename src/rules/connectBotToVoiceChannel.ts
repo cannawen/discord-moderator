@@ -27,10 +27,10 @@ export default new Rule({
         findMember(constants.memberIds.TEAZY).voice.channel
     );
 
-    client.on(Events.VoiceStateUpdate, (_, voiceStatus) => {
+    client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
       if (
-        voiceStatus.member?.id === constants.memberIds.CANNA ||
-        voiceStatus.member?.id === constants.memberIds.TEAZY
+        newVoiceState.member?.id === constants.memberIds.CANNA ||
+        newVoiceState.member?.id === constants.memberIds.TEAZY
       ) {
         const botChannel = findMember(constants.memberIds.CANNA_BOT).voice
           .channel;
@@ -49,14 +49,22 @@ export default new Rule({
         }
 
         // connecting OBS to the bot
-        if (cannaChannel) {
-          obsClient.connectCanna().catch(() => playAudio("error.mp3"));
-        } else {
+        if (cannaChannel && !oldVoiceState.channel) {
+          obsClient
+            .connectCanna()
+            .catch(() => playAudio("Canna not connected"));
+        }
+        if (teazyChannel && !oldVoiceState.channel) {
+          obsClient
+            .connectTeazy()
+            .catch(() => playAudio("Teazy not connected"));
+        }
+
+        if (!cannaChannel) {
           obsClient.disconnectCanna();
         }
-        if (teazyChannel) {
-          obsClient.connectTeazy().catch(() => playAudio("error.mp3"));
-        } else {
+
+        if (!teazyChannel) {
           obsClient.disconnectTeazy();
         }
 
