@@ -1,12 +1,12 @@
 import OBSWebSocket from "obs-websocket-js";
 import constants from "./constants";
 
-let obsStream = new OBSWebSocket();
-let obsGame = new OBSWebSocket();
+let obsStreamCanna = new OBSWebSocket();
+let obsGameCanna = new OBSWebSocket();
 
 function connect() {
   return Promise.all([
-    obsGame
+    obsGameCanna
       .connect(
         `ws://${constants.obs.CANNA_GAME_SERVER}:4455`,
         constants.obs.CANNA_GAME_SERVER_PASSWORD
@@ -15,17 +15,17 @@ function connect() {
         console.log("failed to connect to game OBS");
         throw e;
       }),
-    obsStream
+    obsStreamCanna
       .connect(
         `ws://${constants.obs.CANNA_STREAM_SERVER}:4455`,
         constants.obs.CANNA_STREAM_SERVER_PASSWORD
       )
       .then(() =>
-        obsStream
+        obsStreamCanna
           .call("GetReplayBufferStatus")
           .then((response) => {
             if (!response.outputActive) {
-              return obsStream.call("StartReplayBuffer");
+              return obsStreamCanna.call("StartReplayBuffer");
             }
           })
           .catch((e) => {
@@ -42,15 +42,17 @@ function connect() {
 
 function disconnect() {
   return Promise.all([
-    obsGame.disconnect(),
-    obsStream.call("StopReplayBuffer").finally(() => obsStream.disconnect()),
+    obsGameCanna.disconnect(),
+    obsStreamCanna
+      .call("StopReplayBuffer")
+      .finally(() => obsStreamCanna.disconnect()),
   ]).catch(() => {});
 }
 
 function clip() {
   return Promise.all([
-    obsGame.reidentify({}),
-    obsStream.call("SaveReplayBuffer").catch((e) => {
+    obsGameCanna.reidentify({}),
+    obsStreamCanna.call("SaveReplayBuffer").catch((e) => {
       console.log("failed to save replay buffer");
       throw e;
     }),
