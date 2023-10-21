@@ -28,51 +28,46 @@ export default new Rule({
     );
 
     client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
-      if (
-        newVoiceState.member?.id === constants.memberIds.CANNA ||
-        newVoiceState.member?.id === constants.memberIds.TEAZY
-      ) {
-        const botChannel = findMember(constants.memberIds.CANNA_BOT).voice
-          .channel;
-        const cannaChannel = findMember(constants.memberIds.CANNA).voice
-          .channel;
-        const teazyChannel = findMember(constants.memberIds.TEAZY).voice
-          .channel;
+      const botChannel = findMember(constants.memberIds.CANNA_BOT).voice
+        .channel;
 
-        // connecting the bot
+      if (newVoiceState.member?.id === constants.memberIds.CANNA) {
+        const cannaChannel = newVoiceState.channel;
         if (cannaChannel && botChannel !== cannaChannel) {
-          // join bot to Canna channel
           joinChannel(cannaChannel);
-        } else if (teazyChannel && botChannel !== teazyChannel) {
-          //join bot to Teazy channel
-          joinChannel(teazyChannel);
         }
 
-        // connecting OBS to the bot
         if (cannaChannel && !oldVoiceState.channel) {
           obsClient
             .connectCanna()
             .catch(() => playAudio("Canna not connected"));
         }
+        if (!cannaChannel) {
+          obsClient.disconnectCanna();
+        }
+      }
+      if (newVoiceState.member?.id === constants.memberIds.TEAZY) {
+        const teazyChannel = newVoiceState.channel;
+        if (teazyChannel && botChannel !== teazyChannel) {
+          joinChannel(teazyChannel);
+        }
+
         if (teazyChannel && !oldVoiceState.channel) {
           obsClient
             .connectTeazy()
             .catch(() => playAudio("Teazy not connected"));
         }
 
-        if (!cannaChannel) {
-          obsClient.disconnectCanna();
-        }
-
         if (!teazyChannel) {
           obsClient.disconnectTeazy();
         }
+      }
 
-        // if Canna and Teazy are disconnected but the bot is still connected
-        if (!cannaChannel && !teazyChannel && botChannel) {
-          // disconnect bot
-          getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
-        }
+      const cannaChannel = findMember(constants.memberIds.CANNA).voice.channel;
+      const teazyChannel = findMember(constants.memberIds.TEAZY).voice.channel;
+      if (!cannaChannel && !teazyChannel && botChannel) {
+        // disconnect bot
+        getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
       }
     });
   },
