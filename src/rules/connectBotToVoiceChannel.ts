@@ -1,17 +1,17 @@
-import { Events, VoiceBasedChannel } from "discord.js";
-import { findMember, playAudio } from "../helpers";
+import { findGuild, findMember, playAudio } from "../helpers";
 import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import client from "../discordClient";
 import constants from "../constants";
+import { Events } from "discord.js";
 import Rule from "../Rule";
 import obsClient from "../obsClient";
 
-function joinChannel(channel: VoiceBasedChannel | null) {
+function joinChannel(channel: string | null | undefined) {
   if (channel) {
     // join bot to channel
     joinVoiceChannel({
-      adapterCreator: channel.guild.voiceAdapterCreator,
-      channelId: channel.id,
+      adapterCreator: findGuild().voiceAdapterCreator,
+      channelId: channel,
       guildId: constants.guildIds.BEST_DOTA,
       selfDeaf: false,
       selfMute: false,
@@ -23,21 +23,21 @@ export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
   start: () => {
     joinChannel(
-      findMember(constants.memberIds.CANNA).voice.channel ||
-        findMember(constants.memberIds.TEAZY).voice.channel
+      findMember(constants.memberIds.CANNA).voice.channel?.id ||
+        findMember(constants.memberIds.TEAZY).voice.channel?.id
     );
 
     client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
-      const botChannel = findMember(constants.memberIds.CANNA_BOT).voice
-        .channel;
+      const botChannel = findMember(constants.memberIds.CANNA_BOT).voice.channel
+        ?.id;
 
       if (newVoiceState.member?.id === constants.memberIds.CANNA) {
-        const cannaChannel = newVoiceState.channel;
+        const cannaChannel = newVoiceState.channelId;
         if (cannaChannel && botChannel !== cannaChannel) {
           joinChannel(cannaChannel);
         }
 
-        if (cannaChannel && !oldVoiceState.channel) {
+        if (cannaChannel && !oldVoiceState.channelId) {
           obsClient
             .connectCanna()
             .catch(() => playAudio("Canna not connected"));
@@ -47,12 +47,12 @@ export default new Rule({
         }
       }
       if (newVoiceState.member?.id === constants.memberIds.TEAZY) {
-        const teazyChannel = newVoiceState.channel;
+        const teazyChannel = newVoiceState.channelId;
         if (teazyChannel && botChannel !== teazyChannel) {
           joinChannel(teazyChannel);
         }
 
-        if (teazyChannel && !oldVoiceState.channel) {
+        if (teazyChannel && !oldVoiceState.channelId) {
           obsClient
             .connectTeazy()
             .catch(() => playAudio("Teazy not connected"));
