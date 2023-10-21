@@ -13,22 +13,33 @@ import {
 } from "discord.js";
 import client from "./discordClient";
 import constants from "./constants";
+import fs from "fs";
 import path from "path";
+import tts from "./textToSpeech";
 
 let subscription: PlayerSubscription | undefined;
 
-export function playAudio(fileName: string) {
+export function playAudio(input: string) {
   const connection = getVoiceConnection(constants.guildIds.BEST_DOTA);
   if (!connection) {
-    console.log(`no voice connection; cannot play file ${fileName}`);
+    console.log(`no voice connection; cannot play file ${input}`);
     return;
   }
   const player = createAudioPlayer();
-
   subscription = connection.subscribe(player);
-  subscription?.player.play(
-    createAudioResource(path.join(__dirname, "../audio", fileName))
-  );
+
+  const audioFile = path.join(__dirname, "../audio", input);
+  const ttsFile = path.join(__dirname, "..", tts.path(input));
+
+  if (fs.existsSync(audioFile)) {
+    subscription?.player.play(createAudioResource(audioFile));
+  } else if (fs.existsSync(ttsFile)) {
+    subscription?.player.play(createAudioResource(ttsFile));
+  } else {
+    tts.create(input).then(() => {
+      playAudio(input);
+    });
+  }
 }
 
 export function stopAudio() {

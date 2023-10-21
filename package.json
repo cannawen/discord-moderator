@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./build ./audio/stt-cache ./audio/tts-cache && tsc",
     "start": "node build/index.js",
     "go": "npm run build && npm run start"
   },
