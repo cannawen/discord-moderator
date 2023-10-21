@@ -39,23 +39,31 @@ export default new Rule({
         const teazyChannel = findMember(constants.memberIds.TEAZY).voice
           .channel;
 
-        // if bot is not in Canna's channel
+        // connecting the bot
         if (cannaChannel && botChannel !== cannaChannel) {
           // join bot to Canna channel
           joinChannel(cannaChannel);
-          obsClient.connect().catch(() => playAudio("error.mp3"));
-        }
-        // if Canna is not connected, and the bot is not in Teazy's channel
-        if (!cannaChannel && teazyChannel && botChannel !== teazyChannel) {
-          // connect bot to Teazy's channel
+        } else if (teazyChannel && botChannel !== teazyChannel) {
+          //join bot to Teazy channel
           joinChannel(teazyChannel);
+        }
+
+        // connecting OBS to the bot
+        if (cannaChannel) {
+          obsClient.connectCanna().catch(() => playAudio("error.mp3"));
+        } else {
+          obsClient.disconnectCanna();
+        }
+        if (teazyChannel) {
+          obsClient.connectTeazy().catch(() => playAudio("error.mp3"));
+        } else {
+          obsClient.disconnectTeazy();
         }
 
         // if Canna and Teazy are disconnected but the bot is still connected
         if (!cannaChannel && !teazyChannel && botChannel) {
           // disconnect bot
           getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
-          obsClient.disconnect();
         }
       }
     });

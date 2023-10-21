@@ -8,7 +8,8 @@ export default new Rule({
     if (utterance.match(/^(snapshot|Snapchat)$/i)) {
       playAudio("photo.mp3");
       setTimeout(() => {
-        obsClient.clip().catch(() => playAudio("error.mp3"));
+        obsClient.clipCanna().catch(() => playAudio("error.mp3"));
+        obsClient.clipTeazy().catch(() => playAudio("error.mp3"));
       }, 5 * 1000);
     }
   },

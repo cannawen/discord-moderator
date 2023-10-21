@@ -8,7 +8,7 @@ export default new Rule({
   utterance: (utterance) => {
     if (utterance.match(/^reconnect$/i)) {
       obsClient
-        .connect()
+        .connectCanna()
         .then(() => playAudio("success.mp3"))
         .catch(() => playAudio("error.mp3"));
     }

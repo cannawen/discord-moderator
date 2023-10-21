@@ -3,8 +3,9 @@ import constants from "./constants";
 
 let obsStreamCanna = new OBSWebSocket();
 let obsGameCanna = new OBSWebSocket();
+let obsTeazy = new OBSWebSocket();
 
-function connect() {
+function connectCanna() {
   return Promise.all([
     obsGameCanna
       .connect(
@@ -40,7 +41,28 @@ function connect() {
   ]);
 }
 
-function disconnect() {
+function connectTeazy() {
+  return obsTeazy
+    .connect(
+      `ws://${constants.obs.TEAZY_SERVER}:4455`,
+      constants.obs.TEAZY_SERVER_PASSWORD
+    )
+    .then(() =>
+      obsTeazy
+        .call("GetReplayBufferStatus")
+        .then((response) => {
+          if (!response.outputActive) {
+            return obsTeazy.call("StartReplayBuffer");
+          }
+        })
+        .catch((e) => {
+          console.log("failed to start replay buffer");
+          throw e;
+        })
+    );
+}
+
+function disconnectCanna() {
   return Promise.all([
     obsGameCanna.disconnect(),
     obsStreamCanna
@@ -49,7 +71,14 @@ function disconnect() {
   ]).catch(() => {});
 }
 
-function clip() {
+function disconnectTeazy() {
+  return obsTeazy
+    .call("StopReplayBuffer")
+    .finally(() => obsTeazy.disconnect())
+    .catch(() => {});
+}
+
+function clipCanna() {
   return Promise.all([
     obsGameCanna.reidentify({}),
     obsStreamCanna.call("SaveReplayBuffer").catch((e) => {
@@ -59,8 +88,18 @@ function clip() {
   ]);
 }
 
+function clipTeazy() {
+  return obsTeazy.call("SaveReplayBuffer").catch((e) => {
+    console.log("failed to save replay buffer");
+    throw e;
+  });
+}
+
 export default {
-  connect,
-  disconnect,
-  clip,
+  connectCanna,
+  connectTeazy,
+  disconnectCanna,
+  disconnectTeazy,
+  clipCanna,
+  clipTeazy,
 };
