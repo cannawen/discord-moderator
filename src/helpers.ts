@@ -32,8 +32,10 @@ export function playAudio(input: string) {
   const ttsFile = path.join(__dirname, "..", tts.path(input));
 
   if (fs.existsSync(audioFile)) {
+    console.log(`playing audio ${input}`);
     subscription?.player.play(createAudioResource(audioFile));
   } else if (fs.existsSync(ttsFile)) {
+    console.log(`playing tts ${input}`);
     subscription?.player.play(createAudioResource(ttsFile));
   } else {
     tts.create(input).then(() => {

@@ -6,11 +6,11 @@ import { Events } from "discord.js";
 import Rule from "../Rule";
 import obsClient from "../obsClient";
 
-function joinBotToChannel(channel: string | null | undefined) {
-  if (channel) {
+function joinBotToChannel(channelId: string | null | undefined) {
+  if (channelId) {
     joinVoiceChannel({
       adapterCreator: findGuild().voiceAdapterCreator,
-      channelId: channel,
+      channelId: channelId,
       guildId: constants.guildIds.BEST_DOTA,
       selfDeaf: false,
       selfMute: false,
@@ -25,8 +25,11 @@ export default new Rule({
       findMember(constants.memberIds.CANNA).voice.channel?.id ||
         findMember(constants.memberIds.TEAZY).voice.channel?.id
     );
+    Promise.all([obsClient.connectCanna(), obsClient.connectTeazy()]).catch(
+      (e) => console.log(e)
+    );
 
-    client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
+    client.on(Events.VoiceStateUpdate, (oldVoiceState, _) => {
       const botChannel = findMember(constants.memberIds.CANNA_BOT).voice.channel
         ?.id;
       const cannaChannel = findMember(constants.memberIds.CANNA).voice.channel
@@ -34,7 +37,7 @@ export default new Rule({
       const teazyChannel = findMember(constants.memberIds.TEAZY).voice.channel
         ?.id;
 
-      if (newVoiceState.member?.id === constants.memberIds.CANNA) {
+      if (oldVoiceState.member?.id === constants.memberIds.CANNA) {
         if (cannaChannel && botChannel !== cannaChannel) {
           joinBotToChannel(cannaChannel);
         }
@@ -44,11 +47,13 @@ export default new Rule({
             .connectCanna()
             .catch(() => playAudio("Canna OBS not connected"));
         }
+
         if (!cannaChannel) {
           obsClient.disconnectCanna();
         }
       }
-      if (newVoiceState.member?.id === constants.memberIds.TEAZY) {
+
+      if (oldVoiceState.member?.id === constants.memberIds.TEAZY) {
         if (teazyChannel && botChannel !== teazyChannel) {
           joinBotToChannel(teazyChannel);
         }
@@ -63,8 +68,8 @@ export default new Rule({
           obsClient.disconnectTeazy();
         }
       }
+
       if (!cannaChannel && !teazyChannel && botChannel) {
-        // disconnect bot
         getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
       }
     });
