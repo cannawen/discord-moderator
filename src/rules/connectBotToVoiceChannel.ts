@@ -28,6 +28,8 @@ export default new Rule({
     );
 
     client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
+      console.log("Old Voice State", oldVoiceState.channelId);
+      console.log("New Voice State", newVoiceState.channelId);
       const botChannel = findMember(constants.memberIds.CANNA_BOT).voice.channel
         ?.id;
 
