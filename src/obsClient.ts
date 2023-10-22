@@ -1,12 +1,13 @@
 import OBSWebSocket from "obs-websocket-js";
 import constants from "./constants";
+import winston from "winston";
 
 let obsStreamCanna = new OBSWebSocket();
 let obsGameCanna = new OBSWebSocket();
 let obsTeazy = new OBSWebSocket();
 
 function connectCanna() {
-  console.log("OBS - Canna - connecting");
+  winston.info("OBS - Canna - connecting");
   return Promise.all([
     obsGameCanna
       .connect(
@@ -14,10 +15,10 @@ function connectCanna() {
         constants.obs.CANNA_GAME_SERVER_PASSWORD
       )
       .then(() => {
-        console.log("OBS - Canna Game - connected");
+        winston.info("OBS - Canna Game - connected");
       })
       .catch((e) => {
-        console.log("OBS - Canna Game - not connected");
+        winston.error("OBS - Canna Game - not connected");
         throw e;
       }),
     obsStreamCanna
@@ -26,102 +27,102 @@ function connectCanna() {
         constants.obs.CANNA_STREAM_SERVER_PASSWORD
       )
       .then(() => {
-        console.log("OBS - Canna Stream - connected");
+        winston.info("OBS - Canna Stream - connected");
         return obsStreamCanna
           .call("GetReplayBufferStatus")
           .then((response) => {
             if (!response.outputActive) {
               return obsStreamCanna.call("StartReplayBuffer").then(() => {
-                console.log("OBS - Canna Stream - replay buffer started");
+                winston.info("OBS - Canna Stream - replay buffer started");
               });
             }
           })
           .catch((e) => {
-            console.log("OBS - Canna Stream - replay buffer not started");
+            winston.error("OBS - Canna Stream - replay buffer not started");
             throw e;
           });
       })
       .catch((e) => {
-        console.log("OBS - Canna Stream - not connected");
+        winston.error("OBS - Canna Stream - not connected");
         throw e;
       }),
   ]);
 }
 
 function connectTeazy() {
-  console.log("OBS - Teazy - connecting");
+  winston.info("OBS - Teazy - connecting");
   return obsTeazy
     .connect(
       `ws://${constants.obs.TEAZY_SERVER}:4455`,
       constants.obs.TEAZY_SERVER_PASSWORD
     )
     .then(() => {
-      console.log("OBS - Teazy - connected");
+      winston.info("OBS - Teazy - connected");
       return obsTeazy
         .call("GetReplayBufferStatus")
         .then((response) => {
           if (!response.outputActive) {
             return obsTeazy.call("StartReplayBuffer").then(() => {
-              console.log("OBS - Teazy - replay buffer started");
+              winston.info("OBS - Teazy - replay buffer started");
             });
           }
         })
         .catch((e) => {
-          console.log("OBS - Teazy - replay buffer not started");
+          winston.error("OBS - Teazy - replay buffer not started");
           throw e;
         });
     })
     .catch((e) => {
-      console.log("OBS - Teazy - not connected");
+      winston.error("OBS - Teazy - not connected");
       throw e;
     });
 }
 
 function disconnectCanna() {
-  console.log("OBS - Canna - disconnecting");
+  winston.info("OBS - Canna - disconnecting");
   return Promise.all([
     obsGameCanna.disconnect(),
     obsStreamCanna
       .call("StopReplayBuffer")
       .finally(() => obsStreamCanna.disconnect()),
   ]).catch(() => {
-    console.log("OBS - Canna - disconnect failed");
+    winston.error("OBS - Canna - disconnect failed");
   });
 }
 
 function disconnectTeazy() {
-  console.log("OBS - Teazy - disconnecting");
+  winston.info("OBS - Teazy - disconnecting");
   return obsTeazy
     .call("StopReplayBuffer")
     .finally(() => obsTeazy.disconnect())
     .catch(() => {
-      console.log("OBS - Teazy - disconnect failed");
+      winston.error("OBS - Teazy - disconnect failed");
     });
 }
 
 function clipCanna() {
-  console.log("OBS - Canna - clipping");
+  winston.info("OBS - Canna - clipping");
   return Promise.all([
     obsGameCanna.reidentify({}).catch((e) => {
-      console.log("OBS - Canna Game - save replay audio failed");
+      winston.error("OBS - Canna Game - save replay audio failed");
       throw e;
     }),
     obsStreamCanna.call("SaveReplayBuffer").catch((e) => {
-      console.log("OBS - Canna Stream - save replay failed");
+      winston.error("OBS - Canna Stream - save replay failed");
       throw e;
     }),
-  ]).then(() => console.log("OBS - Canna - saved replay"));
+  ]).then(() => winston.info("OBS - Canna - saved replay"));
 }
 
 function clipTeazy() {
-  console.log("OBS - Teazy - clipping");
+  winston.info("OBS - Teazy - clipping");
   return obsTeazy
     .call("SaveReplayBuffer")
     .then(() => {
-      console.log("OBS - Teazy - saved replay");
+      winston.info("OBS - Teazy - saved replay");
     })
     .catch((e) => {
-      console.log("OBS - Teazy - save replay failed");
+      winston.error("OBS - Teazy - save replay failed");
       throw e;
     });
 }

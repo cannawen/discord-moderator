@@ -29,6 +29,7 @@
     "libsodium-wrappers": "^0.7.11",
     "node-cron": "^3.0.2",
     "obs-websocket-js": "^5.0.3",
-    "opusscript": "^0.0.8"
+    "opusscript": "^0.0.8",
+    "winston": "^3.11.0"
   }
 }

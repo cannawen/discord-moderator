@@ -26,7 +26,7 @@ export default new Rule({
         findMember(constants.memberIds.TEAZY).voice.channel?.id
     );
     Promise.all([obsClient.connectCanna(), obsClient.connectTeazy()]).catch(
-      (e) => console.log(e)
+      () => {}
     );
 
     client.on(Events.VoiceStateUpdate, (oldVoiceState, _) => {

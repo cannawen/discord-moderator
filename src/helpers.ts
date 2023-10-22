@@ -16,13 +16,14 @@ import constants from "./constants";
 import fs from "fs";
 import path from "path";
 import tts from "./textToSpeech";
+import winston = require("winston");
 
 let subscription: PlayerSubscription | undefined;
 
 export function playAudio(input: string) {
   const connection = getVoiceConnection(constants.guildIds.BEST_DOTA);
   if (!connection) {
-    console.log(`no voice connection; cannot play file ${input}`);
+    winston.warn(`no voice connection; cannot play file ${input}`);
     return;
   }
   const player = createAudioPlayer();
@@ -32,10 +33,10 @@ export function playAudio(input: string) {
   const ttsFile = path.join(__dirname, "..", tts.path(input));
 
   if (fs.existsSync(audioFile)) {
-    console.log(`playing audio ${input}`);
+    winston.info(`Audio - ${input}`);
     subscription?.player.play(createAudioResource(audioFile));
   } else if (fs.existsSync(ttsFile)) {
-    console.log(`playing tts ${input}`);
+    winston.info(`Audio - TTS - "${input}"`);
     subscription?.player.play(createAudioResource(ttsFile));
   } else {
     tts.create(input).then(() => {

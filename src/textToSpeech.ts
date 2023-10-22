@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import fs = require("fs");
 import path = require("path");
+import winston = require("winston");
 
 const TTS_DIRECTORY = "audio/tts-cache";
 if (!fs.existsSync(TTS_DIRECTORY)) {
@@ -28,7 +29,7 @@ function create(ttsString: string): Promise<AxiosResponse<any, any>> {
         .on("close", () => {})
     )
     .catch((error) => {
-      console.log("unable to tts", ttsString);
+      winston.error(`unable to tts ${ttsString}`);
     });
 }
 

@@ -1,3 +1,4 @@
+import "./setupLogger";
 import {
   Events,
   GuildMember,
@@ -6,14 +7,15 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 import { findMember, findTextChannel } from "./helpers";
-import client from "./discordClient";
 import constants from "./constants";
 import cron from "node-cron";
+import discord from "./discordClient";
 import fs from "fs";
 import { getVoiceConnection } from "@discordjs/voice";
 import path from "path";
 import Rule from "./Rule";
 import stt from "./speechToText";
+import winston from "winston";
 
 // find all rules
 function getRules(): Rule[] {
@@ -41,8 +43,8 @@ function getRules(): Rule[] {
 const rules = getRules();
 
 // let each rule know the app has started
-client.once(Events.ClientReady, (c) => {
-  console.log(`Ready! Logged in as ${c.user.tag}`);
+discord.once(Events.ClientReady, (c) => {
+  winston.info(`Ready! Logged in as ${c.user.tag}`);
 
   rules.filter((r) => r.start).map((r) => r.start!());
 });
@@ -61,7 +63,7 @@ cron.schedule("*/1 * * * * *", () => {
           if (!utterance) return;
 
           if (memberId === constants.memberIds.CANNA) {
-            console.log(utterance);
+            winston.verbose(utterance);
           }
 
           rules
@@ -122,7 +124,7 @@ cron.schedule("*/1 * * * * *", () => {
 })();
 
 // Handle slash commands
-client.on(Events.InteractionCreate, (interaction) => {
+discord.on(Events.InteractionCreate, (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const command = interaction.commandName;
@@ -187,4 +189,4 @@ client.on(Events.InteractionCreate, (interaction) => {
   }
 });
 
-client.login(constants.discord.PRIVATE_TOKEN);
+discord.login(constants.discord.PRIVATE_TOKEN);
