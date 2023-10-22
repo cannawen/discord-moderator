@@ -2,6 +2,7 @@ import constants from "../constants";
 import { findMember } from "../helpers";
 import https from "https";
 import Rule from "../Rule";
+import winston from "winston";
 
 export default new Rule({
   description:
@@ -11,6 +12,9 @@ export default new Rule({
       utterance.match(/^see you later.{0,10}$/i) ||
       utterance.match(/^disconnect$/i)
     ) {
+      winston.info(
+        `Disconnect - ${findMember(memberId).displayName} (${utterance})`
+      );
       findMember(memberId).voice.disconnect();
 
       if (memberId === constants.memberIds.CANNA) {

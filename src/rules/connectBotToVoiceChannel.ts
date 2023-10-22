@@ -1,10 +1,11 @@
-import { findGuild, findMember, playAudio } from "../helpers";
+import { findGuild, findMember, findVoiceChannel, playAudio } from "../helpers";
 import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import client from "../discordClient";
 import constants from "../constants";
 import { Events } from "discord.js";
 import Rule from "../Rule";
 import obsClient from "../obsClient";
+import winston from "winston";
 
 function joinBotToChannel(channelId: string | null | undefined) {
   if (channelId) {
@@ -39,6 +40,11 @@ export default new Rule({
 
       if (oldVoiceState.member?.id === constants.memberIds.CANNA) {
         if (cannaChannel && botChannel !== cannaChannel) {
+          winston.info(
+            `---------- joining Canna's channel (${
+              findVoiceChannel(cannaChannel).name
+            }) ----------`
+          );
           joinBotToChannel(cannaChannel);
         }
 
@@ -55,6 +61,11 @@ export default new Rule({
 
       if (oldVoiceState.member?.id === constants.memberIds.TEAZY) {
         if (teazyChannel && botChannel !== teazyChannel) {
+          winston.info(
+            `---------- joining Teazy's channel (${
+              findVoiceChannel(teazyChannel).name
+            }) ----------`
+          );
           joinBotToChannel(teazyChannel);
         }
 
@@ -70,6 +81,7 @@ export default new Rule({
       }
 
       if (!cannaChannel && !teazyChannel && botChannel) {
+        winston.info(`canna-bot - leaving voice channel`);
         getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
       }
     });

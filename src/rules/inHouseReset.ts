@@ -1,6 +1,7 @@
 import { findVoiceChannel, moveToVoiceChannel } from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
+import winston from "winston";
 
 function moveMembersToLobby(fromChannelId: string) {
   moveToVoiceChannel(
@@ -16,6 +17,7 @@ export default new Rule({
       utterance.match(/^(reset|stop) in house$/i) ||
       utterance.match(/^take (us|me) to lobby$/i)
     ) {
+      winston.info("Move - Radiant and Dire to Lobby");
       moveMembersToLobby(constants.channelIds.RADIANT);
       moveMembersToLobby(constants.channelIds.DIRE);
     }

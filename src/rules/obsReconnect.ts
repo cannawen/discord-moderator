@@ -1,7 +1,8 @@
-import Rule from "../Rule";
 import constants from "../constants";
-import { playAudio } from "../helpers";
 import obsClient from "../obsClient";
+import { playAudio } from "../helpers";
+import Rule from "../Rule";
+import winston from "winston";
 
 export default new Rule({
   description:
@@ -9,12 +10,14 @@ export default new Rule({
   utterance: (utterance, memberId) => {
     if (utterance.match(/^reconnect$/i)) {
       if (memberId === constants.memberIds.CANNA) {
+        winston.info("OBS - Canna - processing Reconnect");
         obsClient
           .connectCanna()
           .then(() => playAudio("success.mp3"))
           .catch(() => playAudio("error.mp3"));
       }
       if (memberId === constants.memberIds.TEAZY) {
+        winston.info("OBS - Teazy - processing Reconnect");
         obsClient
           .connectTeazy()
           .then(() => playAudio("success.mp3"))

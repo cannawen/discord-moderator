@@ -3,6 +3,7 @@ import cron from "node-cron";
 import { findMember } from "../helpers";
 import Holidays from "date-holidays";
 import Rule from "../Rule";
+import winston from "winston";
 
 const NIGHT_ANCHOR = new Date(2023, 6, 3, 0, 0, 0, 0);
 const SIX_WEEKS_IN_MS = 6 * 7 * 24 * 60 * 60 * 1000;
@@ -69,10 +70,13 @@ export default new Rule({
   start: () => {
     cron.schedule("0 0 * * *", () => {
       const drabz = findMember(constants.memberIds.DRABZ);
-      const drabzNick = drabzNicknameString(new Date());
+      const drabzNewNickname = drabzNicknameString(new Date());
 
-      if (drabz.nickname !== drabzNick) {
-        drabz.edit({ nick: drabzNick });
+      if (drabz.nickname !== drabzNewNickname) {
+        winston.info(
+          `Nickname - update ${drabz.nickname} to ${drabzNewNickname}`
+        );
+        drabz.edit({ nick: drabzNewNickname });
       }
     });
   },

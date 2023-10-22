@@ -1,6 +1,7 @@
 import constants from "../constants";
 import { findMember } from "../helpers";
 import Rule from "../Rule";
+import winston from "winston";
 
 const TIMEOUT_DURATION_IN_MS = 2 * 60 * 1000;
 
@@ -15,8 +16,10 @@ export default new Rule({
       if (jproperly.voice.channel === null) {
         return;
       }
+      winston.info("Mute JP");
       jproperly.edit({ mute: true });
       setTimeout(() => {
+        winston.info("Unmute JP");
         jproperly.edit({ mute: false });
       }, TIMEOUT_DURATION_IN_MS);
     }

@@ -1,12 +1,19 @@
-import constants from "../constants";
 import { findMember, playAudio } from "../helpers";
-import Rule from "../Rule";
+import constants from "../constants";
 import obsClient from "../obsClient";
+import Rule from "../Rule";
+import winston from "winston";
 
 export default new Rule({
   description: "when someone says 'snapshot' record OBS stream",
-  utterance: (utterance) => {
+  utterance: (utterance, memberId) => {
     if (utterance.match(/^(snapshot|Snapchat)$/i)) {
+      winston.info(
+        `OBS - Canna - triggering snapshot (${
+          findMember(memberId).displayName
+        })`
+      );
+
       playAudio("photo.mp3");
 
       setTimeout(() => {

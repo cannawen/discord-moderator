@@ -1,6 +1,12 @@
-import { moveToVoiceChannel, playAudio, stopAudio } from "../helpers";
+import {
+  findMember,
+  moveToVoiceChannel,
+  playAudio,
+  stopAudio,
+} from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
+import winston from "winston";
 
 let splittingMode = false;
 
@@ -11,6 +17,7 @@ export default [
       if (
         utterance.match(/^(should i stay or should i go)|(start in house)$/i)
       ) {
+        winston.info("In House - Splitting mode enabled");
         splittingMode = true;
         playAudio("shouldIStayOrShouldIGo.mp3");
       }
@@ -22,9 +29,17 @@ export default [
       if (!splittingMode) return;
 
       if (utterance.match(/^radiant|radiance$/i)) {
+        winston.info(
+          `In House - Radiant - ${
+            findMember(memberId).displayName
+          } (${utterance})`
+        );
         moveToVoiceChannel(memberId, constants.channelIds.RADIANT);
       }
       if (utterance.match(/^dyer|tire|dire$/i)) {
+        winston.info(
+          `In House - Dire - ${findMember(memberId).displayName} (${utterance})`
+        );
         moveToVoiceChannel(memberId, constants.channelIds.DIRE);
       }
     },
@@ -37,6 +52,7 @@ export default [
         (utterance.match(/^radiant|radiance|dyer|tire|dire$/i) &&
           memberId === constants.memberIds.CANNA)
       ) {
+        winston.info("In House - Splitting mode disabled");
         splittingMode = false;
         stopAudio();
       }
