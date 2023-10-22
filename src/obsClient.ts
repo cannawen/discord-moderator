@@ -6,7 +6,7 @@ let obsGameCanna = new OBSWebSocket();
 let obsTeazy = new OBSWebSocket();
 
 function connectCanna() {
-  console.log("OBS - Canna - Connecting");
+  console.log("OBS - Canna - connecting");
   return Promise.all([
     obsGameCanna
       .connect(
@@ -49,7 +49,7 @@ function connectCanna() {
 }
 
 function connectTeazy() {
-  console.log("OBS - Canna - Connecting");
+  console.log("OBS - Teazy - connecting");
   return obsTeazy
     .connect(
       `ws://${constants.obs.TEAZY_SERVER}:4455`,
@@ -100,6 +100,7 @@ function disconnectTeazy() {
 }
 
 function clipCanna() {
+  console.log("OBS - Canna - clipping");
   return Promise.all([
     obsGameCanna.reidentify({}).catch((e) => {
       console.log("OBS - Canna Game - save replay audio failed");
@@ -113,6 +114,7 @@ function clipCanna() {
 }
 
 function clipTeazy() {
+  console.log("OBS - Teazy - clipping");
   return obsTeazy
     .call("SaveReplayBuffer")
     .then(() => {
