@@ -93,7 +93,9 @@ export default new Rule({
 
       if (!cannaChannel && !teazyChannel && botChannel) {
         winston.info(`canna-bot - leaving voice channel`);
-        getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
+        setTimeout(() => {
+          getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
+        }, 10 * 1000);
       }
     });
   },
