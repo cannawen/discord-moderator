@@ -9,9 +9,7 @@ export default new Rule({
   utterance: (utterance, memberId) => {
     if (utterance.match(/^(snapshot|Snapchat)$/i)) {
       winston.info(
-        `OBS - Canna - triggering snapshot (${
-          findMember(memberId).displayName
-        })`
+        `OBS - triggering snapshot (${findMember(memberId).displayName})`
       );
 
       playAudio("photo.mp3");
