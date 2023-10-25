@@ -47,6 +47,8 @@ export default [
   new Rule({
     description: "end splitting mode",
     utterance: (utterance, memberId) => {
+      if (!splittingMode) return;
+
       if (
         utterance.match(/^done|cancel|stop$/) ||
         (utterance.match(/^radiant|radiance|dyer|tire|dire$/i) &&
