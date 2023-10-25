@@ -19,6 +19,8 @@
 - `Take me to (real) secrets` brings everyone to the secret channel (Protected command)
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
+- `Come in` or `Enter` allows someone to join the secret channel after knocking
+- `No thank you` or `No thanks` does not allow them to join
 
 ### In-house
 
