@@ -22,13 +22,24 @@ function joinBotToChannel(channelId: string | null | undefined) {
 export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
   start: () => {
-    joinBotToChannel(
-      findMember(constants.memberIds.CANNA).voice.channel?.id ||
-        findMember(constants.memberIds.TEAZY).voice.channel?.id
-    );
-    Promise.all([obsClient.connectCanna(), obsClient.connectTeazy()]).catch(
-      () => {}
-    );
+    const cannaChannel = findMember(constants.memberIds.CANNA).voice.channel
+      ?.id;
+    const teazyChannel = findMember(constants.memberIds.TEAZY).voice.channel
+      ?.id;
+
+    if (cannaChannel) {
+      obsClient.connectCanna().catch(() => {
+        playAudio("Canna OBS not connected on restart");
+      });
+    }
+
+    if (teazyChannel) {
+      obsClient.connectTeazy().catch(() => {
+        playAudio("Teazy OBS not connected on restart");
+      });
+    }
+
+    joinBotToChannel(cannaChannel || teazyChannel);
 
     client.on(Events.VoiceStateUpdate, (oldVoiceState, _) => {
       const botChannel = findMember(constants.memberIds.CANNA_BOT).voice.channel
