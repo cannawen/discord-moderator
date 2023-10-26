@@ -1,4 +1,9 @@
-import { findMember, moveToVoiceChannel, playAudio } from "../helpers";
+import {
+  findMember,
+  findMemberChannelId,
+  moveToVoiceChannel,
+  playAudio,
+} from "../helpers";
 import client from "../discordClient";
 import constants from "../constants";
 import { Events } from "discord.js";
@@ -13,6 +18,7 @@ function isSecretChannel(channelId: string | undefined | null) {
 }
 
 let memberRequestingToJoin: string | undefined;
+let knockingEnabled = true;
 
 export default [
   new Rule({
@@ -20,10 +26,9 @@ export default [
       "knocks when someone enters a non-secret channel when the bot is in secrets",
     start: () => {
       client.on(Events.VoiceStateUpdate, (_, newVoiceState) => {
-        const botChannel = findMember(constants.memberIds.CANNA_BOT).voice
-          .channel?.id;
         if (
-          isSecretChannel(botChannel) &&
+          knockingEnabled &&
+          isSecretChannel(findMemberChannelId(constants.memberIds.CANNA_BOT)) &&
           !isSecretChannel(newVoiceState.channelId)
         ) {
           const displayName = newVoiceState.member?.displayName;
@@ -31,6 +36,10 @@ export default [
           winston.info(`Move - ${displayName} requesting to join secrets`);
 
           memberRequestingToJoin = newVoiceState.member?.id;
+          setTimeout(() => {
+            memberRequestingToJoin = undefined;
+          }, 60 * 1000);
+
           playAudio("knock.mp3");
 
           if (displayName) {
@@ -42,6 +51,7 @@ export default [
       });
     },
   }),
+
   new Rule({
     description: "allow someone to enter the secret channel (or not)",
     utterance: (utterance, memberId) => {
@@ -50,16 +60,32 @@ export default [
       const speaker = findMember(memberId).displayName;
       const requester = findMember(memberRequestingToJoin).displayName;
 
+      if (utterance.match(/^who.* there$/i)) {
+        playAudio(requester);
+      }
+
       if (utterance.match(/^(come in|enter)$/i)) {
         winston.info(`Move - ${requester} approved (${speaker})`);
-        const botChannel = findMember(constants.memberIds.CANNA_BOT).voice
-          .channel?.id!;
+        const botChannel = findMemberChannelId(constants.memberIds.CANNA_BOT)!;
         moveToVoiceChannel(memberRequestingToJoin, botChannel);
-
         memberRequestingToJoin = undefined;
-      } else if (utterance.match(/^(no thank you|no thanks)$/i)) {
+      }
+
+      if (utterance.match(/^(no thank you|no thanks)$/i)) {
         winston.info(`Move - ${requester} rejected (${speaker})`);
         memberRequestingToJoin = undefined;
+      }
+    },
+  }),
+
+  new Rule({
+    description: "disable knocking on mass migration",
+    utterance: (utterance) => {
+      if (utterance.match(/^take (me|us) to .*$/i)) {
+        knockingEnabled = false;
+        setTimeout(() => {
+          knockingEnabled = true;
+        }, 5 * 1000);
       }
     },
   }),

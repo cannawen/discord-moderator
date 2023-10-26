@@ -20,7 +20,8 @@
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
 - `Come in` or `Enter` allows someone to join the secret channel after knocking
-- `No thank you` or `No thanks` does not allow them to join
+- `No thank you` or `No thanks` does not allow them to join the secret channel
+- `Who's there` speaks the name of the person requesting to join
 
 ### In-house
 
