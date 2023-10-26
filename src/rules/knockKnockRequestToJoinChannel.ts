@@ -29,6 +29,7 @@ export default [
         if (
           knockingEnabled &&
           isSecretChannel(findMemberChannelId(constants.memberIds.CANNA_BOT)) &&
+          newVoiceState.channelId &&
           !isSecretChannel(newVoiceState.channelId)
         ) {
           const displayName = newVoiceState.member?.displayName;
