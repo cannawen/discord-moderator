@@ -1,4 +1,8 @@
-import { findMember, moveToVoiceChannel } from "../helpers";
+import {
+  findMember,
+  findMemberChannelId,
+  moveToVoiceChannel,
+} from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
 import winston from "winston";
@@ -8,12 +12,12 @@ export default new Rule({
   utterance: (utterance, memberId) => {
     if (
       utterance.match(/^coach me$/i) &&
-      findMember(constants.memberIds.DOTA_COACH).voice.channel
+      findMemberChannelId(constants.memberIds.DOTA_COACH)
     ) {
       winston.info(`Move - dota-coach to ${findMember(memberId).displayName}`);
       moveToVoiceChannel(
         constants.memberIds.DOTA_COACH,
-        findMember(memberId).voice.channelId!
+        findMemberChannelId(memberId)!
       );
     }
   },

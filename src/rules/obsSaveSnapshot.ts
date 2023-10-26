@@ -1,4 +1,4 @@
-import { findMember, playAudio } from "../helpers";
+import { findMember, findMemberChannelId, playAudio } from "../helpers";
 import constants from "../constants";
 import obsClient from "../obsClient";
 import Rule from "../Rule";
@@ -15,12 +15,12 @@ export default new Rule({
       playAudio("photo.mp3");
 
       setTimeout(() => {
-        if (findMember(constants.memberIds.CANNA).voice.channel) {
+        if (findMemberChannelId(constants.memberIds.CANNA)) {
           obsClient
             .clipCanna()
             .catch(() => playAudio("error saving Canna clip"));
         }
-        if (findMember(constants.memberIds.CANNA).voice.channel) {
+        if (findMemberChannelId(constants.memberIds.CANNA)) {
           obsClient
             .clipTeazy()
             .catch(() => playAudio("error saving Teazy clip"));

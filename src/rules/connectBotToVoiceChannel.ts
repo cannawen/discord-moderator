@@ -1,4 +1,9 @@
-import { findGuild, findMember, findVoiceChannel, playAudio } from "../helpers";
+import {
+  findGuild,
+  findMemberChannelId,
+  findVoiceChannel,
+  playAudio,
+} from "../helpers";
 import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import client from "../discordClient";
 import constants from "../constants";
@@ -19,79 +24,83 @@ function joinBotToChannel(channelId: string | null | undefined) {
   }
 }
 
+function findCannaChannelId() {
+  return findMemberChannelId(constants.memberIds.CANNA);
+}
+
+function findTeazyChannelId() {
+  return findMemberChannelId(constants.memberIds.TEAZY);
+}
+
+function findBotChannelId() {
+  return findMemberChannelId(constants.memberIds.CANNA_BOT);
+}
+
 export default new Rule({
   description: "the bot joins whatever voice channel Canna is in",
   start: () => {
-    const cannaChannel = findMember(constants.memberIds.CANNA).voice.channel
-      ?.id;
-    const teazyChannel = findMember(constants.memberIds.TEAZY).voice.channel
-      ?.id;
-
-    if (cannaChannel) {
+    if (findCannaChannelId()) {
       obsClient.connectCanna().catch(() => {
         playAudio("Canna OBS not connected on restart");
       });
     }
 
-    if (teazyChannel) {
+    if (findTeazyChannelId()) {
       obsClient.connectTeazy().catch(() => {
         playAudio("Teazy OBS not connected on restart");
       });
     }
 
-    joinBotToChannel(cannaChannel || teazyChannel);
+    joinBotToChannel(findCannaChannelId() || findTeazyChannelId());
 
     client.on(Events.VoiceStateUpdate, (oldVoiceState, _) => {
-      const botChannel = findMember(constants.memberIds.CANNA_BOT).voice.channel
-        ?.id;
-      const cannaChannel = findMember(constants.memberIds.CANNA).voice.channel
-        ?.id;
-      const teazyChannel = findMember(constants.memberIds.TEAZY).voice.channel
-        ?.id;
+      const botChannelId = findBotChannelId();
+      const cannaChannelId = findCannaChannelId();
+      const teazyChannelId = findTeazyChannelId();
 
       if (oldVoiceState.member?.id === constants.memberIds.CANNA) {
-        if (cannaChannel && botChannel !== cannaChannel) {
+        if (cannaChannelId && botChannelId !== cannaChannelId) {
           winston.info(
             `---------- joining Canna's channel (${
-              findVoiceChannel(cannaChannel).name
+              findVoiceChannel(cannaChannelId).name
             }) ----------`
           );
-          joinBotToChannel(cannaChannel);
+          joinBotToChannel(cannaChannelId);
         }
 
-        if (cannaChannel && !oldVoiceState.channelId) {
+        if (cannaChannelId && !oldVoiceState.channelId) {
           obsClient
             .connectCanna()
             .catch(() => playAudio("Canna OBS not connected"));
         }
 
-        if (!cannaChannel) {
+        if (!cannaChannelId) {
           obsClient.disconnectCanna();
         }
       }
 
       if (oldVoiceState.member?.id === constants.memberIds.TEAZY) {
-        if (teazyChannel && botChannel !== teazyChannel) {
+        if (teazyChannelId && botChannelId !== teazyChannelId) {
           winston.info(
             `---------- joining Teazy's channel (${
-              findVoiceChannel(teazyChannel).name
+              findVoiceChannel(teazyChannelId).name
             }) ----------`
           );
-          joinBotToChannel(teazyChannel);
+          joinBotToChannel(teazyChannelId);
         }
 
-        if (teazyChannel && !oldVoiceState.channelId) {
+        if (teazyChannelId && !oldVoiceState.channelId) {
           obsClient
             .connectTeazy()
             .catch(() => playAudio("Teazy OBS not connected"));
         }
 
-        if (!teazyChannel) {
+        if (!teazyChannelId) {
           obsClient.disconnectTeazy();
         }
       }
 
-      if (!cannaChannel && !teazyChannel && botChannel) {
+      if (!cannaChannelId && !teazyChannelId && botChannelId) {
         winston.info(`canna-bot - leaving voice channel`);
         setTimeout(() => {
           getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();

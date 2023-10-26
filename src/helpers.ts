@@ -61,6 +61,10 @@ export function findMember(memberId: string) {
   ) as GuildMember;
 }
 
+export function findMemberChannelId(memberId: string) {
+  return findMember(memberId).voice.channel?.id;
+}
+
 function findChannel(channelId: string) {
   return findGuild().channels.cache.find((c) => c.id === channelId);
 }
