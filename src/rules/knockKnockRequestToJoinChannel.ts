@@ -43,7 +43,7 @@ export default [
           memberRequestingToJoin = newVoiceState.member?.id;
           setTimeout(() => {
             memberRequestingToJoin = undefined;
-          }, 60 * 1000);
+          }, 2 * 60 * 1000);
 
           playAudio("knock.mp3");
 
