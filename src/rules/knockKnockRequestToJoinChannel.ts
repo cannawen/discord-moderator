@@ -65,14 +65,14 @@ export default [
         playAudio(requester);
       }
 
-      if (utterance.match(/^(come in|enter)$/i)) {
+      if (utterance.match(/^(come in|enter|allow)$/i)) {
         winston.info(`Move - ${requester} approved (${speaker})`);
         const botChannel = findMemberChannelId(constants.memberIds.CANNA_BOT)!;
         moveToVoiceChannel(memberRequestingToJoin, botChannel);
         memberRequestingToJoin = undefined;
       }
 
-      if (utterance.match(/^(no thank you|no thanks)$/i)) {
+      if (utterance.match(/^(no thank you|no thanks|disallow)$/i)) {
         winston.info(`Move - ${requester} rejected (${speaker})`);
         memberRequestingToJoin = undefined;
       }
