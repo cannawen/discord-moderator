@@ -5,7 +5,7 @@ import Holidays from "date-holidays";
 import Rule from "../Rule";
 import winston from "winston";
 
-const NIGHT_ANCHOR = new Date(2023, 6, 3, 0, 0, 0, 0);
+const NIGHT_ANCHOR = new Date(2023, 11, 20, 0, 0, 0, 0);
 const SIX_WEEKS_IN_MS = 6 * 7 * 24 * 60 * 60 * 1000;
 
 function isWeekend(date: Date) {
@@ -66,13 +66,13 @@ function drabzNicknameString(date: Date) {
 
 export default new Rule({
   description:
-    "edit drabz nickname to reflect his work schedule (night-afternoon-day 6 week cycle anchored July 3rd, 2023)",
+    "edit drabz nickname to reflect his work schedule (night-afternoon-day 6 week cycle anchored November 20rd, 2023)",
   start: () => {
     cron.schedule("0 0 * * *", () => {
       const today = new Date();
       const shiftChangeTime = new Date(2023, 12, 4, 0, 0, 0, 0).getTime();
 
-      if (today.getTime() < shiftChangeTime) {
+      if (today.getTime() > shiftChangeTime) {
         const drabz = findMember(constants.memberIds.DRABZ);
         const drabzNewNickname = drabzNicknameString(today);
 
