@@ -19,8 +19,22 @@ import tts from "./textToSpeech";
 import winston = require("winston");
 
 let subscription: PlayerSubscription | undefined;
+let audioEnabled = true;
+
+export function enableAudio() {
+  audioEnabled = true;
+}
+
+export function disableAudioForAnHour() {
+  audioEnabled = false;
+  setTimeout(() => {
+    enableAudio();
+  }, 60 * 60 * 1000);
+}
 
 export function playAudio(input: string) {
+  if (!audioEnabled) return;
+
   const connection = getVoiceConnection(constants.guildIds.BEST_DOTA);
   if (!connection) {
     winston.warn(`no voice connection; cannot play file ${input}`);
