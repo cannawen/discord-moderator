@@ -30,11 +30,13 @@
   - `Cancel`, `Stop`, or `Done` stops in-house splitting mode
 - `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
 
+### Voicelines
+
+- See [here](src/rules/voicelines.ts) for voiceline triggers
+
 ### Other
 
 - `Mute JP` server mutes jproperly for 2 minutes (Protected command)
-- `Win/Lose/Slay together` triggers the ceb voiceline
-- `Faster` triggers the Crasheroni voiceline
 - `Disable audio` stops the bot from playing any audio for 1 hour, and `Enable audio` allows the bot to play audio again
 
 ---
