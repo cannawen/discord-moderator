@@ -25,11 +25,13 @@ export default [
     description:
       "knocks when someone enters a non-secret channel when the bot is in secrets",
     start: () => {
-      client.on(Events.VoiceStateUpdate, (_, newVoiceState) => {
+      client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
         // if knocking is not enabled (due to mass migration), do nothing
         if (!knockingEnabled) return;
         // if a user is leaving a voice channel, do nothing
         if (!newVoiceState.channelId) return;
+        // if user was already in a channel, do nothing
+        if (oldVoiceState.channelId) return;
 
         // if the bot is in a secret channel and a user joins a non-secret channel, knock
         if (
