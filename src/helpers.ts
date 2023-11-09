@@ -22,10 +22,12 @@ let subscription: PlayerSubscription | undefined;
 let audioEnabled = true;
 
 export function enableAudio() {
+  winston.info(`Audio - Enabled`);
   audioEnabled = true;
 }
 
 export function disableAudioForAnHour() {
+  winston.info(`Audio - Disabled for an hour`);
   audioEnabled = false;
   setTimeout(() => {
     enableAudio();

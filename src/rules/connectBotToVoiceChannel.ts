@@ -1,4 +1,5 @@
 import {
+  enableAudio,
   findGuild,
   findMemberChannelId,
   findVoiceChannel,
@@ -14,6 +15,7 @@ import winston from "winston";
 
 function joinBotToChannel(channelId: string | null | undefined) {
   if (channelId) {
+    enableAudio();
     joinVoiceChannel({
       adapterCreator: findGuild().voiceAdapterCreator,
       channelId: channelId,
