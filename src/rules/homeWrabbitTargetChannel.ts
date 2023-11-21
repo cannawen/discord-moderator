@@ -18,7 +18,8 @@ function wrabbitAndTargetInSameChannel() {
 let oldNameString: string | undefined;
 
 export default new Rule({
-  description: "When wrabbit and target are in a channel, rename it Home",
+  description:
+    "When wrabbit and target are together in a channel, rename it Home",
   start: () => {
     client.on(Events.VoiceStateUpdate, (voiceState) => {
       if (
@@ -29,13 +30,21 @@ export default new Rule({
       }
 
       if (wrabbitAndTargetInSameChannel()) {
-        findVoiceChannel(wrabbitChannel()!).setName("Home");
+        findVoiceChannel(wrabbitChannel()!).setName(
+          constants.channelNames.HOME
+        );
       } else {
-        findVoiceChannel(constants.channelIds.GENERAL).setName("General");
-        findVoiceChannel(constants.channelIds.DOTA_2).setName("mode: baboon");
-        findVoiceChannel(constants.channelIds.SECRETS).setName("mode: focus");
+        findVoiceChannel(constants.channelIds.GENERAL).setName(
+          constants.channelNames.GENERAL
+        );
+        findVoiceChannel(constants.channelIds.DOTA_2).setName(
+          constants.channelNames.DOTA_2
+        );
+        findVoiceChannel(constants.channelIds.SECRETS).setName(
+          constants.channelNames.SECRETS
+        );
         findVoiceChannel(constants.channelIds.REAL_SECRETS).setName(
-          "mode: hiding"
+          constants.channelNames.REAL_SECRETS
         );
       }
     });

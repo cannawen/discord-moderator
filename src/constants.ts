@@ -8,6 +8,13 @@ export default {
   guildIds: {
     BEST_DOTA: process.env.GUILD_ID_BEST_DOTA!,
   },
+  channelNames: {
+    DOTA_2: "mode: baboon",
+    HOME: "Home <3",
+    GENERAL: "General",
+    SECRETS: "mode: focus",
+    REAL_SECRETS: "mode: hiding",
+  },
   channelIds: {
     DOTA_2: process.env.CHANNEL_ID_DOTA_2!,
     GENERAL: process.env.CHANNEL_ID_GENERAL!,
