@@ -45,4 +45,3 @@
 
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname every two weeks on a 6-week cycle depending on which shift he is working
-- Tag members who react 👀 to the `looking for stack` pinned message with the `lfs` role

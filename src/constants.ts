@@ -15,12 +15,10 @@ export default {
     SECRETS: process.env.CHANNEL_ID_SECRETS!,
     REAL_SECRETS: process.env.CHANNEL_ID_REAL_SECRETS!,
     LOGS: process.env.CHANNEL_ID_LOGS!,
-    LFS: process.env.CHANNEL_ID_LFS!,
     CLIPS: process.env.CHANNEL_ID_CLIPS!,
   },
   roleIds: {
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
-    LFS: process.env.ROLE_ID_LFS!,
   },
   memberIds: {
     CANNA: process.env.MEMBER_ID_CANNA!,
@@ -29,9 +27,6 @@ export default {
     DRABZ: process.env.MEMBER_ID_DRABZ!,
     JPROPERLY: process.env.MEMBER_ID_JPROPERLY!,
     TEAZY: process.env.MEMBER_ID_TEAZY!,
-  },
-  messageIds: {
-    LFS_REACT_MESSAGE: process.env.MESSAGE_ID_LFS_REACT!,
   },
   obs: {
     CANNA_STREAM_SERVER: process.env.OBS_SERVER_CANNA_STREAM!,
