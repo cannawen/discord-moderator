@@ -91,9 +91,6 @@ cron.schedule("*/1 * * * * *", () => {
         {
           body: [
             new SlashCommandBuilder()
-              .setName("disconnect")
-              .setDescription("Force the bot to disconnect"),
-            new SlashCommandBuilder()
               .setName("clip")
               .addStringOption((option) =>
                 option.setName("title").setDescription("title of the thread")
@@ -130,13 +127,6 @@ discord.on(Events.InteractionCreate, (interaction) => {
   const command = interaction.commandName;
 
   switch (command) {
-    case "disconnect":
-      findMember(constants.memberIds.CANNA_BOT).voice.disconnect();
-      interaction.reply({
-        content: "canna-bot disconnected",
-        ephemeral: true,
-      });
-      break;
     case "clip":
       {
         const member = interaction.member as GuildMember;

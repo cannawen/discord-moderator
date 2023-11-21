@@ -8,11 +8,6 @@
 
 `canna-bot` automatically joins Best Dota guild's voice channels (prioritizing Canna's channel)
 
-### Clips
-
-- `Snapshot` records the last 120 seconds of Canna's screen via OBS (saved onto a local machine)
-- `Reconnect` tries to reconnect to OBS
-
 ### Member movement
 
 - `Take me to general` moves all members from any voice channel to `General`
@@ -23,23 +18,22 @@
 - `No thank you`, `No thanks`, or `Disallow` does not join them to the secret channel
 - `Who's there` speaks the name of the person requesting to join
 
+### Clips
+
+- `Snapshot` records the last 120 seconds of Canna's screen via OBS (saved onto a local machine)
+- `Reconnect` tries to reconnect to OBS
+
 ### Other
 
 - `Mute JP` server mutes jproperly for 2 minutes (Protected command)
-- `Disable audio` stops the bot from playing any audio for 1 hour, and `Enable audio` allows the bot to play audio again
+- `Disable audio` stops the bot from playing any audio for 1 hour (or until the bot leaves/rejoins), and `Enable audio` allows the bot to play audio again
 - Plays voicelines: see [here](src/rules/voicelines.ts) for voiceline triggers (prepended with "voiceline" or "soundboard")
-
----
-
-## Slash commands
-
-- Anyone can `/disconnect` the bot from a voice channel
-- `/clip` allows anyone to post to the #clips channel
 
 ---
 
 ## What else does the bot do?
 
+- `/clip` allows anyone to post to the #clips channel
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname every two weeks on a 6-week cycle depending on which shift he is working
 - When wrabbit and Target are in the same voice channel, rename it `Home`
