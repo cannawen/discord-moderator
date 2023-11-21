@@ -45,3 +45,4 @@
 
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname every two weeks on a 6-week cycle depending on which shift he is working
+- When wrabbit and Target are in the same voice channel, rename it `Home`

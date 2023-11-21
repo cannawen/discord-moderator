@@ -25,7 +25,9 @@ export default {
     DOTA_COACH: process.env.MEMBER_ID_DOTA_COACH!,
     DRABZ: process.env.MEMBER_ID_DRABZ!,
     JPROPERLY: process.env.MEMBER_ID_JPROPERLY!,
+    TARGET: process.env.MEMBER_ID_TARGET!,
     TEAZY: process.env.MEMBER_ID_TEAZY!,
+    WRABBIT: process.env.MEMBER_ID_WRABBIT!,
   },
   obs: {
     CANNA_STREAM_SERVER: process.env.OBS_SERVER_CANNA_STREAM!,
