@@ -12,7 +12,7 @@ export default [
   ["slayTogether", "(play|win|lose|blues|slay|when)? ?together"],
   ["faster"],
   ["player"],
-  [["egg-canna", "egg-spearit"], "egg"],
+  [["egg-canna", "egg-spearit"], "eggs?"],
   ["bash", "bosch|bash|back"],
 ].map(
   ([fileNameOrNames, regexString]) =>
