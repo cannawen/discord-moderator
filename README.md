@@ -27,7 +27,7 @@
 
 - `Mute JP` server mutes jproperly for 2 minutes (Protected command)
 - `Disable audio` stops the bot from playing any audio for 1 hour, and `Enable audio` allows the bot to play audio again
-- Plays voicelines: see [here](src/rules/voicelines.ts) for voiceline triggers
+- Plays voicelines: see [here](src/rules/voicelines.ts) for voiceline triggers (prepended with "voiceline" or "soundboard")
 
 ---
 
