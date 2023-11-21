@@ -20,11 +20,6 @@ export default new Rule({
             .clipCanna()
             .catch(() => playAudio("error saving Canna clip"));
         }
-        if (findMemberChannelId(constants.memberIds.TEAZY)) {
-          obsClient
-            .clipTeazy()
-            .catch(() => playAudio("error saving Teazy clip"));
-        }
       }, 5 * 1000);
     }
   },

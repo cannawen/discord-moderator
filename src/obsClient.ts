@@ -4,7 +4,6 @@ import winston from "winston";
 
 let obsStreamCanna = new OBSWebSocket();
 let obsGameCanna = new OBSWebSocket();
-let obsTeazy = new OBSWebSocket();
 
 function connectCanna() {
   winston.info("OBS - Canna - connecting");
@@ -49,35 +48,6 @@ function connectCanna() {
   ]);
 }
 
-function connectTeazy() {
-  winston.info("OBS - Teazy - connecting");
-  return obsTeazy
-    .connect(
-      `ws://${constants.obs.TEAZY_SERVER}:4455`,
-      constants.obs.TEAZY_SERVER_PASSWORD
-    )
-    .then(() => {
-      winston.info("OBS - Teazy - connected");
-      return obsTeazy
-        .call("GetReplayBufferStatus")
-        .then((response) => {
-          if (!response.outputActive) {
-            return obsTeazy.call("StartReplayBuffer").then(() => {
-              winston.info("OBS - Teazy - replay buffer started");
-            });
-          }
-        })
-        .catch((e) => {
-          winston.error("OBS - Teazy - replay buffer not started");
-          throw e;
-        });
-    })
-    .catch((e) => {
-      winston.error("OBS - Teazy - not connected");
-      throw e;
-    });
-}
-
 function disconnectCanna() {
   winston.info("OBS - Canna - disconnecting");
   return Promise.all([
@@ -88,16 +58,6 @@ function disconnectCanna() {
   ]).catch(() => {
     winston.error("OBS - Canna - disconnect failed");
   });
-}
-
-function disconnectTeazy() {
-  winston.info("OBS - Teazy - disconnecting");
-  return obsTeazy
-    .call("StopReplayBuffer")
-    .finally(() => obsTeazy.disconnect())
-    .catch(() => {
-      winston.error("OBS - Teazy - disconnect failed");
-    });
 }
 
 function clipCanna() {
@@ -114,24 +74,8 @@ function clipCanna() {
   ]).then(() => winston.info("OBS - Canna - saved replay"));
 }
 
-function clipTeazy() {
-  winston.info("OBS - Teazy - clipping");
-  return obsTeazy
-    .call("SaveReplayBuffer")
-    .then(() => {
-      winston.info("OBS - Teazy - saved replay");
-    })
-    .catch((e) => {
-      winston.error("OBS - Teazy - save replay failed");
-      throw e;
-    });
-}
-
 export default {
   connectCanna,
-  connectTeazy,
   disconnectCanna,
-  disconnectTeazy,
   clipCanna,
-  clipTeazy,
 };

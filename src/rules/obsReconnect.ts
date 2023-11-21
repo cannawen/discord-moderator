@@ -16,13 +16,6 @@ export default new Rule({
           .then(() => playAudio("success.mp3"))
           .catch(() => playAudio("error.mp3"));
       }
-      if (memberId === constants.memberIds.TEAZY) {
-        winston.info("OBS - Teazy - processing Reconnect");
-        obsClient
-          .connectTeazy()
-          .then(() => playAudio("success.mp3"))
-          .catch(() => playAudio("error.mp3"));
-      }
     }
   },
 });

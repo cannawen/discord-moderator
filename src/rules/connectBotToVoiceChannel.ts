@@ -47,12 +47,6 @@ export default new Rule({
       });
     }
 
-    if (findTeazyChannelId()) {
-      obsClient.connectTeazy().catch(() => {
-        playAudio("Teazy OBS not connected on restart");
-      });
-    }
-
     joinBotToChannel(findCannaChannelId() || findTeazyChannelId());
 
     client.on(Events.VoiceStateUpdate, (oldVoiceState, _) => {
@@ -89,16 +83,6 @@ export default new Rule({
             }) ----------`
           );
           joinBotToChannel(teazyChannelId);
-        }
-
-        if (teazyChannelId && !oldVoiceState.channelId) {
-          obsClient
-            .connectTeazy()
-            .catch(() => playAudio("Teazy OBS not connected"));
-        }
-
-        if (!teazyChannelId) {
-          obsClient.disconnectTeazy();
         }
       }
 
