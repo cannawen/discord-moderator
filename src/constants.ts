@@ -9,7 +9,6 @@ export default {
     BEST_DOTA: process.env.GUILD_ID_BEST_DOTA!,
   },
   channelIds: {
-    THE_CHURCH_OF_RICO: process.env.CHANNEL_ID_THE_CHURCH_OF_RICO!,
     DOTA_2: process.env.CHANNEL_ID_DOTA_2!,
     GENERAL: process.env.CHANNEL_ID_GENERAL!,
     SECRETS: process.env.CHANNEL_ID_SECRETS!,
