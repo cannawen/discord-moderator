@@ -13,6 +13,7 @@ export default [
   ["faster"],
   ["player"],
   [["egg-canna", "egg-spearit"], "egg"],
+  ["bash", "bosch|bash|back"],
 ].map(
   ([fileNameOrNames, regexString]) =>
     new Rule({
