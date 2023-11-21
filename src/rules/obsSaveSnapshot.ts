@@ -20,7 +20,7 @@ export default new Rule({
             .clipCanna()
             .catch(() => playAudio("error saving Canna clip"));
         }
-      }, 5 * 1000);
+      }, 10 * 1000);
     }
   },
 });
