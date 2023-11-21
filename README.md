@@ -23,13 +23,6 @@
 - `No thank you`, `No thanks`, or `Disallow` does not join them to the secret channel
 - `Who's there` speaks the name of the person requesting to join
 
-### In-house
-
-- `Start in house` or `Should I stay or should I go` enters in-house splitting mode
-  - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
-  - `Cancel`, `Stop`, or `Done` stops in-house splitting mode
-- `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
-
 ### Voicelines
 
 - See [here](src/rules/voicelines.ts) for voiceline triggers

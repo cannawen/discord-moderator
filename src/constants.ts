@@ -16,10 +16,7 @@ export default {
     REAL_SECRETS: process.env.CHANNEL_ID_REAL_SECRETS!,
     LOGS: process.env.CHANNEL_ID_LOGS!,
     LFS: process.env.CHANNEL_ID_LFS!,
-    LOBBY: process.env.CHANNEL_ID_LOBBY!,
     CLIPS: process.env.CHANNEL_ID_CLIPS!,
-    RADIANT: process.env.CHANNEL_ID_RADIANT!,
-    DIRE: process.env.CHANNEL_ID_DIRE!,
   },
   roleIds: {
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
