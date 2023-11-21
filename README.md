@@ -6,7 +6,7 @@
 
 ## Voice commands
 
-`canna-bot` automatically joins Canna or Teazy's voice channel
+`canna-bot` automatically joins Best Dota guild's voice channels (prioritizing Canna's channel)
 
 ### Clips
 
@@ -16,21 +16,18 @@
 ### Member movement
 
 - `Take me to general` moves all members from any voice channel to `General`
-- `Take me to (real) secrets` brings everyone to the secret channel (Protected command)
+- `Take me to (real) secrets` brings everyone to the locked channel(s) (Protected command)
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
 - `Come in`, `Enter`, or `Allow` joins a member to the secret channel after knocking
 - `No thank you`, `No thanks`, or `Disallow` does not join them to the secret channel
 - `Who's there` speaks the name of the person requesting to join
 
-### Voicelines
-
-- See [here](src/rules/voicelines.ts) for voiceline triggers
-
 ### Other
 
 - `Mute JP` server mutes jproperly for 2 minutes (Protected command)
 - `Disable audio` stops the bot from playing any audio for 1 hour, and `Enable audio` allows the bot to play audio again
+- Plays voicelines: see [here](src/rules/voicelines.ts) for voiceline triggers
 
 ---
 
