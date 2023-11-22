@@ -27,19 +27,6 @@ function connectCanna() {
       )
       .then(() => {
         winston.info("OBS - Canna Stream - connected");
-        return obsStreamCanna
-          .call("GetReplayBufferStatus")
-          .then((response) => {
-            if (!response.outputActive) {
-              return obsStreamCanna.call("StartReplayBuffer").then(() => {
-                winston.info("OBS - Canna Stream - replay buffer started");
-              });
-            }
-          })
-          .catch((e) => {
-            winston.error("OBS - Canna Stream - replay buffer not started");
-            throw e;
-          });
       })
       .catch((e) => {
         winston.error("OBS - Canna Stream - not connected");
@@ -52,9 +39,7 @@ function disconnectCanna() {
   winston.info("OBS - Canna - disconnecting");
   return Promise.all([
     obsGameCanna.disconnect(),
-    obsStreamCanna
-      .call("StopReplayBuffer")
-      .finally(() => obsStreamCanna.disconnect()),
+    obsStreamCanna.disconnect(),
   ]).catch(() => {
     winston.error("OBS - Canna - disconnect failed");
   });
