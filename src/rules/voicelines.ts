@@ -1,5 +1,6 @@
-import { playAudio } from "../helpers";
+import { findMember, playAudio } from "../helpers";
 import Rule from "../Rule";
+import winston from "winston";
 
 function chooseRandomFromArray(array: string[]) {
   return array[Math.floor(Math.random() * array.length)];
@@ -18,7 +19,7 @@ export default [
   ([fileNameOrNames, regexString]) =>
     new Rule({
       description: `${regexString || fileNameOrNames} voiceline`,
-      utterance: (utterance) => {
+      utterance: (utterance, memberId) => {
         let fileName = Array.isArray(fileNameOrNames)
           ? chooseRandomFromArray(fileNameOrNames)
           : fileNameOrNames;
@@ -27,6 +28,11 @@ export default [
             new RegExp(`^${TRIGGER} ${regexString || fileName}$`, "i")
           )
         ) {
+          winston.info(
+            `Audio - voiceline triggered - "${utterance}" (${
+              findMember(memberId).displayName
+            })`
+          );
           playAudio(`voicelines/${fileName}.mp3`);
         }
       },
