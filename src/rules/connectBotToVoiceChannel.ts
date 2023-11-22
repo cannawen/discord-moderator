@@ -14,7 +14,10 @@ import obsClient from "../obsClient";
 import winston from "winston";
 
 function joinBotToChannel(channelId: string | null | undefined) {
-  if (channelId) {
+  if (
+    channelId &&
+    channelId !== findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)
+  ) {
     enableAudio();
     winston.info(
       `---------- joining bot to voice channel (${
@@ -75,15 +78,10 @@ export default [
                 .connectCanna()
                 .catch(() => playAudio("Canna OBS not connected"));
             }
-            // If bot is not in Canna's current channel
-            if (
-              findMemberVoiceChannelId(constants.memberIds.CANNA_BOT) !==
-              newVoiceState.channelId
-            ) {
+
               // connect bot to Canna's current channel
               joinBotToChannel(newVoiceState.channelId);
             }
-          }
           // if the bot is not connected
           else if (!findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)) {
             //connect bot
