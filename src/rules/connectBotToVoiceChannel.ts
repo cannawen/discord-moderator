@@ -80,9 +80,9 @@ export default [
               findMemberChannelId(constants.memberIds.CANNA_BOT) !==
               newVoiceState.channelId
             ) {
-            // connect bot to Canna's current channel
-            joinBotToChannel(newVoiceState.channelId);
-          }
+              // connect bot to Canna's current channel
+              joinBotToChannel(newVoiceState.channelId);
+            }
           }
           // if the bot is not connected
           else if (!findMemberChannelId(constants.memberIds.CANNA_BOT)) {
@@ -115,10 +115,12 @@ export default [
       "on last member leave voice channel, try to join anyone else's channel",
     start: () => {
       client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
-        // if there is no one left in the channel (except for maybe the bot)
+        // if there is no one left in the channel (except for bots)
         if (
           oldVoiceState.channel?.members.filter(
-            (member) => member.id !== constants.memberIds.CANNA_BOT
+            (member) =>
+              member.id !== constants.memberIds.CANNA_BOT &&
+              member.id !== constants.memberIds.DOTA_COACH
           ).size === 0
         ) {
           // disconnect from current channel
