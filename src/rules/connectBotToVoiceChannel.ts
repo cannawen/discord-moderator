@@ -75,8 +75,14 @@ export default [
                 .connectCanna()
                 .catch(() => playAudio("Canna OBS not connected"));
             }
+            // If bot is not in Canna's current channel
+            if (
+              findMemberChannelId(constants.memberIds.CANNA_BOT) !==
+              newVoiceState.channelId
+            ) {
             // connect bot to Canna's current channel
             joinBotToChannel(newVoiceState.channelId);
+          }
           }
           // if the bot is not connected
           else if (!findMemberChannelId(constants.memberIds.CANNA_BOT)) {
