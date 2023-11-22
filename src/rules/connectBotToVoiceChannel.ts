@@ -8,6 +8,7 @@ import {
 import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import client from "../discordClient";
 import constants from "../constants";
+import cron from "node-cron";
 import { Events } from "discord.js";
 import Rule from "../Rule";
 import obsClient from "../obsClient";
@@ -79,9 +80,9 @@ export default [
                 .catch(() => playAudio("Canna OBS not connected"));
             }
 
-              // connect bot to Canna's current channel
-              joinBotToChannel(newVoiceState.channelId);
-            }
+            // connect bot to Canna's current channel
+            joinBotToChannel(newVoiceState.channelId);
+          }
           // if the bot is not connected
           else if (!findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)) {
             //connect bot
@@ -109,13 +110,15 @@ export default [
   }),
 
   new Rule({
-    description:
-      "on last member leave voice channel, try to join anyone else's channel",
+    description: "every 1 second, check to see if bot is alone",
     start: () => {
-      client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
-        // if there is no one left in the channel (except for bots)
+      cron.schedule("*/1 * * * * *", () => {
+        const botChannel = findMemberVoiceChannelId(
+          constants.memberIds.CANNA_BOT
+        );
         if (
-          oldVoiceState.channel?.members.filter(
+          botChannel &&
+          findVoiceChannel(botChannel).members.filter(
             (member) =>
               member.id !== constants.memberIds.CANNA_BOT &&
               member.id !== constants.memberIds.DOTA_COACH
@@ -126,7 +129,7 @@ export default [
 
           // search for a new channel to join
           const channels = allOccupiedVoiceChannels();
-          channels.delete(oldVoiceState.channelId!);
+          channels.delete(botChannel);
           joinBotToChannel([...channels][0]);
         }
       });
