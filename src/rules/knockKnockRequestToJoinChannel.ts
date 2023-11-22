@@ -1,6 +1,6 @@
 import {
   findMember,
-  findMemberChannelId,
+  findMemberVoiceChannelId,
   moveToVoiceChannel,
   playAudio,
 } from "../helpers";
@@ -35,7 +35,9 @@ export default [
 
         // if the bot is in a secret channel and a user joins a non-secret channel, knock
         if (
-          isSecretChannel(findMemberChannelId(constants.memberIds.CANNA_BOT)) &&
+          isSecretChannel(
+            findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)
+          ) &&
           !isSecretChannel(newVoiceState.channelId)
         ) {
           const displayName = newVoiceState.member?.displayName;
@@ -73,7 +75,9 @@ export default [
 
       if (utterance.match(/^(come in|enter|allow)$/i)) {
         winston.info(`Move - ${requester} approved (${speaker})`);
-        const botChannel = findMemberChannelId(constants.memberIds.CANNA_BOT)!;
+        const botChannel = findMemberVoiceChannelId(
+          constants.memberIds.CANNA_BOT
+        )!;
         moveToVoiceChannel(memberRequestingToJoin, botChannel);
         memberRequestingToJoin = undefined;
       }

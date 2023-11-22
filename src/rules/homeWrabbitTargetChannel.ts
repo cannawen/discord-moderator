@@ -2,16 +2,16 @@ import client from "../discordClient";
 import constants from "../constants";
 import { Events } from "discord.js";
 import Rule from "../Rule";
-import { findMember, findVoiceChannel } from "../helpers";
+import { findMemberVoiceChannelId, findVoiceChannel } from "../helpers";
 
 function wrabbitChannel() {
-  return findMember(constants.memberIds.WRABBIT).voice.channelId;
+  return findMemberVoiceChannelId(constants.memberIds.WRABBIT);
 }
 
 function wrabbitAndTargetInSameChannel() {
   return (
     wrabbitChannel() !== null &&
-    wrabbitChannel() === findMember(constants.memberIds.TARGET).voice.channelId
+    wrabbitChannel() === findMemberVoiceChannelId(constants.memberIds.TARGET)
   );
 }
 

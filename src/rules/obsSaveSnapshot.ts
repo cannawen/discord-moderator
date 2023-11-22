@@ -1,4 +1,4 @@
-import { findMember, findMemberChannelId, playAudio } from "../helpers";
+import { findMember, findMemberVoiceChannelId, playAudio } from "../helpers";
 import constants from "../constants";
 import obsClient from "../obsClient";
 import Rule from "../Rule";
@@ -15,7 +15,7 @@ export default new Rule({
       playAudio("photo.mp3");
 
       setTimeout(() => {
-        if (findMemberChannelId(constants.memberIds.CANNA)) {
+        if (findMemberVoiceChannelId(constants.memberIds.CANNA)) {
           obsClient
             .clipCanna()
             .catch(() => playAudio("error saving Canna clip"));

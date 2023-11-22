@@ -1,7 +1,7 @@
 import {
   enableAudio,
   findGuild,
-  findMemberChannelId,
+  findMemberVoiceChannelId,
   findVoiceChannel,
   playAudio,
 } from "../helpers";
@@ -45,7 +45,7 @@ export default [
     description:
       "on restart, join the bot to Canna's channel or join to anyone's voice channel",
     start: () => {
-      const cannaChannel = findMemberChannelId(constants.memberIds.CANNA);
+      const cannaChannel = findMemberVoiceChannelId(constants.memberIds.CANNA);
 
       if (cannaChannel) {
         obsClient.connectCanna().catch(() => {
@@ -77,7 +77,7 @@ export default [
             }
             // If bot is not in Canna's current channel
             if (
-              findMemberChannelId(constants.memberIds.CANNA_BOT) !==
+              findMemberVoiceChannelId(constants.memberIds.CANNA_BOT) !==
               newVoiceState.channelId
             ) {
               // connect bot to Canna's current channel
@@ -85,7 +85,7 @@ export default [
             }
           }
           // if the bot is not connected
-          else if (!findMemberChannelId(constants.memberIds.CANNA_BOT)) {
+          else if (!findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)) {
             //connect bot
             joinBotToChannel(newVoiceState.channelId);
           }

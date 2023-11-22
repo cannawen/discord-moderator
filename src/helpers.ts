@@ -77,8 +77,8 @@ export function findMember(memberId: string) {
   ) as GuildMember;
 }
 
-export function findMemberChannelId(memberId: string) {
-  return findMember(memberId).voice.channel?.id;
+export function findMemberVoiceChannelId(memberId: string) {
+  return findMember(memberId).voice.channelId;
 }
 
 function findChannel(channelId: string) {
