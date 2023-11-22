@@ -15,7 +15,12 @@ function wrabbitAndTargetInSameChannel() {
   );
 }
 
-let oldNameString: string | undefined;
+function updateChannelName(channelId: string, newName: string) {
+  const channel = findVoiceChannel(channelId);
+  if (channel.name !== newName) {
+    channel.setName(newName);
+  }
+}
 
 export default new Rule({
   description:
@@ -30,21 +35,27 @@ export default new Rule({
       }
 
       if (wrabbitAndTargetInSameChannel()) {
-        findVoiceChannel(wrabbitChannel()!).setName(
-          constants.channelNames.HOME
-        );
+        updateChannelName(wrabbitChannel()!, constants.channelNames.HOME);
       } else {
-        findVoiceChannel(constants.channelIds.GENERAL).setName(
+        updateChannelName(
+          constants.channelIds.GENERAL,
           constants.channelNames.GENERAL
         );
-        findVoiceChannel(constants.channelIds.DOTA_2).setName(
+        updateChannelName(
+          constants.channelIds.DOTA_2,
           constants.channelNames.DOTA_2
         );
-        findVoiceChannel(constants.channelIds.SECRETS).setName(
+        updateChannelName(
+          constants.channelIds.SECRETS,
           constants.channelNames.SECRETS
         );
-        findVoiceChannel(constants.channelIds.REAL_SECRETS).setName(
+        updateChannelName(
+          constants.channelIds.REAL_SECRETS,
           constants.channelNames.REAL_SECRETS
+        );
+        updateChannelName(
+          constants.channelIds.TIMEOUT,
+          constants.channelNames.TIMEOUT
         );
       }
     });

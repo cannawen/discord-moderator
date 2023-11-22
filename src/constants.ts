@@ -14,14 +14,17 @@ export default {
     GENERAL: "General",
     SECRETS: "mode: focus",
     REAL_SECRETS: "mode: hiding",
+    TIMEOUT: "mode: shh",
   },
   channelIds: {
     DOTA_2: process.env.CHANNEL_ID_DOTA_2!,
     GENERAL: process.env.CHANNEL_ID_GENERAL!,
     SECRETS: process.env.CHANNEL_ID_SECRETS!,
     REAL_SECRETS: process.env.CHANNEL_ID_REAL_SECRETS!,
-    LOGS: process.env.CHANNEL_ID_LOGS!,
+    TIMEOUT: process.env.CHANNEL_ID_TIMEOUT!,
+
     CLIPS: process.env.CHANNEL_ID_CLIPS!,
+    LOGS: process.env.CHANNEL_ID_LOGS!,
   },
   roleIds: {
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
