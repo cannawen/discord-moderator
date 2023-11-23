@@ -20,11 +20,7 @@ function joinBotToChannel(channelId: string | null | undefined) {
     channelId !== findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)
   ) {
     enableAudio();
-    winston.info(
-      `---------- joining bot to voice channel (${
-        findVoiceChannel(channelId).name
-      }) ----------`
-    );
+    winston.info(`Bot - connect - ${findVoiceChannel(channelId).name}`);
     joinVoiceChannel({
       adapterCreator: findGuild().voiceAdapterCreator,
       channelId: channelId,
@@ -110,7 +106,8 @@ export default [
   }),
 
   new Rule({
-    description: "every 1 second, check to see if bot is alone",
+    description:
+      "every 1 second, check to see if bot is alone. If it is, disconnect and try to find someone else to join",
     start: () => {
       cron.schedule("*/1 * * * * *", () => {
         const botChannel = findMemberVoiceChannelId(
@@ -118,6 +115,7 @@ export default [
         );
         if (
           botChannel &&
+          // if there are only bots in the channel
           findVoiceChannel(botChannel).members.filter(
             (member) =>
               member.id !== constants.memberIds.CANNA_BOT &&
@@ -126,6 +124,9 @@ export default [
         ) {
           // disconnect from current channel
           getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
+          winston.info(
+            `Bot - disconnect - ${findVoiceChannel(botChannel).name}`
+          );
 
           // search for a new channel to join
           const channels = allOccupiedVoiceChannels();
