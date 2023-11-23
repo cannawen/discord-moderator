@@ -6,7 +6,8 @@ function chooseRandomFromArray(array: string[]) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-const TRIGGER = "(sound ?board|voice ?lines?|priceline|boyfriend|first line)";
+const TRIGGER_PHRASE =
+  "(sound ?board|voice ?lines?|priceline|boyfriend|first line)";
 
 // ["file name" or ["array", "of file names"], "regex that triggers the voiceline (optional - if different than file name)"]
 export default [
@@ -14,23 +15,27 @@ export default [
   ["faster"],
   ["player"],
   [["egg-canna", "egg-spearit"], "eggs?"],
-  ["bash", "bosch|bash|back"],
+  ["bash", "bash|bosch|back"],
 ].map(
   ([fileNameOrNames, regexString]) =>
     new Rule({
-      description: `${regexString || fileNameOrNames} voiceline`,
+      description: `${
+        Array.isArray(fileNameOrNames)
+          ? fileNameOrNames.join("/")
+          : fileNameOrNames
+      } voiceline`,
       utterance: (utterance, memberId) => {
-        let fileName = Array.isArray(fileNameOrNames)
+        const fileName = Array.isArray(fileNameOrNames)
           ? chooseRandomFromArray(fileNameOrNames)
           : fileNameOrNames;
 
         if (
           utterance.match(
-            new RegExp(`^${TRIGGER} (${regexString || fileName})$`, "i")
+            new RegExp(`^${TRIGGER_PHRASE} (${regexString || fileName})$`, "i")
           )
         ) {
           winston.info(
-            `Audio - voiceline triggered - "${utterance}" (${
+            `Audio - voiceline triggered with phrase "${utterance}" (${
               findMember(memberId).displayName
             })`
           );
