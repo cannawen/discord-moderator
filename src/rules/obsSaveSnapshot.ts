@@ -1,26 +1,28 @@
-import { findMember, findMemberVoiceChannelId, playAudio } from "../helpers";
-import constants from "../constants";
+import { findMember, playAudio } from "../helpers";
 import obsClient from "../obsClient";
 import Rule from "../Rule";
 import winston from "winston";
 
 export default new Rule({
-  description: "when someone says 'snapshot' record OBS stream",
+  description: "when someone says 'snapshot', record Canna clip",
   utterance: (utterance, memberId) => {
     if (utterance.match(/^(snapshot|Snapchat)$/i)) {
       winston.info(
         `OBS - triggering snapshot (${findMember(memberId).displayName})`
       );
 
-      playAudio("photo.mp3");
+      obsClient
+        .reidentifyCanna()
+        .then(() => {
+          playAudio("photo.mp3");
 
-      setTimeout(() => {
-        if (findMemberVoiceChannelId(constants.memberIds.CANNA)) {
-          obsClient
-            .clipCanna()
-            .catch(() => playAudio("error saving Canna clip"));
-        }
-      }, 10 * 1000);
+          setTimeout(() => {
+            obsClient
+              .clipCanna()
+              .catch(() => playAudio("error saving Canna clip"));
+          }, 10 * 1000);
+        })
+        .catch(() => playAudio("Canna OBS not connected"));
     }
   },
 });

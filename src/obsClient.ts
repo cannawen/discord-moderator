@@ -59,8 +59,22 @@ function clipCanna() {
   ]).then(() => winston.info("OBS - Canna - saved replay"));
 }
 
+function reidentifyCanna() {
+  return Promise.all([
+    obsGameCanna.reidentify({}).catch((e) => {
+      winston.error("OBS - Canna Game - not connected");
+      throw e;
+    }),
+    obsStreamCanna.reidentify({}).catch((e) => {
+      winston.error("OBS - Canna Stream - not connected");
+      throw e;
+    }),
+  ]);
+}
+
 export default {
   connectCanna,
   disconnectCanna,
   clipCanna,
+  reidentifyCanna,
 };
