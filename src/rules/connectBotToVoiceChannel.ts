@@ -20,7 +20,9 @@ function joinBotToChannel(channelId: string | null | undefined) {
     channelId !== findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)
   ) {
     enableAudio();
-    winston.info(`Bot - connect - ${findVoiceChannel(channelId).name}`);
+    winston.info(
+      `Bot ---------- connect ---------- ${findVoiceChannel(channelId).name}`
+    );
     joinVoiceChannel({
       adapterCreator: findGuild().voiceAdapterCreator,
       channelId: channelId,
@@ -125,7 +127,9 @@ export default [
           // disconnect from current channel
           getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
           winston.info(
-            `Bot - disconnect - ${findVoiceChannel(botChannel).name}`
+            `Bot ---------- disconnect ---------- ${
+              findVoiceChannel(botChannel).name
+            }`
           );
 
           // search for a new channel to join
