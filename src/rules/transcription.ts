@@ -1,6 +1,10 @@
+import {
+  VoiceConnectionState,
+  VoiceConnectionStatus,
+  getVoiceConnection,
+} from "@discordjs/voice";
 import constants from "../constants";
 import { rules } from "../ruleManager";
-import { getVoiceConnection } from "@discordjs/voice";
 import Rule from "../Rule";
 import stt from "../speechToText";
 import winston from "winston";
@@ -13,6 +17,7 @@ export default new Rule({
   tick: () => {
     // poll for voice connection so we can capture voice to speech-to-text
     const connection = getVoiceConnection(constants.guildIds.BEST_DOTA);
+
     if (connection && !listening) {
       listening = true;
       connection?.receiver.speaking.on("start", (memberId) => {
@@ -31,9 +36,15 @@ export default new Rule({
           })
           .catch(() => {});
       });
-    }
-    if (!connection && listening) {
-      listening = false;
+
+      connection?.addListener(
+        "stateChange",
+        (_, newState: VoiceConnectionState) => {
+          if (newState.status === VoiceConnectionStatus.Destroyed) {
+            listening = false;
+          }
+        }
+      );
     }
   },
 });
