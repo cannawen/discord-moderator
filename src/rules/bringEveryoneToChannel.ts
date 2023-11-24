@@ -24,7 +24,10 @@ function bringFromChannelToChannel(
     ? findVoiceChannel(fromChannelId).members
     : findGuild().members.cache.filter((m) => m.voice.channel);
 
-  moveToVoiceChannel(membersToMove, toChannelId);
+  moveToVoiceChannel(
+    membersToMove.filter((m) => m.id !== constants.memberIds.CANNA_BOT),
+    toChannelId
+  );
 }
 
 function hasPermission(memberId: string, channel: string) {
