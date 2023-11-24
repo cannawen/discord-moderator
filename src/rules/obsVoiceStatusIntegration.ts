@@ -13,7 +13,7 @@ export default [
 
       if (cannaChannel) {
         obsClient.connectCanna().catch(() => {
-          playAudio("Canna OBS not connected on restart");
+          playAudio("Canna OBS not connected on restart", 3000);
         });
       }
     },
@@ -30,7 +30,7 @@ export default [
         ) {
           obsClient
             .connectCanna()
-            .catch(() => playAudio("Canna OBS not connected"));
+            .catch(() => playAudio("Canna OBS not connected", 3000));
         }
       });
     },

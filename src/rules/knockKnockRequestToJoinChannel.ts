@@ -52,9 +52,7 @@ export default [
           playAudio("knock.mp3");
 
           if (displayName) {
-            setTimeout(() => {
-              playAudio(displayName);
-            }, 500);
+            playAudio(displayName, 500);
           }
         }
       });
