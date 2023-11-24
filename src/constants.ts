@@ -9,7 +9,7 @@ export default {
     BEST_DOTA: process.env.GUILD_ID_BEST_DOTA!,
   },
   channelNames: {
-    DOTA_2: "mode: baboon",
+    DOTA_2: "mode: chaos",
     HOME: "Home <3",
     GENERAL: "General",
     SECRETS: "mode: focus",
