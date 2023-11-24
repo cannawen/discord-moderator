@@ -12,22 +12,22 @@
 
 - `Take me/us to <channel>` moves members from the current voice channel to `<channel>`
 - `Take everyone/everybody to <channel>` moves all members connected to any voice channel
+- See [here](src/rules/voiceCommands/massMigration.ts) for channel name definitions
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
-- `Come in`, `Enter`, or `Allow` joins a member to the secret channel after knocking
-- `No thank you`, `No thanks`, or `Disallow` does not join them to the secret channel
-- `Who's there` speaks the name of the person requesting to join
+- `Come in`, `Enter`, or `Allow` joins a member to a protected channel after knocking
+- `No thank you`, `No thanks`, or `Disallow` does not join them
 
 ### Clips
 
-- `Snapshot` records the last 120 seconds of Canna's screen via OBS (saved onto a local machine)
-- `Reconnect` tries to reconnect to OBS
+- `Snapshot` records the last couple minutes of Canna's screen via OBS (saved onto a local machine)
+- `Reconnect` tries to reconnect to OBS (protected command)
 
 ### Other
 
 - `Mute JP` server mutes jproperly for 2 minutes (Protected command)
 - `Disable audio` stops the bot from playing any audio for 1 hour (or until the bot leaves/rejoins), and `Enable audio` allows the bot to play audio again
-- See [here](src/rules/voicelines.ts) for voiceline triggers (prepended with `voiceline` or `soundboard`)
+- See [here](src/rules/voiceCommands/voicelines.ts) for voiceline triggers (prepended with `voiceline` or `soundboard`)
 
 ---
 

@@ -67,10 +67,6 @@ export default [
       const speaker = findMember(memberId).displayName;
       const requester = findMember(memberRequestingToJoin).displayName;
 
-      if (utterance.match(/^who.* there$/i)) {
-        playAudio(requester);
-      }
-
       if (utterance.match(/^(come in|enter|allow)$/i)) {
         winston.info(`Move - ${requester} approved (${speaker})`);
         const botChannel = findMemberVoiceChannelId(
