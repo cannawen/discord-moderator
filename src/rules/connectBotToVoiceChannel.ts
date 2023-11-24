@@ -33,19 +33,56 @@ function joinBotToChannel(channelId: string | null | undefined) {
   }
 }
 
-function allOccupiedVoiceChannels() {
-  return findGuild().members.cache.reduce((memo, member) => {
-    if (member.voice.channelId) {
-      memo.add(member.voice.channelId);
-    }
-    return memo;
-  }, new Set<string>());
+function randomOccupiedVoiceChannelId(): string | undefined {
+  return [
+    ...findGuild().members.cache.reduce((memo, member) => {
+      if (member.voice.channelId) {
+        memo.add(member.voice.channelId);
+      }
+      return memo;
+    }, new Set<string>()),
+  ][0];
 }
 
 export default [
   new Rule({
-    description:
-      "on restart, join the bot to Canna's channel or join to anyone's voice channel",
+    description: "on tick, manage bot connection to voice channel",
+    tick: () => {
+      const cannaChannel = findMemberVoiceChannelId(constants.memberIds.CANNA);
+
+      const botChannel = findMemberVoiceChannelId(
+        constants.memberIds.CANNA_BOT
+      );
+
+      // connect to canna channel
+      if (cannaChannel) {
+        joinBotToChannel(cannaChannel);
+      }
+      // connect to random occupied channel
+      else if (!botChannel) {
+        joinBotToChannel(randomOccupiedVoiceChannelId());
+      }
+      // disconnect if the bot is currently connected and there are only bots in the channel
+      else if (
+        botChannel &&
+        findVoiceChannel(botChannel).members.filter(
+          (member) =>
+            member.id !== constants.memberIds.CANNA_BOT &&
+            member.id !== constants.memberIds.DOTA_COACH
+        ).size === 0
+      ) {
+        getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
+        winston.info(
+          `Bot ---------- disconnect ---------- ${
+            findVoiceChannel(botChannel).name
+          }`
+        );
+      }
+    },
+  }),
+
+  new Rule({
+    description: "on restart, connect Canna's OBS",
     start: () => {
       const cannaChannel = findMemberVoiceChannelId(constants.memberIds.CANNA);
 
@@ -53,39 +90,22 @@ export default [
         obsClient.connectCanna().catch(() => {
           playAudio("Canna OBS not connected on restart");
         });
-
-        joinBotToChannel(cannaChannel);
-      } else {
-        joinBotToChannel([...allOccupiedVoiceChannels()][0]);
       }
     },
   }),
 
   new Rule({
-    description:
-      "on member join voice channel, join bot (prioritize Canna if people are in multiple voice channels)",
+    description: "on Canna join voice channel, connect OBS",
     start: () => {
       client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
-        // if member is joining a channel
-        if (newVoiceState.channelId) {
-          // if Canna is joining
-          if (newVoiceState.member?.id === constants.memberIds.CANNA) {
-            // if it is a fresh join; not moving from one channel to the other
-            if (!oldVoiceState.channelId) {
-              // connect OBS
-              obsClient
-                .connectCanna()
-                .catch(() => playAudio("Canna OBS not connected"));
-            }
-
-            // connect bot to Canna's current channel
-            joinBotToChannel(newVoiceState.channelId);
-          }
-          // if the bot is not connected
-          else if (!findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)) {
-            //connect bot
-            joinBotToChannel(newVoiceState.channelId);
-          }
+        if (
+          newVoiceState.member?.id === constants.memberIds.CANNA &&
+          !oldVoiceState.channelId &&
+          newVoiceState.channelId
+        ) {
+          obsClient
+            .connectCanna()
+            .catch(() => playAudio("Canna OBS not connected"));
         }
       });
     },
@@ -94,48 +114,14 @@ export default [
   new Rule({
     description: "on Canna leave, disconnect OBS",
     start: () => {
-      client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
+      client.on(Events.VoiceStateUpdate, (_, newVoiceState) => {
         // if Canna is leaving a channel
         if (
-          !newVoiceState.channelId &&
-          newVoiceState.member?.id === constants.memberIds.CANNA
+          newVoiceState.member?.id === constants.memberIds.CANNA &&
+          !newVoiceState.channelId
         ) {
           //disconnect OBS
           obsClient.disconnectCanna();
-        }
-      });
-    },
-  }),
-
-  new Rule({
-    description:
-      "every 1 second, check to see if bot is alone. If it is, disconnect and try to find someone else to join",
-    start: () => {
-      cron.schedule("*/1 * * * * *", () => {
-        const botChannel = findMemberVoiceChannelId(
-          constants.memberIds.CANNA_BOT
-        );
-        if (
-          botChannel &&
-          // if there are only bots in the channel
-          findVoiceChannel(botChannel).members.filter(
-            (member) =>
-              member.id !== constants.memberIds.CANNA_BOT &&
-              member.id !== constants.memberIds.DOTA_COACH
-          ).size === 0
-        ) {
-          // disconnect from current channel
-          getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
-          winston.info(
-            `Bot ---------- disconnect ---------- ${
-              findVoiceChannel(botChannel).name
-            }`
-          );
-
-          // search for a new channel to join
-          const channels = allOccupiedVoiceChannels();
-          channels.delete(botChannel);
-          joinBotToChannel([...channels][0]);
         }
       });
     },
