@@ -10,72 +10,18 @@ import { findMember, findTextChannel } from "./helpers";
 import constants from "./constants";
 import cron from "node-cron";
 import discord from "./discordClient";
-import fs from "fs";
-import { getVoiceConnection } from "@discordjs/voice";
-import path from "path";
-import Rule from "./Rule";
-import stt from "./speechToText";
+import { rules } from "./ruleManager";
 import winston from "winston";
-
-// find all rules
-function getRules(): Rule[] {
-  const dirPath = path.join(__dirname, "rules");
-  return (
-    fs
-      .readdirSync(dirPath)
-      // .js and because it gets transpiled in /build directory
-      // .ts and because during testing, it stays in the /src directory
-      // TODO Kinda sketch that we need the || for tests only ...
-      .filter((file) => file.endsWith(".js") || file.endsWith(".ts"))
-      .map((file) => path.join(dirPath, file))
-      // eslint-disable-next-line global-require
-      .map((filePath) => require(filePath))
-      // register modules that return a `Rule` or array of `Rule`s
-      .reduce((memo: Rule[], module) => {
-        const rulesArray = (
-          Array.isArray(module.default) ? module.default : [module.default]
-        ).filter((r: any) => r instanceof Rule);
-        return memo.concat(rulesArray);
-      }, [])
-  );
-}
-
-const rules = getRules();
 
 // let each rule know the app has started
 discord.once(Events.ClientReady, (c) => {
   winston.info(`Ready! Logged in as ${c.user.tag}`);
 
-  rules.filter((r) => r.start).map((r) => r.start!());
-});
+  rules.filter((r) => r.start).forEach((r) => r.start!());
 
-// this flag here is very sketchy - there must be a better way to do this
-let listening = false;
-// poll for voice connection so we can capture voice to speech-to-text
-cron.schedule("*/1 * * * * *", () => {
-  const connection = getVoiceConnection(constants.guildIds.BEST_DOTA);
-  if (connection && !listening) {
-    listening = true;
-    connection?.receiver.speaking.on("start", (memberId) => {
-      stt
-        .transcribe(connection.receiver, memberId)
-        .then((utterance) => {
-          if (!utterance) return;
-
-          if (memberId === constants.memberIds.CANNA) {
-            winston.verbose(utterance);
-          }
-
-          rules
-            .filter((r) => r.utterance)
-            .map((r) => r.utterance!(utterance, memberId));
-        })
-        .catch(() => {});
-    });
-  }
-  if (!connection && listening) {
-    listening = false;
-  }
+  cron.schedule("*/1 * * * * *", () => {
+    rules.filter((r) => r.tick).forEach((r) => r.tick!());
+  });
 });
 
 // Register slash commands
