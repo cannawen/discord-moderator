@@ -2,9 +2,9 @@ import {
   findMember,
   findMemberVoiceChannelId,
   moveToVoiceChannel,
-} from "../helpers";
-import constants from "../constants";
-import Rule from "../Rule";
+} from "../../helpers";
+import constants from "../../constants";
+import Rule from "../../Rule";
 import winston from "winston";
 
 export default new Rule({

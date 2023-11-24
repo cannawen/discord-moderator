@@ -92,7 +92,7 @@ export default [
   new Rule({
     description: "disable knocking on mass migration",
     utterance: (utterance) => {
-      if (utterance.match(/^take (me|us) to .*$/i)) {
+      if (utterance.match(/^take .{2,10} to .*$/i)) {
         knockingEnabled = false;
         setTimeout(() => {
           knockingEnabled = true;

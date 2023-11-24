@@ -1,6 +1,6 @@
-import constants from "../constants";
-import { findMember } from "../helpers";
-import Rule from "../Rule";
+import constants from "../../constants";
+import { findMember } from "../../helpers";
+import Rule from "../../Rule";
 import winston from "winston";
 
 const TIMEOUT_DURATION_IN_MS = 2 * 60 * 1000;

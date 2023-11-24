@@ -1,6 +1,6 @@
-import { findMember, playAudio } from "../helpers";
-import obsClient from "../obsClient";
-import Rule from "../Rule";
+import { findMember, playAudio } from "../../helpers";
+import obsClient from "../../obsClient";
+import Rule from "../../Rule";
 import winston from "winston";
 
 export default new Rule({

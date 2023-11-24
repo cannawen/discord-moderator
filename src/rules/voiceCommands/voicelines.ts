@@ -1,5 +1,5 @@
-import { findMember, playAudio } from "../helpers";
-import Rule from "../Rule";
+import { findMember, playAudio } from "../../helpers";
+import Rule from "../../Rule";
 import winston from "winston";
 
 function chooseRandomFromArray(array: string[]) {

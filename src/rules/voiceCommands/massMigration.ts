@@ -4,10 +4,10 @@ import {
   findMemberVoiceChannelId,
   findVoiceChannel,
   moveToVoiceChannel,
-} from "../helpers";
-import constants from "../constants";
+} from "../../helpers";
+import constants from "../../constants";
 import { PermissionsBitField } from "discord.js";
-import Rule from "../Rule";
+import Rule from "../../Rule";
 import winston from "winston";
 
 function bringFromChannelToChannel(

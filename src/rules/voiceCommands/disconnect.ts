@@ -1,7 +1,7 @@
-import constants from "../constants";
-import { findMember } from "../helpers";
+import constants from "../../constants";
+import { findMember } from "../../helpers";
 import https from "https";
-import Rule from "../Rule";
+import Rule from "../../Rule";
 import winston from "winston";
 
 export default new Rule({

@@ -1,7 +1,7 @@
-import constants from "../constants";
-import obsClient from "../obsClient";
-import { playAudio } from "../helpers";
-import Rule from "../Rule";
+import constants from "../../constants";
+import obsClient from "../../obsClient";
+import { playAudio } from "../../helpers";
+import Rule from "../../Rule";
 import winston from "winston";
 
 export default new Rule({

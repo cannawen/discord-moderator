@@ -2,8 +2,8 @@ import fs from "fs";
 import path from "path";
 import Rule from "./Rule";
 
-function getRules(): Rule[] {
-  const dirPath = path.join(__dirname, "rules");
+function getRulesInDirectory(directory: string): Rule[] {
+  const dirPath = path.join(__dirname, directory);
   return (
     fs
       .readdirSync(dirPath)
@@ -24,4 +24,7 @@ function getRules(): Rule[] {
   );
 }
 
-export const rules = getRules();
+export const rules = [
+  ...getRulesInDirectory("rules"),
+  ...getRulesInDirectory("rules/voiceCommands"),
+];

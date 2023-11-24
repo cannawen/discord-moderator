@@ -1,5 +1,5 @@
-import { disableAudioForAnHour, enableAudio, playAudio } from "../helpers";
-import Rule from "../Rule";
+import { disableAudioForAnHour, enableAudio, playAudio } from "../../helpers";
+import Rule from "../../Rule";
 
 export default new Rule({
   description: "disable audio for an hour",
