@@ -10,9 +10,8 @@
 
 ### Member movement
 
-- `Take me to general` moves members from the current voice channel to `General`
-- `Take me to (real) secrets` moves members to the locked channel(s) (Protected command)
-- `Take us to general/secrets` moves all members connected to any voice channel
+- `Take me to <channel>` moves members from the current voice channel to `<channel>`
+- `Take us to <channel>` moves all members connected to any voice channel
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
 - `Come in`, `Enter`, or `Allow` joins a member to the secret channel after knocking

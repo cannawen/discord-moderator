@@ -14,6 +14,8 @@ function bringFromChannelToChannel(
   fromChannelId: string | undefined | null,
   toChannelId: string
 ) {
+  if (fromChannelId === toChannelId) return;
+
   winston.info(
     `Move - ${
       fromChannelId ? findVoiceChannel(fromChannelId).name : "everyone"
@@ -49,19 +51,23 @@ export default new Rule({
       fromChannel = findMemberVoiceChannelId(memberId);
     }
 
+    if (utterance.match(/to (dota 2|chaos)$/i)) {
+      toChannel = constants.channelIds.DOTA_2;
+    }
+
     if (utterance.match(/to general$/i)) {
       toChannel = constants.channelIds.GENERAL;
     }
 
     if (
-      utterance.match(/to secrets?$/i) &&
+      utterance.match(/to (secrets?|focus)$/i) &&
       hasPermission(memberId, constants.channelIds.SECRETS)
     ) {
       toChannel = constants.channelIds.SECRETS;
     }
 
     if (
-      utterance.match(/to real secrets?$/i) &&
+      utterance.match(/to (real secrets?|hiding)$/i) &&
       hasPermission(memberId, constants.channelIds.REAL_SECRETS)
     ) {
       toChannel = constants.channelIds.REAL_SECRETS;
