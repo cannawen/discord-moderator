@@ -10,8 +10,8 @@
 
 ### Member movement
 
-- `Take me to <channel>` moves members from the current voice channel to `<channel>`
-- `Take us to <channel>` moves all members connected to any voice channel
+- `Take me/us to <channel>` moves members from the current voice channel to `<channel>`
+- `Take everyone/everybody to <channel>` moves all members connected to any voice channel
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
 - `Come in`, `Enter`, or `Allow` joins a member to the secret channel after knocking

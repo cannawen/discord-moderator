@@ -47,27 +47,27 @@ export default new Rule({
     let fromChannel: string | undefined | null;
     let toChannel: string | undefined;
 
-    if (utterance.match(/^take me/i)) {
+    if (utterance.match(/^take (me|us)/i)) {
       fromChannel = findMemberVoiceChannelId(memberId);
     }
 
-    if (utterance.match(/to (dota 2|chaos)$/i)) {
+    if (utterance.match(/^take .{2,10} to (dota 2|chaos)$/i)) {
       toChannel = constants.channelIds.DOTA_2;
     }
 
-    if (utterance.match(/to general$/i)) {
+    if (utterance.match(/^take .{2,10} to general$/i)) {
       toChannel = constants.channelIds.GENERAL;
     }
 
     if (
-      utterance.match(/to (secrets?|focus)$/i) &&
+      utterance.match(/^take .{2,10} to (secrets?|focus)$/i) &&
       hasPermission(memberId, constants.channelIds.SECRETS)
     ) {
       toChannel = constants.channelIds.SECRETS;
     }
 
     if (
-      utterance.match(/to (real secrets?|hiding)$/i) &&
+      utterance.match(/^take .{2,10} to (real secrets?|hiding)$/i) &&
       hasPermission(memberId, constants.channelIds.REAL_SECRETS)
     ) {
       toChannel = constants.channelIds.REAL_SECRETS;
