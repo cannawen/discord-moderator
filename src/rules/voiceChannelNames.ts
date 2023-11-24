@@ -1,6 +1,7 @@
 import { findMemberVoiceChannelId, findVoiceChannel } from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
+import winston from "winston";
 
 function wrabbitChannel() {
   return findMemberVoiceChannelId(constants.memberIds.WRABBIT);
@@ -16,6 +17,7 @@ function wrabbitAndTargetInSameChannel() {
 function updateChannelName(channelId: string, newName: string) {
   const channel = findVoiceChannel(channelId);
   if (channel.name !== newName) {
+    winston.info(`Rename - ${channel.name} to ${newName}`);
     channel.setName(newName);
   }
 }
