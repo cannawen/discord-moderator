@@ -25,6 +25,7 @@ export default {
 
     CLIPS: process.env.CHANNEL_ID_CLIPS!,
     LOGS: process.env.CHANNEL_ID_LOGS!,
+    CANNA_LOGS: process.env.CHANNEL_ID_CANNA_LOGS!,
   },
   roleIds: {
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
