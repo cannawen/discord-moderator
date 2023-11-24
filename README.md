@@ -4,11 +4,11 @@
 
 ---
 
-## Voice commands
+# Voice commands
 
-`canna-bot` automatically joins Best Dota guild's voice channels (prioritizing Canna's channel)
+`canna-bot` automatically joins Best Dota guild's voice channels if they are in use. The bot prioritizes Canna's channel if there are multiple occupied channels
 
-### Member movement
+## Member movement
 
 - `Take me/us to <channel>` moves members from the current voice channel to `<channel>`
 - `Take everyone/everybody to <channel>` moves all members connected to any voice channel
@@ -18,22 +18,22 @@
 - `Come in`, `Enter`, or `Allow` joins a member to a protected channel after knocking
 - `No thank you`, `No thanks`, or `Disallow` does not join them
 
-### Clips
+## Clips
 
 - `Snapshot` records the last couple minutes of Canna's screen via OBS (saved onto a local machine)
-- `Reconnect` tries to reconnect to OBS (protected command)
+- `Reconnect` tries to reconnect to Canna's OBS (protected command)
 
-### Other
+## Other
 
-- `Mute JP` server mutes jproperly for 2 minutes (Protected command)
+- [Plays voicelines](src/rules/voiceCommands/voicelines.ts) (all voicelines prepended with `voiceline` or `soundboard` trigger)
 - `Disable audio` stops the bot from playing any audio for 1 hour (or until the bot leaves/rejoins), and `Enable audio` allows the bot to play audio again
-- See [here](src/rules/voiceCommands/voicelines.ts) for voiceline triggers (prepended with `voiceline` or `soundboard`)
+- `Mute JP` server mutes jproperly for 2 minutes (protected command)
 
 ---
 
-## What else does the bot do?
+# What else does the bot do?
 
 - `/clip` allows anyone to post to the #clips channel
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname every two weeks on a 6-week cycle depending on which shift he is working
-- When wrabbit and Target are in the same voice channel, rename it `Home` (NOTE: discord rate limit of 2x/10 minutes)
+- When wrabbit and Target are in the same voice channel, rename it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)
