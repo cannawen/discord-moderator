@@ -6,8 +6,13 @@ function chooseRandomFromArray(array: string[]) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-const TRIGGER_PHRASE =
-  "(sound ?board|voice ?lines?|priceline|boyfriend|first line)";
+const TRIGGER_PHRASES = [
+  "sound ?board",
+  "voice ?lines?",
+  "priceline",
+  "boyfreind",
+  "first line",
+].join("|");
 
 // ["file name" or ["array", "of file names"], "regex that triggers the voiceline (optional - if different than file name)"]
 export default [
@@ -31,7 +36,10 @@ export default [
 
         if (
           utterance.match(
-            new RegExp(`^${TRIGGER_PHRASE} (${regexString || fileName})$`, "i")
+            new RegExp(
+              `^(${TRIGGER_PHRASES}) (${regexString || fileName})$`,
+              "i"
+            )
           )
         ) {
           winston.info(
