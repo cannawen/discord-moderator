@@ -10,7 +10,7 @@ const TRIGGER_PHRASES = [
   "sound ?board",
   "voice ?lines?",
   "priceline",
-  "boyfreind",
+  "boyfriend",
   "first line",
 ].join("|");
 
