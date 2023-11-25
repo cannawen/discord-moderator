@@ -21,6 +21,7 @@ export default [
   ["player"],
   [["egg-canna", "egg-spearit"], "eggs?"],
   ["bash", "bash|bosch|back"],
+  ["pretty"],
 ].map(
   ([fileNameOrNames, regexString]) =>
     new Rule({
