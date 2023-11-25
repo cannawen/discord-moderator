@@ -46,9 +46,11 @@ export default [
           memberRequestingToJoin = newVoiceState.member?.id;
 
           setTimeout(() => {
+            if (memberRequestingToJoin) {
             winston.info(`Move - ${displayName} request timed out`);
             memberRequestingToJoin = undefined;
-          }, 2 * 60 * 1000);
+            }
+          }, 60 * 1000);
 
           playAudio("knock.mp3");
           playAudio(displayName, 500);
