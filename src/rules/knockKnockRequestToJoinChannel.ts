@@ -47,8 +47,8 @@ export default [
 
           setTimeout(() => {
             if (memberRequestingToJoin) {
-            winston.info(`Move - ${displayName} request timed out`);
-            memberRequestingToJoin = undefined;
+              winston.info(`Move - ${displayName} request timed out`);
+              memberRequestingToJoin = undefined;
             }
           }, 60 * 1000);
 
@@ -87,7 +87,7 @@ export default [
   new Rule({
     description: "disable knocking on mass migration",
     utterance: (utterance) => {
-      if (utterance.match(/^take .{2,10} to .*$/i)) {
+      if (utterance.match(/^take .{2,10} to .{1,20}$/i)) {
         knockingEnabled = false;
         setTimeout(() => {
           knockingEnabled = true;
