@@ -40,20 +40,18 @@ export default [
           ) &&
           !isSecretChannel(newVoiceState.channelId)
         ) {
-          const displayName = newVoiceState.member?.displayName;
-
+          const displayName = newVoiceState.member?.displayName!;
           winston.info(`Move - ${displayName} requesting to join secrets`);
 
           memberRequestingToJoin = newVoiceState.member?.id;
+
           setTimeout(() => {
+            winston.info(`Move - ${displayName} request timed out`);
             memberRequestingToJoin = undefined;
           }, 2 * 60 * 1000);
 
           playAudio("knock.mp3");
-
-          if (displayName) {
-            playAudio(displayName, 500);
-          }
+          playAudio(displayName, 500);
         }
       });
     },
