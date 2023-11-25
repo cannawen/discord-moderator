@@ -1,11 +1,12 @@
 import {
   enableAudio,
   findGuild,
+  findMember,
   findMemberVoiceChannelId,
   findVoiceChannel,
 } from "../helpers";
-import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import constants from "../constants";
+import { joinVoiceChannel } from "@discordjs/voice";
 import Rule from "../Rule";
 import winston from "winston";
 
@@ -62,7 +63,8 @@ export default new Rule({
           member.id !== constants.memberIds.DOTA_COACH
       ).size === 0
     ) {
-      getVoiceConnection(constants.guildIds.BEST_DOTA)?.destroy();
+      findMember(constants.memberIds.CANNA_BOT).voice.disconnect();
+
       winston.info(
         `Bot ---------- disconnect ---------- ${
           findVoiceChannel(botChannel).name
