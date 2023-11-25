@@ -79,6 +79,7 @@ export default [
       if (utterance.match(/^(no thank you|no thanks|disallow)$/i)) {
         winston.info(`Move - ${requester} rejected (${speaker})`);
         memberRequestingToJoin = undefined;
+        playAudio("success.mp3");
       }
     },
   }),
