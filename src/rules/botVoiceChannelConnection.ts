@@ -29,30 +29,20 @@ function joinBotToChannel(channelId: string | null | undefined) {
   }
 }
 
-function randomOccupiedVoiceChannelId(): string | undefined {
-  return [
-    ...findGuild().members.cache.reduce((memo, member) => {
-      if (member.voice.channelId) {
-        memo.add(member.voice.channelId);
-      }
-      return memo;
-    }, new Set<string>()),
-  ][0];
-}
-
 export default new Rule({
   description: "on tick, manage bot connection to voice channel",
   tick: () => {
     const cannaChannel = findMemberVoiceChannelId(constants.memberIds.CANNA);
+    const teazyChannel = findMemberVoiceChannelId(constants.memberIds.TEAZY);
     const botChannel = findMemberVoiceChannelId(constants.memberIds.CANNA_BOT);
 
     // connect to canna channel
     if (cannaChannel) {
       joinBotToChannel(cannaChannel);
     }
-    // connect to random occupied channel
-    else if (!botChannel) {
-      joinBotToChannel(randomOccupiedVoiceChannelId());
+    // connect to teazy channel
+    else if (teazyChannel) {
+      joinBotToChannel(teazyChannel);
     }
     // disconnect if the bot is currently connected and there are only bots in the channel
     else if (

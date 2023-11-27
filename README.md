@@ -1,12 +1,12 @@
 # discord-moderator
 
+`canna-bot` automatically joins Cannd or Teazy's voice channels
+
 [Link to add bot](https://discord.com/api/oauth2/authorize?client_id=1062766623578148945&permissions=8&scope=bot) (values are currently hard coded to Best Dota server only - will not work with any other discord servers)
 
 ---
 
 # Voice commands
-
-`canna-bot` automatically joins Best Dota guild's voice channels if they are in use. The bot prioritizes Canna's channel if there are multiple occupied channels
 
 ## Member movement
 
@@ -36,4 +36,4 @@
 - `/clip` allows anyone to post to the #clips channel
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname every two weeks on a 6-week cycle depending on which shift he is working
-- When wrabbit and Target are in the same voice channel, rename it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)
+- When wrabbit and Target are in the same voice channel, renames it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)
