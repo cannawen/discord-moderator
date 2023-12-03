@@ -40,7 +40,7 @@ function hasPermission(memberId: string, channel: string) {
 
 export default new Rule({
   description:
-    '"take me to <channel>" moves members in the current channel to <channel>. "take us to <channel>" moves all members connected to any voice channel',
+    '"take me/us to <channel>" moves members in the current channel to <channel>. "take everybody/everyone to <channel>" moves all members connected to any voice channel',
   utterance: (utterance, memberId) => {
     const member = findMember(memberId).displayName;
 
