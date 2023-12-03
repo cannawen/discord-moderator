@@ -17,7 +17,9 @@ function joinBotToChannel(channelId: string | null | undefined) {
   ) {
     enableAudio();
     winston.info(
-      `Bot ---------- connect ---------- ${findVoiceChannel(channelId).name}`
+      `Bot ---------- connect ----------------------- ${
+        findVoiceChannel(channelId).name
+      }`
     );
     joinVoiceChannel({
       adapterCreator: findGuild().voiceAdapterCreator,
@@ -56,7 +58,7 @@ export default new Rule({
       findMember(constants.memberIds.CANNA_BOT).voice.disconnect();
 
       winston.info(
-        `Bot ---------- disconnect ---------- ${
+        `Bot -------------------- disconnect ---------- ${
           findVoiceChannel(botChannel).name
         }`
       );
