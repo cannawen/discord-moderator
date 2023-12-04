@@ -70,18 +70,15 @@ export default new Rule({
   start: () => {
     cron.schedule("0 0 * * *", () => {
       const today = new Date();
-      const shiftChangeTime = new Date(2023, 12, 4, 0, 0, 0, 0).getTime();
 
-      if (today.getTime() > shiftChangeTime) {
-        const drabz = findMember(constants.memberIds.DRABZ);
-        const drabzNewNickname = drabzNicknameString(today);
+      const drabz = findMember(constants.memberIds.DRABZ);
+      const drabzNewNickname = drabzNicknameString(today);
 
-        if (drabz.nickname !== drabzNewNickname) {
-          winston.info(
-            `Nickname - update ${drabz.nickname} to ${drabzNewNickname}`
-          );
-          drabz.edit({ nick: drabzNewNickname });
-        }
+      if (drabz.nickname !== drabzNewNickname) {
+        winston.info(
+          `Nickname - update ${drabz.nickname} to ${drabzNewNickname}`
+        );
+        drabz.edit({ nick: drabzNewNickname });
       }
     });
   },
