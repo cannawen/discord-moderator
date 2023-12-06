@@ -5,7 +5,7 @@ import Holidays from "date-holidays";
 import Rule from "../Rule";
 import winston from "winston";
 
-const NIGHT_ANCHOR = new Date(2023, 11, 20, 0, 0, 0, 0);
+const NIGHT_ANCHOR = new Date(2023, 10, 20, 0, 0, 0, 0);
 const SIX_WEEKS_IN_MS = 6 * 7 * 24 * 60 * 60 * 1000;
 
 function isWeekend(date: Date) {
