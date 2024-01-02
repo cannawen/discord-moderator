@@ -22,10 +22,12 @@ export default {
     SECRETS: process.env.CHANNEL_ID_SECRETS!,
     REAL_SECRETS: process.env.CHANNEL_ID_REAL_SECRETS!,
     TIMEOUT: process.env.CHANNEL_ID_TIMEOUT!,
-
     CLIPS: process.env.CHANNEL_ID_CLIPS!,
     LOGS: process.env.CHANNEL_ID_LOGS!,
     CANNA_LOGS: process.env.CHANNEL_ID_CANNA_LOGS!,
+    LOBBY: process.env.CHANNEL_ID_LOBBY!,
+    RADIANT: process.env.CHANNEL_ID_RADIANT!,
+    DIRE: process.env.CHANNEL_ID_DIRE!,
   },
   roleIds: {
     EVERYONE_EXCEPT_DRABZ: process.env.ROLE_ID_EVERYONE_EXCEPT_DRABZ!,
