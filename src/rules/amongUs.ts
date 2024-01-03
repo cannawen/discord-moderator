@@ -22,10 +22,10 @@ export default new Rule({
       radiantImposter?.send("YOU ARE THE IMPOSTER! You work for Team Dire.");
 
       direMembers.map((m) =>
-        m.send(`Radiant imposter is: ${radiantImposter?.displayName}`)
+        m.send(`The other team's imposter is: ${radiantImposter?.displayName}`)
       );
       radiantMembers.map((m) =>
-        m.send(`Dire imposter is: ${direImposter?.displayName}`)
+        m.send(`The other team's imposter is: ${direImposter?.displayName}`)
       );
 
       winston.info(
