@@ -1,20 +1,25 @@
-# Dota 2 x Among Us
+# `Dota 2 x Among Us` Game Mode
 
-There is an imposter among us.
+There is an imposter among us
 
 ## Rules
 
-- Regular 5v5 game mode of Dota 2 (possibly All Random or Single Draft)
+- Regular 5v5 game of Dota 2 (possibly All Random or Single Draft)
+- No one is allowed to send game-related private messages to the members on the opposite team
 - Each team will have an imposter who wins if the other team wins
-- Each team will know who their secret agent is on the other side
-- The imposter may try to grief their team and make them lose
-- The imposter cannot send private communications to anyone on the opposite team
-- When the game ends, the losing team will have a chance to vote on who they think their imposter is
-- If they guess correctly, the losing team wins
+- Each team will know who the other team's imposter is, but they will not know who the imposter is on their own team
+- The imposter may try to grief their team to make them lose
+- When the game ends, the losing team will have a chance to vote on who their team's imposter is
+- If 3 or more people correctly identify the imposter, the losing team wins
 
 ## Setup
 
 - Games to be held on [Best Dota](https://discord.gg/sxfX6p72xS) discord server
-- Participants must be split into `Radiant` or `Dire` voice channels
+- Participants must be split into `Radiant` or `Dire` voice channels before the game starts
 - The game begins on trigger phrase `There is an imposter among us`
-- Each participant will get a message stating who their secret agent is, and if they have been assigned the imposter role.
+- One imposter will be randomly selected from each team, and notified that they work for the other team
+- Every participant will get a private discord message stating who the imposter is on the other team
+
+## Feedback
+
+- Let `canna` know if you think there should be any change in the rules (or if the game is even fun)

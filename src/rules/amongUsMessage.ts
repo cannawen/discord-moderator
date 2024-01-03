@@ -20,10 +20,10 @@ export default new Rule({
       radiantImposter?.send("YOU ARE THE IMPOSTER! You work for Team Dire.");
 
       direMembers.map((m) =>
-        m.send(`Dire secret agent is: ${radiantImposter?.nickname}`)
+        m.send(`Radiant imposter is: ${radiantImposter?.nickname}`)
       );
       radiantMembers.map((m) =>
-        m.send(`Radiant secret agent is: ${direImposter?.nickname}`)
+        m.send(`Dire imposter is: ${direImposter?.nickname}`)
       );
 
       winston.info(
