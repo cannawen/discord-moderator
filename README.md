@@ -24,7 +24,7 @@
   - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
   - `Cancel`, `Stop`, or `Done` stops in-house splitting mode
 - `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
-- `There is an imposter among us` chooses one radiant imposter and one dire imposter, and sends a discord message to everyone
+- `There is an imposter among us` triggers [Dota 2 x Among Us](./AmongUs.md) game mode
 
 ## Clips
 
