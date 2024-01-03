@@ -1,5 +1,6 @@
 import {
   enableAudio,
+  filterBots,
   findGuild,
   findMember,
   findMemberVoiceChannelId,
@@ -49,11 +50,7 @@ export default new Rule({
     // disconnect if the bot is currently connected and there are only bots in the channel
     else if (
       botChannel &&
-      findVoiceChannel(botChannel).members.filter(
-        (member) =>
-          member.id !== constants.memberIds.CANNA_BOT &&
-          member.id !== constants.memberIds.DOTA_COACH
-      ).size === 0
+      filterBots(findVoiceChannel(botChannel).members).size === 0
     ) {
       findMember(constants.memberIds.CANNA_BOT).voice.disconnect();
 

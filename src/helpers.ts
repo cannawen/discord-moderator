@@ -99,6 +99,14 @@ export function fetchMessage(channelId: string, messageId: string) {
   return (findChannel(channelId) as TextChannel).messages.fetch(messageId);
 }
 
+export function filterBots(members: Collection<string, GuildMember>) {
+  return members.filter(
+    (member) =>
+      member.id !== constants.memberIds.CANNA_BOT &&
+      member.id !== constants.memberIds.DOTA_COACH
+  );
+}
+
 export function moveToVoiceChannel(
   member: string | GuildMember | Collection<string, GuildMember>,
   channelId: string
