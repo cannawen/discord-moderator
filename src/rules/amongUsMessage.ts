@@ -7,7 +7,7 @@ export default new Rule({
   description:
     "dota 2 x among us mode: assign imposters and inform teams who their secret agents are",
   utterance: (utterance) => {
-    if (utterance.match(/^there is an imposter among us$/i)) {
+    if (utterance.match(/^(there is|there's) an imposter among us$/i)) {
       const direMembers = filterBots(
         findVoiceChannel(constants.channelIds.DIRE).members
       );
