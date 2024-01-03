@@ -1,4 +1,4 @@
-import { findVoiceChannel, moveToVoiceChannel } from "../helpers";
+import { filterBots, findVoiceChannel } from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
 import winston from "winston";
@@ -8,10 +8,12 @@ export default new Rule({
     "dota 2 x among us mode: assign imposters and inform teams who their secret agents are",
   utterance: (utterance) => {
     if (utterance.match(/^there is an imposter among us$/i)) {
-      const direMembers = findVoiceChannel(constants.channelIds.DIRE).members;
-      const radiantMembers = findVoiceChannel(
-        constants.channelIds.RADIANT
-      ).members;
+      const direMembers = filterBots(
+        findVoiceChannel(constants.channelIds.DIRE).members
+      );
+      const radiantMembers = filterBots(
+        findVoiceChannel(constants.channelIds.RADIANT).members
+      );
 
       const direImposter = direMembers.random();
       const radiantImposter = radiantMembers.random();
@@ -20,14 +22,14 @@ export default new Rule({
       radiantImposter?.send("YOU ARE THE IMPOSTER! You work for Team Dire.");
 
       direMembers.map((m) =>
-        m.send(`Radiant imposter is: ${radiantImposter?.nickname}`)
+        m.send(`Radiant imposter is: ${radiantImposter?.displayName}`)
       );
       radiantMembers.map((m) =>
-        m.send(`Dire imposter is: ${direImposter?.nickname}`)
+        m.send(`Dire imposter is: ${direImposter?.displayName}`)
       );
 
       winston.info(
-        `In house - Among us. Radiant imposter: ||${radiantImposter?.nickname}||. Dire imposter: ||${direImposter?.nickname}||`
+        `In house - Among us. Radiant imposter: ||${radiantImposter?.displayName}||. Dire imposter: ||${direImposter?.displayName}||`
       );
     }
   },
