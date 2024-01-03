@@ -9,12 +9,17 @@ export default {
     BEST_DOTA: process.env.GUILD_ID_BEST_DOTA!,
   },
   channelNames: {
-    DOTA_2: "mode: chaos",
     HOME: "Home <3",
+
     GENERAL: "General",
+    DOTA_2: "mode: chaos",
     SECRETS: "mode: focus",
     REAL_SECRETS: "mode: hiding",
     TIMEOUT: "mode: shh",
+
+    LOBBY: "Lobby",
+    RADIANT: "Radiant",
+    DIRE: "Dire",
   },
   channelIds: {
     DOTA_2: process.env.CHANNEL_ID_DOTA_2!,

@@ -49,6 +49,15 @@ export default new Rule({
         constants.channelIds.TIMEOUT,
         constants.channelNames.TIMEOUT
       );
+      updateChannelName(
+        constants.channelIds.LOBBY,
+        constants.channelNames.LOBBY
+      );
+      updateChannelName(
+        constants.channelIds.RADIANT,
+        constants.channelNames.RADIANT
+      );
+      updateChannelName(constants.channelIds.DIRE, constants.channelNames.DIRE);
     }
   },
 });
