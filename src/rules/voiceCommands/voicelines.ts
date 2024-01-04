@@ -22,6 +22,7 @@ export default [
   [["egg-canna", "egg-spearit"], "eggs?"],
   ["bash", "bash|bosch|back"],
   ["pretty"],
+  [["hk-canna", "hk-crash"], "hk"],
 ].map(
   ([fileNameOrNames, regexString]) =>
     new Rule({
