@@ -24,10 +24,11 @@
   - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
   - `Cancel`, `Stop`, or `Done` stops in-house splitting mode
 - `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
-- `There is an imposter among us` triggers [Dota 2 x Among Us](./AmongUs.md) game mode
+- `There is an imposter among us` or `/amongus` slash command triggers [Dota 2 x Among Us](./AmongUs.md) game mode
 
 ## Clips
 
+- `/clip` allows anyone to post to the #clips channel
 - `Snapshot` records the last couple minutes of Canna's screen via OBS (saved onto a local machine)
 - `Reconnect` tries to reconnect to Canna's OBS (protected command)
 
@@ -41,7 +42,6 @@
 
 # What else does the bot do?
 
-- `/clip` allows anyone to post to the #clips channel
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname every two weeks on a 6-week cycle depending on which shift he is working
 - When wrabbit and Target are in the same voice channel, renames it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)

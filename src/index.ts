@@ -58,6 +58,9 @@ discord.once(Events.ClientReady, (c) => {
                 option.setName("matchid").setDescription("match id")
               )
               .setDescription("Post a clip"),
+            new SlashCommandBuilder()
+              .setName("amongus")
+              .setDescription("Start the Dota 2 x Among Us game mode"),
           ],
         }
       );
@@ -119,6 +122,22 @@ discord.on(Events.InteractionCreate, (interaction) => {
         });
       }
 
+      break;
+    case "amongus":
+      {
+        rules.forEach((r) => {
+          if (r.utterance) {
+            r.utterance(
+              "there is an imposter amomg us",
+              constants.memberIds.CANNA_BOT
+            );
+          }
+        });
+        interaction.reply({
+          content: "`Dota 2 x Among Us` game mode activated",
+          ephemeral: true,
+        });
+      }
       break;
     default:
       break;

@@ -16,9 +16,9 @@ There is an imposter among us
 
 - Games to be held on [Best Dota](https://discord.gg/sxfX6p72xS) discord server
 - Participants must be split into `Radiant` or `Dire` voice channels before the game starts
-- The game begins on trigger phrase `There is an imposter among us`
-- One imposter will be randomly selected from each team, and notified that they work for the other team
-- Every participant will get a private discord message stating who the imposter is on the other team
+- The game begins on trigger phrase `There is an imposter among us` or slash command `/amongus`
+- One imposter will be randomly selected from each team, and receive a private discord message informing them that they work for the other team
+- Every participant will receive a message stating who the imposter is on the other team
 
 ## Feedback
 
