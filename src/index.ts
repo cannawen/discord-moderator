@@ -128,7 +128,7 @@ discord.on(Events.InteractionCreate, (interaction) => {
         rules.forEach((r) => {
           if (r.utterance) {
             r.utterance(
-              "there is an imposter amomg us",
+              "there is an imposter among us",
               constants.memberIds.CANNA_BOT
             );
           }
