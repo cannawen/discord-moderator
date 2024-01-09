@@ -13,7 +13,7 @@ export default [
 
       if (cannaChannel) {
         obsClient.connectCanna().catch(() => {
-          playAudio("Canna OBS not connected on restart", 3000);
+          // playAudio("Canna OBS not connected on restart", 3000);
         });
       }
     },
@@ -28,9 +28,9 @@ export default [
           !oldVoiceState.channelId &&
           newVoiceState.channelId
         ) {
-          obsClient
-            .connectCanna()
-            .catch(() => playAudio("Canna OBS not connected", 3000));
+          obsClient.connectCanna().catch(() => {
+            // playAudio("Canna OBS not connected", 3000)
+          });
         }
       });
     },
@@ -45,7 +45,7 @@ export default [
           newVoiceState.member?.id === constants.memberIds.CANNA &&
           !newVoiceState.channelId
         ) {
-          //disconnect OBS
+          // disconnect OBS
           obsClient.disconnectCanna();
         }
       });

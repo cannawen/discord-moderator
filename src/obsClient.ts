@@ -18,6 +18,7 @@ function connectCanna() {
       })
       .catch((e) => {
         winston.error("OBS - Canna Game - not connected");
+        winston.error(e);
         throw e;
       }),
     obsStreamCanna
@@ -30,6 +31,7 @@ function connectCanna() {
       })
       .catch((e) => {
         winston.error("OBS - Canna Stream - not connected");
+        winston.error(e);
         throw e;
       }),
   ]);
