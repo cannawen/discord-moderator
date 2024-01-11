@@ -55,4 +55,7 @@ export default {
     CANNA_GAME_SERVER: process.env.OBS_SERVER_CANNA_GAME!,
     CANNA_GAME_SERVER_PASSWORD: process.env.OBS_SERVER_CANNA_GAME_PASSWORD!,
   },
+  openAi: {
+    CHATGPT_SECRET_KEY: process.env.CHATGPT_SECRET_KEY,
+  },
 };
