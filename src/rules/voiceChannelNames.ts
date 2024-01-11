@@ -29,32 +29,22 @@ export default new Rule({
     if (wrabbitAndTargetInSameChannel()) {
       updateChannelName(wrabbitChannel()!, constants.channelNames.HOME);
     } else {
-      updateChannelName(
-        constants.channelIds.GENERAL,
-        constants.channelNames.GENERAL
+      // These channel names MUST match keys in both channelIds and channelNames
+      [
+        "GENERAL",
+        "CHAOS",
+        "FOCUS",
+        "HIDING",
+        "SHH",
+        "LOBBY",
+        "RADIANT",
+        "DIRE",
+      ].map((channelKey) =>
+        updateChannelName(
+          constants.channelIds[channelKey as "GENERAL"],
+          constants.channelNames[channelKey as "GENERAL"]
+        )
       );
-      updateChannelName(
-        constants.channelIds.CHAOS,
-        constants.channelNames.CHAOS
-      );
-      updateChannelName(
-        constants.channelIds.FOCUS,
-        constants.channelNames.FOCUS
-      );
-      updateChannelName(
-        constants.channelIds.HIDING,
-        constants.channelNames.HIDING
-      );
-      updateChannelName(constants.channelIds.SHH, constants.channelNames.SHH);
-      updateChannelName(
-        constants.channelIds.LOBBY,
-        constants.channelNames.LOBBY
-      );
-      updateChannelName(
-        constants.channelIds.RADIANT,
-        constants.channelNames.RADIANT
-      );
-      updateChannelName(constants.channelIds.DIRE, constants.channelNames.DIRE);
     }
   },
 });
