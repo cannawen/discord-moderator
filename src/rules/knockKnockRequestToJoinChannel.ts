@@ -12,8 +12,8 @@ import winston from "winston";
 
 function isSecretChannel(channelId: string | undefined | null) {
   return (
-    channelId === constants.channelIds.SECRETS ||
-    channelId === constants.channelIds.REAL_SECRETS
+    channelId === constants.channelIds.FOCUS ||
+    channelId === constants.channelIds.HIDING
   );
 }
 

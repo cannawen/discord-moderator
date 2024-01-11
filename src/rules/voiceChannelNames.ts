@@ -34,21 +34,18 @@ export default new Rule({
         constants.channelNames.GENERAL
       );
       updateChannelName(
-        constants.channelIds.DOTA_2,
-        constants.channelNames.DOTA_2
+        constants.channelIds.CHAOS,
+        constants.channelNames.CHAOS
       );
       updateChannelName(
-        constants.channelIds.SECRETS,
-        constants.channelNames.SECRETS
+        constants.channelIds.FOCUS,
+        constants.channelNames.FOCUS
       );
       updateChannelName(
-        constants.channelIds.REAL_SECRETS,
-        constants.channelNames.REAL_SECRETS
+        constants.channelIds.HIDING,
+        constants.channelNames.HIDING
       );
-      updateChannelName(
-        constants.channelIds.TIMEOUT,
-        constants.channelNames.TIMEOUT
-      );
+      updateChannelName(constants.channelIds.SHH, constants.channelNames.SHH);
       updateChannelName(
         constants.channelIds.LOBBY,
         constants.channelNames.LOBBY

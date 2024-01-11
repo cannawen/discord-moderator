@@ -52,7 +52,7 @@ export default new Rule({
     }
 
     if (utterance.match(/^take .{2,10} to (dota 2|chaos)$/i)) {
-      toChannel = constants.channelIds.DOTA_2;
+      toChannel = constants.channelIds.CHAOS;
     }
 
     if (utterance.match(/^take .{2,10} to general$/i)) {
@@ -61,16 +61,16 @@ export default new Rule({
 
     if (
       utterance.match(/^take .{2,10} to (secrets?|focus)$/i) &&
-      hasPermission(memberId, constants.channelIds.SECRETS)
+      hasPermission(memberId, constants.channelIds.FOCUS)
     ) {
-      toChannel = constants.channelIds.SECRETS;
+      toChannel = constants.channelIds.FOCUS;
     }
 
     if (
       utterance.match(/^take .{2,10} to (real secrets?|hiding)$/i) &&
-      hasPermission(memberId, constants.channelIds.REAL_SECRETS)
+      hasPermission(memberId, constants.channelIds.HIDING)
     ) {
-      toChannel = constants.channelIds.REAL_SECRETS;
+      toChannel = constants.channelIds.HIDING;
     }
 
     if (toChannel) {
