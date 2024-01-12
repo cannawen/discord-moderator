@@ -31,7 +31,7 @@ export default new Rule({
   description: "listen for question and responds with answer",
   utterance: (utterance, memberId) => {
     const triggerMatch = utterance.match(
-      /^(okay|ok|hey|hay) (bot|but|bought)(.+)$/i
+      /^(okay|ok|hey|hay) (bot|but|bought)(.+)?$/i
     );
 
     if (triggerMatch) {
