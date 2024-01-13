@@ -6,18 +6,24 @@ import constants from "../../constants";
 
 let questioningMember: string | undefined;
 
-const openai = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
+const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
 function handleQuestion(question: string) {
   winston.info(`Question - ${question}`);
-  openai.chat.completions
+  openAi.chat.completions
     .create({
-      messages: [{ role: "user", content: question }],
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful assistant who answers questions in a short sentence",
+        },
+        { role: "user", content: question },
+      ],
       model: "gpt-3.5-turbo",
     })
     .then((completion) => {
       const answer = completion.choices[0].message.content;
-      winston.info(`Answer - ${answer}`);
       playAudio(answer ? answer : "error.mp3");
     })
     .catch((e) => {
