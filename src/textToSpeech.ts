@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import crypto from "crypto";
 import fs = require("fs");
 import path = require("path");
 import winston = require("winston");
@@ -9,7 +10,8 @@ if (!fs.existsSync(TTS_DIRECTORY)) {
 }
 
 function ttsPath(ttsString: string) {
-  return path.join(TTS_DIRECTORY, `${ttsString}.mp3`);
+  const hash = crypto.createHash("sha256").update(ttsString).digest("hex");
+  return path.join(TTS_DIRECTORY, `${hash}.mp3`);
 }
 
 function create(ttsString: string): Promise<AxiosResponse<any, any>> {
@@ -30,6 +32,8 @@ function create(ttsString: string): Promise<AxiosResponse<any, any>> {
     )
     .catch((error) => {
       winston.error(`unable to tts ${ttsString}`);
+      winston.error(error);
+      throw error;
     });
 }
 

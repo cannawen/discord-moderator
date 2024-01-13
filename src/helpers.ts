@@ -56,9 +56,12 @@ export function playAudio(input: string, msDelay: number = 0) {
       winston.info(`Audio - TTS - "${input}"`);
       subscription?.player.play(createAudioResource(ttsFile));
     } else {
-      tts.create(input).then(() => {
-        playAudio(input);
-      });
+      tts
+        .create(input)
+        .then(() => {
+          playAudio(input);
+        })
+        .catch(() => playAudio("error.mp3"));
     }
   }, msDelay);
 }
