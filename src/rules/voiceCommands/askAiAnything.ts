@@ -9,6 +9,7 @@ let questioningMember: string | undefined;
 const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
 function handleQuestion(question: string) {
+  if (question.length < 10) return;
   winston.info(`Question - ${question}`);
   openAi.chat.completions
     .create({
