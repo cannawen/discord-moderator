@@ -61,7 +61,11 @@ export function playAudio(input: string, msDelay: number = 0) {
         .then(() => {
           playAudio(input);
         })
-        .catch(() => playAudio("error.mp3"));
+        .catch((e) => {
+          winston.error(`Audio - TTS - "${input}"`);
+          winston.error(e);
+          playAudio("error.mp3");
+        });
     }
   }, msDelay);
 }
