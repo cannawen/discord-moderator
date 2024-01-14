@@ -5,19 +5,21 @@ import winston from "winston";
 import constants from "../../constants";
 
 let questioningMember: string | undefined;
+let dadJoke: boolean = false;
 
 const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
 function handleQuestion(question: string) {
   if (question.length < 10) return;
-  winston.info(`Question - ${question}`);
+  winston.info(`Question - ${question}${dadJoke ? " (dad joke)" : ""}`);
   openAi.chat.completions
     .create({
       messages: [
         {
           role: "system",
-          content:
-            "You are a helpful assistant who answers questions in one short sentence.",
+          content: dadJoke
+            ? "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible."
+            : "You are a helpful assistant who answers questions in one short sentence.",
         },
         { role: "user", content: question },
       ],
@@ -38,10 +40,12 @@ export default new Rule({
   description: "listen for question and responds with answer",
   utterance: (utterance, memberId) => {
     const triggerMatch = utterance.match(
-      /^(okay|ok|hey|hay) (bot|but|bought)(.+)?$/i
+      /^(okay|ok|hey|hay) (bot|but|bought|dad)(.+)?$/i
     );
 
     if (triggerMatch) {
+      dadJoke = triggerMatch[2].match(/dad/i) !== null;
+      console.log(triggerMatch[2], dadJoke);
       if (triggerMatch[3]) {
         handleQuestion(triggerMatch[3]);
       } else {

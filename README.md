@@ -17,7 +17,7 @@
 - `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
 - `Come in`, `Enter`, or `Allow` joins a member to a protected channel after knocking
 - `No thank you`, `No thanks`, or `Disallow` does not join them
-- `Hey/OK bot` asks OpenAI's ChatGPT a question
+- `Hey/OK bot` asks OpenAI's ChatGPT a question. `Hey/OK dad` responds with dad jokes.
 
 ### In-house
 
