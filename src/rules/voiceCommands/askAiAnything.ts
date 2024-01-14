@@ -4,22 +4,40 @@ import Rule from "../../Rule";
 import winston from "winston";
 import constants from "../../constants";
 
-let questioningMember: string | undefined;
-let dadJoke: boolean = false;
+enum BotPersonality {
+  DadJoke,
+  Helpful,
+}
+
+const BotPersonalityToBotSystemInstruction = new Map<BotPersonality, string>([
+  [
+    BotPersonality.DadJoke,
+    "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible.",
+  ],
+  [
+    BotPersonality.Helpful,
+    "You are a helpful assistant who answers questions in one short sentence.",
+  ],
+]);
+
+let state: { [key: string]: BotPersonality } = {};
 
 const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
-function handleQuestion(question: string) {
+function handleQuestion(question: string, memberId: string) {
   if (question.length < 10) return;
-  winston.info(`Question - ${question}${dadJoke ? " (dad joke)" : ""}`);
+  winston.info(
+    `Question - ${question}${
+      state[memberId] === BotPersonality.DadJoke ? " (dad joke)" : ""
+    }`
+  );
   openAi.chat.completions
     .create({
       messages: [
         {
           role: "system",
-          content: dadJoke
-            ? "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible."
-            : "You are a helpful assistant who answers questions in one short sentence.",
+          content:
+            BotPersonalityToBotSystemInstruction.get(state[memberId]) || "",
         },
         { role: "user", content: question },
       ],
@@ -34,49 +52,41 @@ function handleQuestion(question: string) {
       winston.error("Unable to answer question");
       winston.error(e);
     });
+  delete state[memberId];
 }
 
 export default [
   new Rule({
     description: "listen for question and responds with answer",
     utterance: (utterance, memberId) => {
-      const triggerMatch = utterance.match(
-        /^(okay|ok|hey|hay) (bot|but|bought|dad)(.+)?$/i
-      );
+      if (memberId in state) {
+        handleQuestion(utterance, memberId);
+      } else {
+        const triggerMatch = utterance.match(
+          /^(okay|ok|hey|hay) (?<personality>bot|but|bought|dad)(?<question>.+)?$/i
+        );
 
-      if (triggerMatch) {
-        dadJoke = triggerMatch[2].match(/dad/i) !== null;
-        if (triggerMatch[3]) {
-          handleQuestion(triggerMatch[3]);
-        } else {
-          // limitation:
-          // if two people say `OK Bot` one right after the other
-          // the bot will only answer the second person
-          questioningMember = memberId;
-          playAudio("success.mp3");
+        if (triggerMatch) {
+          const dadJoke =
+            triggerMatch.groups?.personality.match(/dad/i) !== null;
+          state[memberId] = dadJoke
+            ? BotPersonality.DadJoke
+            : BotPersonality.Helpful;
+
+          if (triggerMatch.groups?.question) {
+            handleQuestion(triggerMatch.groups.question, memberId);
+          } else {
+            playAudio("success.mp3");
+          }
         }
-        return;
-      }
-
-      // ideally this would be two rules so we don't need the early return
-      // but there is no guarentee what order the rules will be run in
-      // and it would be bad to have some weird race conditions since we
-      // are using a global variable to convey information (kinda sus)
-      if (questioningMember === memberId) {
-        handleQuestion(utterance);
-        questioningMember = undefined;
-        return;
       }
     },
   }),
   new Rule({
     description: "cancel asking question",
     utterance: (utterance, memberId) => {
-      if (
-        utterance.match(/^(stop|cancel)$/i) &&
-        questioningMember === memberId
-      ) {
-        questioningMember = undefined;
+      if (utterance.match(/^(stop|cancel)$/i)) {
+        delete state[memberId];
       }
     },
   }),
