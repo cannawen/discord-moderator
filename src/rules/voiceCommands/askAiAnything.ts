@@ -17,7 +17,7 @@ function handleQuestion(question: string) {
         {
           role: "system",
           content:
-            "You are a helpful assistant who answers questions in a short sentence",
+            "You are a helpful assistant who answers questions in one short sentence.",
         },
         { role: "user", content: question },
       ],
@@ -60,6 +60,11 @@ export default new Rule({
     // are using a global variable to convey information (kinda sus)
     if (questioningMember === memberId) {
       handleQuestion(utterance);
+      questioningMember = undefined;
+      return;
+    }
+
+    if (utterance.match(/^(stop|cancel)$/i)) {
       questioningMember = undefined;
       return;
     }
