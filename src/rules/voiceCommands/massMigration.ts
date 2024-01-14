@@ -51,7 +51,7 @@ export default new Rule({
       fromChannel = findMemberVoiceChannelId(memberId);
     }
 
-    if (utterance.match(/^take .{2,10} to (dota 2|chaos)$/i)) {
+    if (utterance.match(/^take .{2,10} to chaos$/i)) {
       toChannel = constants.channelIds.CHAOS;
     }
 
@@ -60,14 +60,14 @@ export default new Rule({
     }
 
     if (
-      utterance.match(/^take .{2,10} to (secrets?|focus)$/i) &&
+      utterance.match(/^take .{2,10} to focus$/i) &&
       hasPermission(memberId, constants.channelIds.FOCUS)
     ) {
       toChannel = constants.channelIds.FOCUS;
     }
 
     if (
-      utterance.match(/^take .{2,10} to (real secrets?|hiding)$/i) &&
+      utterance.match(/^take .{2,10} to hiding$/i) &&
       hasPermission(memberId, constants.channelIds.HIDING)
     ) {
       toChannel = constants.channelIds.HIDING;
