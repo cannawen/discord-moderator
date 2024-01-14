@@ -36,40 +36,48 @@ function handleQuestion(question: string) {
     });
 }
 
-export default new Rule({
-  description: "listen for question and responds with answer",
-  utterance: (utterance, memberId) => {
-    const triggerMatch = utterance.match(
-      /^(okay|ok|hey|hay) (bot|but|bought|dad)(.+)?$/i
-    );
+export default [
+  new Rule({
+    description: "listen for question and responds with answer",
+    utterance: (utterance, memberId) => {
+      const triggerMatch = utterance.match(
+        /^(okay|ok|hey|hay) (bot|but|bought|dad)(.+)?$/i
+      );
 
-    if (triggerMatch) {
-      dadJoke = triggerMatch[2].match(/dad/i) !== null;
-      if (triggerMatch[3]) {
-        handleQuestion(triggerMatch[3]);
-      } else {
-        // limitation:
-        // if two people say `OK Bot` one right after the other
-        // the bot will only answer the second person
-        questioningMember = memberId;
-        playAudio("success.mp3");
+      if (triggerMatch) {
+        dadJoke = triggerMatch[2].match(/dad/i) !== null;
+        if (triggerMatch[3]) {
+          handleQuestion(triggerMatch[3]);
+        } else {
+          // limitation:
+          // if two people say `OK Bot` one right after the other
+          // the bot will only answer the second person
+          questioningMember = memberId;
+          playAudio("success.mp3");
+        }
+        return;
       }
-      return;
-    }
 
-    // ideally this would be two rules so we don't need the early return
-    // but there is no guarentee what order the rules will be run in
-    // and it would be bad to have some weird race conditions since we
-    // are using a global variable to convey information (kinda sus)
-    if (questioningMember === memberId) {
-      handleQuestion(utterance);
-      questioningMember = undefined;
-      return;
-    }
-
-    if (utterance.match(/^(stop|cancel)$/i)) {
-      questioningMember = undefined;
-      return;
-    }
-  },
-});
+      // ideally this would be two rules so we don't need the early return
+      // but there is no guarentee what order the rules will be run in
+      // and it would be bad to have some weird race conditions since we
+      // are using a global variable to convey information (kinda sus)
+      if (questioningMember === memberId) {
+        handleQuestion(utterance);
+        questioningMember = undefined;
+        return;
+      }
+    },
+  }),
+  new Rule({
+    description: "cancel asking question",
+    utterance: (utterance, memberId) => {
+      if (
+        utterance.match(/^(stop|cancel)$/i) &&
+        questioningMember === memberId
+      ) {
+        questioningMember = undefined;
+      }
+    },
+  }),
+];
