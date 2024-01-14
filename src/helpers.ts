@@ -1,6 +1,4 @@
 import {
-  AudioPlayer,
-  AudioPlayerState,
   createAudioPlayer,
   createAudioResource,
   getVoiceConnection,
@@ -21,7 +19,6 @@ import tts from "./textToSpeech";
 import winston = require("winston");
 
 let subscription: PlayerSubscription | undefined;
-let player: AudioPlayer | undefined;
 let audioEnabled = true;
 
 export function enableAudio() {
@@ -46,15 +43,8 @@ export function playAudio(input: string, msDelay: number = 0) {
       winston.warn(`no voice connection; cannot play file ${input}`);
       return;
     }
-    player = createAudioPlayer();
+    const player = createAudioPlayer();
     subscription = connection.subscribe(player);
-
-    player.addListener(
-      "stateChange",
-      (oldState: AudioPlayerState, newState: AudioPlayerState) => {
-        console.log("AudioPlayerState", oldState.status, "->", newState.status);
-      }
-    );
 
     const audioFile = path.join(__dirname, "../audio", input);
     const ttsFile = path.join(__dirname, "..", tts.path(input));
