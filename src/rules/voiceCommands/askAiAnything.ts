@@ -45,7 +45,6 @@ export default new Rule({
 
     if (triggerMatch) {
       dadJoke = triggerMatch[2].match(/dad/i) !== null;
-      console.log(triggerMatch[2], dadJoke);
       if (triggerMatch[3]) {
         handleQuestion(triggerMatch[3]);
       } else {
