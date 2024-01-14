@@ -54,7 +54,12 @@ export function playAudio(input: string, msDelay: number = 0) {
       subscription?.player.play(createAudioResource(audioFile));
     } else if (fs.existsSync(ttsFile)) {
       winston.info(`Audio - TTS - "${input}"`);
-      subscription?.player.play(createAudioResource(ttsFile));
+      const audioResource = createAudioResource(ttsFile);
+      console.log("ttsFile", ttsFile);
+      console.log("subscription", subscription);
+      console.log("player", subscription?.player);
+      console.log("audio resource", audioResource);
+      subscription?.player.play(audioResource);
     } else {
       tts
         .create(input)
