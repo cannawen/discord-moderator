@@ -49,6 +49,9 @@ export default {
     TEAZY: process.env.MEMBER_ID_TEAZY!,
     WRABBIT: process.env.MEMBER_ID_WRABBIT!,
   },
+  studentIds: {
+    CANNA: process.env.STUDENT_ID_CANNA!,
+  },
   obs: {
     CANNA_STREAM_SERVER: process.env.OBS_SERVER_CANNA_STREAM!,
     CANNA_STREAM_SERVER_PASSWORD: process.env.OBS_SERVER_CANNA_STREAM_PASSWORD!,

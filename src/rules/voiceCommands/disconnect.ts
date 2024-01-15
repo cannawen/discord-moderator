@@ -22,7 +22,7 @@ export default new Rule({
           .request({
             method: "POST",
             hostname: "dota-coach.fly.dev",
-            path: "/coach/20d594ff682d61c52ed003bad86a05aa708d454fafb0115a3248a8f5c5a7b833/stop",
+            path: `/coach/${constants.studentIds.CANNA}/stop`,
           })
           .end();
       }
