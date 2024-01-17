@@ -20,9 +20,13 @@ export default [
   ["faster"],
   ["player"],
   [["egg-canna", "egg-spearit"], "eggs?"],
+  ["egg-canna", "eggs? 1"],
+  ["egg-spearit", "eggs? 2"],
   ["bash", "bash|bosch|back"],
   ["pretty"],
   [["hk-canna", "hk-crash"], "hk"],
+  ["hk-canna", "hk 1"],
+  ["hk-crash", "hk 2"],
 ].map(
   ([fileNameOrNames, regexString]) =>
     new Rule({
