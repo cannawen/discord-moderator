@@ -27,6 +27,7 @@ export default [
   [["hk-canna", "hk-crash"], "hk"],
   ["hk-canna", "hk 1"],
   ["hk-crash", "hk 2"],
+  ["highground", "high ?ground"],
 ].map(
   ([fileNameOrNames, regexString]) =>
     new Rule({
