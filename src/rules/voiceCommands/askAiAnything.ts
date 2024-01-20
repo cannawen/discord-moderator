@@ -1,8 +1,8 @@
+import { findMember, playAudio } from "../../helpers";
+import constants from "../../constants";
 import OpenAi from "openai";
-import { playAudio } from "../../helpers";
 import Rule from "../../Rule";
 import winston from "winston";
-import constants from "../../constants";
 
 enum BotPersonality {
   DadJoke,
@@ -26,11 +26,7 @@ const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
 function handleQuestion(question: string, memberId: string) {
   if (question.length < 10) return;
-  winston.info(
-    `Question - ${question}${
-      state[memberId] === BotPersonality.DadJoke ? " (dad joke)" : ""
-    }`
-  );
+  winston.info(`Question - ${question} (${findMember(memberId).displayName})`);
   openAi.chat.completions
     .create({
       messages: [
@@ -49,7 +45,6 @@ function handleQuestion(question: string, memberId: string) {
     })
     .catch((e) => {
       playAudio("error.mp3");
-      winston.error("Unable to answer question");
       winston.error(e);
     });
   delete state[memberId];
@@ -63,7 +58,7 @@ export default [
         handleQuestion(utterance, memberId);
       } else {
         const triggerMatch = utterance.match(
-          /^(okay|ok|hey|hay) (?<personality>bot|but|bought|dad)(?<question>.+)?$/i
+          /^(okay|ok|hey|hay) (?<personality>bot|but|bought|dad)$/i
         );
 
         if (triggerMatch) {
@@ -73,11 +68,8 @@ export default [
             ? BotPersonality.DadJoke
             : BotPersonality.Helpful;
 
-          if (triggerMatch.groups?.question) {
-            handleQuestion(triggerMatch.groups.question, memberId);
-          } else {
-            playAudio("success.mp3");
-          }
+          playAudio("success.mp3");
+          winston.info(`Question - Trigger - ${utterance}`);
         }
       }
     },
@@ -87,6 +79,7 @@ export default [
     utterance: (utterance, memberId) => {
       if (utterance.match(/^(stop|cancel)$/i)) {
         delete state[memberId];
+        winston.info(`Question - ${utterance}`);
       }
     },
   }),
