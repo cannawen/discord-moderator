@@ -15,6 +15,7 @@ import client from "./discordClient";
 import constants from "./constants";
 import fs from "fs";
 import path from "path";
+import { rules } from "./ruleManager";
 import tts from "./textToSpeech";
 import winston = require("winston");
 
@@ -129,4 +130,12 @@ export function moveToVoiceChannel(
   }
 
   members.forEach((m) => m.voice.setChannel(findVoiceChannel(channelId)));
+}
+
+export function voiceCommand(command: string) {
+  rules.forEach((r) => {
+    if (r.utterance) {
+      r.utterance(command, constants.memberIds.CANNA_BOT);
+    }
+  });
 }

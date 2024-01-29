@@ -1,5 +1,5 @@
+import { findMember, voiceCommand } from "../../helpers";
 import constants from "../../constants";
-import { findMember } from "../../helpers";
 import https from "https";
 import Rule from "../../Rule";
 import winston from "winston";
@@ -18,6 +18,8 @@ export default new Rule({
       findMember(memberId).voice.disconnect();
 
       if (memberId === constants.memberIds.CANNA) {
+        voiceCommand("stop streaming");
+
         https
           .request({
             method: "POST",

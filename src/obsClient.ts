@@ -74,13 +74,33 @@ function reidentifyCanna() {
   ]);
 }
 
+function isCannaStreaming(): Promise<boolean> {
+  return obsStreamCanna
+    .call("GetStreamStatus")
+    .then((status) => status.outputActive);
+}
+
 function streamCannaStart() {
-  return reidentifyCanna().then(() => obsStreamCanna.call("StartStream"));
+  return reidentifyCanna()
+    .then(isCannaStreaming)
+    .then((outputActive) =>
+      outputActive
+        ? new Error("OBS - Already streaming")
+        : obsStreamCanna.call("StartStream")
+    );
 }
 
 function streamCannaStop() {
-  return reidentifyCanna().then(() => obsStreamCanna.call("StopStream"));
+  return reidentifyCanna()
+    .then(isCannaStreaming)
+    .then((outputActive) =>
+      outputActive
+        ? obsStreamCanna.call("StopStream")
+        : new Error("OBS - Not currently streaming")
+    );
 }
+
+obsStreamCanna.on("StreamStateChanged", ({ outputActive, outputState }) => {});
 
 export default {
   connectCanna,

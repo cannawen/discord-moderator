@@ -6,10 +6,10 @@ import {
   Routes,
   SlashCommandBuilder,
 } from "discord.js";
+import { findTextChannel, voiceCommand } from "./helpers";
 import constants from "./constants";
 import cron from "node-cron";
 import discord from "./discordClient";
-import { findTextChannel } from "./helpers";
 import { rules } from "./ruleManager";
 import winston from "winston";
 
@@ -125,14 +125,7 @@ discord.on(Events.InteractionCreate, (interaction) => {
       break;
     case "amongus":
       {
-        rules.forEach((r) => {
-          if (r.utterance) {
-            r.utterance(
-              "there is an imposter among us",
-              constants.memberIds.CANNA_BOT
-            );
-          }
-        });
+        voiceCommand("there is an imposter among us");
         interaction.reply({
           content: "`Dota 2 x Among Us` game mode activated",
           ephemeral: true,
