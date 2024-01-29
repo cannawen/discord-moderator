@@ -27,11 +27,12 @@
 - `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
 - `There is an imposter among us` or `/amongus` slash command triggers [Dota 2 x Among Us](./AmongUs.md) game mode
 
-## Clips
+## Clips and Streaming
 
 - `/clip` allows anyone to post to the #clips channel
 - `Snapshot` records the last couple minutes of Canna's screen via OBS (saved onto a local machine)
 - `Reconnect` tries to reconnect to Canna's OBS (protected command)
+- `Start/End stream` manages state of [Canna's twitch stream](https://www.twitch.tv/cannadota)
 
 ## Other
 

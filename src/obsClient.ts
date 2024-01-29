@@ -74,9 +74,19 @@ function reidentifyCanna() {
   ]);
 }
 
+function streamCannaStart() {
+  return reidentifyCanna().then(() => obsStreamCanna.call("StartStream"));
+}
+
+function streamCannaStop() {
+  return reidentifyCanna().then(() => obsStreamCanna.call("StopStream"));
+}
+
 export default {
   connectCanna,
   disconnectCanna,
   clipCanna,
   reidentifyCanna,
+  streamCannaStart,
+  streamCannaStop,
 };
