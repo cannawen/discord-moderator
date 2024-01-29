@@ -76,9 +76,9 @@ export default [
   }),
   new Rule({
     description: "cancel asking question",
-    utterance: (utterance, memberId) => {
+    utterance: (utterance) => {
       if (utterance.match(/^(stop|cancel)$/i)) {
-        delete state[memberId];
+        state = {};
         winston.info(`Question - ${utterance}`);
       }
     },

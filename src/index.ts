@@ -6,10 +6,10 @@ import {
   Routes,
   SlashCommandBuilder,
 } from "discord.js";
-import { findMember, findTextChannel } from "./helpers";
 import constants from "./constants";
 import cron from "node-cron";
 import discord from "./discordClient";
+import { findTextChannel } from "./helpers";
 import { rules } from "./ruleManager";
 import winston from "winston";
 
