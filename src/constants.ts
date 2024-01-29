@@ -14,6 +14,7 @@ export default {
     GENERAL: "General",
     CHAOS: "mode: chaos",
     FOCUS: "mode: focus",
+    STREAMING: "mode: streaming",
     HIDING: "mode: hiding",
     SHH: "mode: shh",
 
@@ -25,6 +26,7 @@ export default {
     GENERAL: process.env.CHANNEL_ID_GENERAL!,
     CHAOS: process.env.CHANNEL_ID_CHAOS!,
     FOCUS: process.env.CHANNEL_ID_FOCUS!,
+    STREAMING: process.env.CHANNEL_ID_STREAMING!,
     HIDING: process.env.CHANNEL_ID_HIDING!,
     SHH: process.env.CHANNEL_ID_SHH!,
 

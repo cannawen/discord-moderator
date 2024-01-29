@@ -1,6 +1,7 @@
 import {
   findMember,
   findMemberVoiceChannelId,
+  findVoiceChannel,
   moveToVoiceChannel,
   playAudio,
 } from "../helpers";
@@ -10,10 +11,11 @@ import { Events } from "discord.js";
 import Rule from "../Rule";
 import winston from "winston";
 
-function isSecretChannel(channelId: string | undefined | null) {
+function isProtectedChannel(channelId: string | undefined | null) {
   return (
     channelId === constants.channelIds.FOCUS ||
-    channelId === constants.channelIds.HIDING
+    channelId === constants.channelIds.HIDING ||
+    channelId === constants.channelIds.STREAMING
   );
 }
 
@@ -23,7 +25,7 @@ let knockingEnabled = true;
 export default [
   new Rule({
     description:
-      "knocks when someone enters a non-secret channel when the bot is in secrets",
+      "knocks when someone enters a non-protected channel when the bot is in a protected channel",
     start: () => {
       client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
         // if knocking is not enabled (due to mass migration), do nothing
@@ -33,15 +35,20 @@ export default [
         // if user was already in a channel, do nothing
         if (oldVoiceState.channelId) return;
 
-        // if the bot is in a secret channel and a user joins a non-secret channel, knock
+        const botChannel = findMemberVoiceChannelId(
+          constants.memberIds.CANNA_BOT
+        );
+        // if the bot is in a protected channel and a user joins a different channel, knock
         if (
-          isSecretChannel(
-            findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)
-          ) &&
-          !isSecretChannel(newVoiceState.channelId)
+          isProtectedChannel(botChannel) &&
+          newVoiceState.channelId !== botChannel
         ) {
           const displayName = newVoiceState.member?.displayName!;
-          winston.info(`Move - ${displayName} requesting to join secrets`);
+          winston.info(
+            `Move - ${displayName} requesting to join ${
+              findVoiceChannel(botChannel!).name
+            }`
+          );
 
           memberRequestingToJoin = newVoiceState.member?.id;
 
@@ -60,7 +67,7 @@ export default [
   }),
 
   new Rule({
-    description: "allow someone to enter the secret channel (or not)",
+    description: "allow someone to enter the protected channel (or not)",
     utterance: (utterance, memberId) => {
       if (!memberRequestingToJoin) return;
 

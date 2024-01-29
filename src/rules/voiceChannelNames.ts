@@ -34,12 +34,14 @@ export default new Rule({
         "GENERAL",
         "CHAOS",
         "FOCUS",
+        "STREAMING",
         "HIDING",
         "SHH",
         "LOBBY",
         "RADIANT",
         "DIRE",
       ].map((channelKey) =>
+        // Extremely sketchy cast here to make the compiler happy
         updateChannelName(
           constants.channelIds[channelKey as "GENERAL"],
           constants.channelNames[channelKey as "GENERAL"]

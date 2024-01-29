@@ -67,6 +67,13 @@ export default new Rule({
     }
 
     if (
+      utterance.match(/^take .{2,10} to stream(ing)?$/i) &&
+      hasPermission(memberId, constants.channelIds.STREAMING)
+    ) {
+      toChannel = constants.channelIds.STREAMING;
+    }
+
+    if (
       utterance.match(/^take .{2,10} to hiding$/i) &&
       hasPermission(memberId, constants.channelIds.HIDING)
     ) {
