@@ -18,15 +18,18 @@ export default new Rule({
       const direImposter = direMembers.random();
       const radiantImposter = radiantMembers.random();
 
-      direImposter?.send("YOU ARE THE IMPOSTER! You work for Team Radiant.");
-      radiantImposter?.send("YOU ARE THE IMPOSTER! You work for Team Dire.");
+      const imposterMessage =
+        "YOU ARE THE IMPOSTER! You are trying to lose this game without letting your teammates get suspicious. You may not cancel if your teammates want to gg out";
+      direImposter?.send(imposterMessage);
+      radiantImposter?.send(imposterMessage);
 
-      direMembers.map((m) =>
-        m.send(`The other team's imposter is: ${radiantImposter?.displayName}`)
-      );
-      radiantMembers.map((m) =>
-        m.send(`The other team's imposter is: ${direImposter?.displayName}`)
-      );
+      const regularMessage = `You are NOT the imposter. Play this game trying to win, but look out for sus activity from your teammates because there is an imposter among us`;
+      direMembers
+        .filter((m) => m.id !== direImposter?.id)
+        .map((m) => m.send(regularMessage));
+      radiantMembers
+        .filter((m) => m.id !== radiantImposter?.id)
+        .map((m) => m.send(regularMessage));
 
       winston.info(
         `In house - Among us. Radiant imposter: ||${radiantImposter?.displayName}||. Dire imposter: ||${direImposter?.displayName}||`
