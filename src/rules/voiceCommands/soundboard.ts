@@ -68,6 +68,8 @@ export default [
     "((that is|this is|that's) so sad)|(Alexa play despacito)|((that is|this is|that's) so sad Alexa play despacito)",
     false
   ),
+  new Sound("shame", "(walk of )?shame"),
+  new Sound("shame", "walk of shame", false),
 ].map(
   (sound) =>
     new Rule({
