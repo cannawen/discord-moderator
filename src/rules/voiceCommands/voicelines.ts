@@ -28,6 +28,7 @@ export default [
   ["hk-canna", "hk 1"],
   ["hk-crash", "hk 2"],
   ["highground", "high ?ground"],
+  ["despacito", "(that|this) is so sad"],
 ].map(
   ([fileNameOrNames, regexString]) =>
     new Rule({
