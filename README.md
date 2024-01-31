@@ -24,6 +24,7 @@
 - `Start in house` or `Should I stay or should I go` enters in-house splitting mode
   - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
   - `Cancel`, `Stop`, or `Done` stops in-house splitting mode
+  - In-house splitting mode also stops when Canna says `Radiant` or `Dire`
 - `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
 - `There is an imposter among us` or `/amongus` slash command triggers [Dota 2 x Among Us](./AmongUs.md) game mode
 
@@ -37,7 +38,7 @@
 
 ## Other
 
-- [Plays voicelines](src/rules/voiceCommands/voicelines.ts) (all voicelines prepended with `voiceline` or `soundboard` trigger)
+- [Plays soundboard audio](src/rules/voiceCommands/soundboard.ts)
 - `Disable audio` stops the bot from playing any audio for 1 hour (or until the bot leaves/rejoins), and `Enable audio` allows the bot to play audio again
 - `Mute JP` server mutes jproperly for 2 minutes (protected command)
 
