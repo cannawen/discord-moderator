@@ -6,10 +6,19 @@ function chooseRandomFromArray(array: string[]) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+const TRIGGER_PHRASES = [
+  "sound ?board",
+  "voice ?lines?",
+  "priceline",
+  "boyfriend",
+  "first line",
+];
+
 class Sound {
   private fileNameOrNamesArray: string | string[];
   public regex: RegExp;
 
+  // If no regexString provided, use fileName as regexString
   constructor(
     fileName: string | string[],
     regexString?: string,
@@ -17,7 +26,9 @@ class Sound {
   ) {
     this.fileNameOrNamesArray = fileName;
     this.regex = new RegExp(
-      `^(${trigger ? TRIGGER_PHRASES : ""}) ?(${regexString || fileName})$`,
+      `^(${trigger ? TRIGGER_PHRASES.join("|") : ""}) ?(${
+        regexString || fileName
+      })$`,
       "i"
     );
   }
@@ -39,15 +50,6 @@ class Sound {
   }
 }
 
-const TRIGGER_PHRASES = [
-  "sound ?board",
-  "voice ?lines?",
-  "priceline",
-  "boyfriend",
-  "first line",
-].join("|");
-
-// ["file name" or ["array", "of file names"], "regex that triggers the voiceline (optional - if different than file name)"]
 export default [
   new Sound("slayTogether", "(play|win|lose|blues|slay|when)? ?together"),
   new Sound("faster"),
@@ -73,11 +75,11 @@ export default [
       utterance: (utterance, memberId) => {
         if (utterance.match(sound.regex)) {
           winston.info(
-            `Audio - voiceline triggered with phrase "${utterance}" (${
+            `Audio - soundboard triggered with phrase "${utterance}" (${
               findMember(memberId).displayName
             })`
           );
-          playAudio(`voicelines/${sound.fileName()}.mp3`);
+          playAudio(`soundboard/${sound.fileName()}.mp3`);
         }
       },
     })
