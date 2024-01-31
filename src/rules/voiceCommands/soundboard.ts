@@ -63,12 +63,13 @@ export default [
   new Sound("hk-canna", "hk 1"),
   new Sound("hk-crash", "hk 2"),
   new Sound("highground", "high ?ground"),
+  new Sound("despacito"),
   new Sound(
     "despacito",
     "((that is|this is|that's) so sad)|(Alexa play despacito)|((that is|this is|that's) so sad Alexa play despacito)",
     false
   ),
-  new Sound("shame", "(walk of )?shame"),
+  new Sound("shame", "shame|walk of shame"),
   new Sound("shame", "walk of shame", false),
 ].map(
   (sound) =>
