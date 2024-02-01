@@ -19,6 +19,7 @@ class Sound {
   public regex: RegExp;
 
   // If no regexString provided, use fileName as regexString
+  // Kind of sketchy. If fileName is an array, regexString must be provided (but it is not enforced programatically)
   constructor(
     fileName: string | string[],
     regexString?: string,
