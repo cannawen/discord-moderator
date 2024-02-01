@@ -19,7 +19,7 @@ export default new Rule({
       const radiantImposter = radiantMembers.random();
 
       const imposterMessage =
-        "YOU ARE THE IMPOSTER! You are trying to lose this game without letting your teammates get suspicious. You may not cancel if your teammates want to gg out";
+        "YOU ARE THE IMPOSTER! You win if your team loses, and you are not caught. You may not press the cancel button if your team wants to gg out";
       direImposter?.send(imposterMessage);
       radiantImposter?.send(imposterMessage);
 

@@ -6,12 +6,19 @@ There is an imposter among us
 
 - Regular 5v5 game of Dota 2 (possibly All Random or Single Draft)
 - No one is allowed to send game-related private messages to the members on the opposite team
-- Each team will have an imposter who wins if the other team wins
+- Each team will have an imposter who is actively trying to lose without getting caught
 - Each person will recieve a message telling them if they are an imposter or not
-- The imposter may try to grief their team to make them lose
-- When a team tries to gg out, the imposter cannot cancel the gg
-- When the game ends, each member on the losing team will have a chance to cast one vote on who their team's imposter is in post-game chat
-- If 3 or more people correctly identify the imposter, the losing team wins
+
+## Winning
+
+- The game ends when a team's ancient is destroyed or one team ggs out
+- Imposters may not cancel ggs
+- There will be either 4 or 5 winners
+- The 4 non-imposters on the winning team always win
+- The 4 non-imposters of the losing team and 1 imposter of the winning team always lose
+- The imposter on the losing team has a chance to win if they have not been caught
+  - Each member of the losing team may cast a vote in post-game chat on who the imposter was on their team
+  - If 3 or more people correctly identify the imposter, the imposter loses. Otherwise, the imposter wins
 
 ## Setup
 
