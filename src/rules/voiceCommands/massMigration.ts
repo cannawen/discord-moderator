@@ -38,6 +38,7 @@ function hasPermission(memberId: string, channel: string) {
     .has(PermissionsBitField.Flags.Connect);
 }
 
+// TODO this could use some cleaning up
 export default new Rule({
   description:
     '"take me/us to <channel>" moves members in the current channel to <channel>. "take everybody/everyone to <channel>" moves all members connected to any voice channel',
