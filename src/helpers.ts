@@ -1,4 +1,5 @@
 import {
+  AudioPlayer,
   createAudioPlayer,
   createAudioResource,
   getVoiceConnection,
@@ -19,7 +20,7 @@ import { rules } from "./ruleManager";
 import tts from "./textToSpeech";
 import winston = require("winston");
 
-let subscription: PlayerSubscription | undefined;
+let player: AudioPlayer | undefined;
 let audioEnabled = true;
 
 export function enableAudio() {
@@ -30,6 +31,8 @@ export function enableAudio() {
 export function disableAudioForAnHour() {
   winston.info(`Audio - Disabled for an hour`);
   audioEnabled = false;
+  stopAudio();
+
   setTimeout(() => {
     enableAudio();
   }, 60 * 60 * 1000);
@@ -44,18 +47,18 @@ export function playAudio(input: string, msDelay: number = 0) {
       winston.warn(`no voice connection; cannot play file ${input}`);
       return;
     }
-    const player = createAudioPlayer();
-    subscription = connection.subscribe(player);
+    player = createAudioPlayer();
+    connection.subscribe(player);
 
     const audioFile = path.join(__dirname, "../audio", input);
     const ttsFile = path.join(__dirname, "..", tts.path(input));
 
     if (fs.existsSync(audioFile)) {
       winston.info(`Audio - ${input}`);
-      subscription?.player.play(createAudioResource(audioFile));
+      player.play(createAudioResource(audioFile));
     } else if (fs.existsSync(ttsFile)) {
       winston.info(`Audio - TTS - "${input}"`);
-      subscription?.player.play(createAudioResource(ttsFile));
+      player.play(createAudioResource(ttsFile));
     } else {
       tts
         .create(input)
@@ -72,7 +75,7 @@ export function playAudio(input: string, msDelay: number = 0) {
 }
 
 export function stopAudio() {
-  subscription?.player.stop();
+  player?.stop();
 }
 
 export function findGuild() {

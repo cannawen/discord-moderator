@@ -1,5 +1,11 @@
-import { disableAudioForAnHour, enableAudio, playAudio } from "../../helpers";
+import {
+  disableAudioForAnHour,
+  enableAudio,
+  playAudio,
+  stopAudio,
+} from "../../helpers";
 import Rule from "../../Rule";
+import constants from "../../constants";
 
 export default new Rule({
   description: "disable audio for an hour",
@@ -11,6 +17,9 @@ export default new Rule({
     if (utterance.match(/^disable audio$/i)) {
       playAudio("success.mp3");
       disableAudioForAnHour();
+    }
+    if (utterance.match(/^(stop audio|stop|cancel)$/i)) {
+      stopAudio();
     }
   },
 });
