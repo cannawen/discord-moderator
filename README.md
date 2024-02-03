@@ -1,6 +1,6 @@
 # discord-moderator
 
-`canna-bot` automatically joins Cannd or Teazy's voice channels
+`canna-bot` automatically joins Canna or Teazy's voice channels
 
 [Link to add bot](https://discord.com/api/oauth2/authorize?client_id=1062766623578148945&permissions=8&scope=bot) (values are currently hard coded to Best Dota server only - will not work with any other discord servers)
 
