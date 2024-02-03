@@ -27,6 +27,8 @@
   - In-house splitting mode also stops when Canna says `Radiant` or `Dire`
 - `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
 - `There is an imposter among us` or `/amongus` slash command triggers [Dota 2 x Among Us](./AmongUs.md) game mode
+- `Start discussion timer` sets a 10-minute timer with 5 and 1 minute remaining warnings
+  - `Stop/Cancel` or `Stop/Cancel discussion timer` cancels the remainder of the timers
 
 ## Clips and Streaming
 
@@ -39,7 +41,9 @@
 ## Other
 
 - [Plays soundboard audio](src/rules/voiceCommands/soundboard.ts)
-- `Disable audio` stops the bot from playing any audio for 1 hour (or until the bot leaves/rejoins), and `Enable audio` allows the bot to play audio again
+- `Disable audio` stops the bot from playing any audio for 1 hour (or until the bot leaves/rejoins)
+- `Enable audio` allows the bot to play audio again
+- `Stop audio/Stop/Cancel` stops the currently playing audio file
 - `Mute JP` server mutes jproperly for 2 minutes (protected command)
 
 ---

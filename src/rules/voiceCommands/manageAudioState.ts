@@ -5,7 +5,6 @@ import {
   stopAudio,
 } from "../../helpers";
 import Rule from "../../Rule";
-import constants from "../../constants";
 
 export default new Rule({
   description: "disable audio for an hour",

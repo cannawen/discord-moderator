@@ -5,10 +5,10 @@ There is an imposter among us
 ## Rules
 
 - Regular 5v5 game of Dota 2 (possibly All Random or Single Draft)
-- No one is allowed to send game-related direct messages to the members on the opposite team
 - Each team will have an imposter who is actively trying to lose without getting caught
 - The game ends when a team's ancient is destroyed or one team ggs out
 - Imposters may not cancel ggs
+- No one is allowed to send game-related direct messages to any other participants in the game
 
 ## Winning
 
