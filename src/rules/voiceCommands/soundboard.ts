@@ -12,6 +12,7 @@ const TRIGGER_PHRASES = [
   "priceline",
   "boyfriend",
   "first line",
+  "alexa play",
 ];
 
 class Sound {
@@ -67,7 +68,7 @@ export default [
   new Sound("despacito"),
   new Sound(
     "despacito",
-    "((that is|this is|that's) so sad)|(Alexa play despacito)|((that is|this is|that's) so sad Alexa play despacito)",
+    "(that is|this is|that's) so sad( Alexa play despacito)?",
     false
   ),
   new Sound("shame", "shame|walk of shame"),
