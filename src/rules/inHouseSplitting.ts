@@ -14,9 +14,7 @@ export default [
   new Rule({
     description: '"should I stay or should I go" triggers splitting mode',
     utterance: (utterance) => {
-      if (
-        utterance.match(/^(should i stay or should i go)|(start in house)$/i)
-      ) {
+      if (utterance.match(/^(should i stay or should i go|start in house)$/i)) {
         winston.info("In House - Splitting mode enabled");
         splittingMode = true;
         playAudio("shouldIStayOrShouldIGo.mp3");
@@ -28,7 +26,7 @@ export default [
     utterance: (utterance, memberId) => {
       if (!splittingMode) return;
 
-      if (utterance.match(/^radiant|radiance$/i)) {
+      if (utterance.match(/^(radiant|radiance)$/i)) {
         winston.info(
           `In House - Radiant - ${
             findMember(memberId).displayName
@@ -36,7 +34,7 @@ export default [
         );
         moveToVoiceChannel(memberId, constants.channelIds.RADIANT);
       }
-      if (utterance.match(/^dyer|tire|dire$/i)) {
+      if (utterance.match(/^(dyer|tire|dire)$/i)) {
         winston.info(
           `In House - Dire - ${findMember(memberId).displayName} (${utterance})`
         );
@@ -50,8 +48,8 @@ export default [
       if (!splittingMode) return;
 
       if (
-        utterance.match(/^done|cancel|stop$/) ||
-        (utterance.match(/^radiant|radiance|dyer|tire|dire$/i) &&
+        utterance.match(/^(done|cancel|stop)$/) ||
+        (utterance.match(/^(radiant|radiance|dyer|tire|dire)$/i) &&
           memberId === constants.memberIds.CANNA)
       ) {
         winston.info("In House - Splitting mode disabled");
