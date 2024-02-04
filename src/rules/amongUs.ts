@@ -62,7 +62,7 @@ export default [
   new Rule({
     description: "cancel discussion timers",
     utterance: (utterance) => {
-      if (utterance.match(/^(cancel|stop)( discussion timer?)$/i)) {
+      if (utterance.match(/^(cancel|stop)( discussion timer?)?$/i)) {
         timers.forEach(clearTimeout);
         playAudio("success.mp3");
         timers = [];
