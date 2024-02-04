@@ -58,7 +58,6 @@ export default [
       }
     },
   }),
-  ,
   new Rule({
     description: "cancel discussion timers",
     utterance: (utterance) => {
