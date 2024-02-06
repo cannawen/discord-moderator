@@ -79,7 +79,6 @@ export default [
     utterance: (utterance) => {
       if (utterance.match(/^(stop|cancel)$/i)) {
         state = {};
-        winston.info(`Question - ${utterance}`);
       }
     },
   }),

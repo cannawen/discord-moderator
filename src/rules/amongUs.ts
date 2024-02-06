@@ -63,7 +63,6 @@ export default [
     utterance: (utterance) => {
       if (utterance.match(/^(cancel|stop)( discussion timer?)?$/i)) {
         timers.forEach(clearTimeout);
-        playAudio("success.mp3");
         timers = [];
       }
     },
