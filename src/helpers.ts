@@ -132,7 +132,10 @@ export function moveToVoiceChannel(
     members = [...member.values()];
   }
 
-  members.forEach((m) => m.voice.setChannel(findVoiceChannel(channelId)));
+  members
+    // canna-bot will move itself, so do not touch it when moving
+    .filter((m) => m.id !== constants.memberIds.CANNA_BOT)
+    .forEach((m) => m.voice.setChannel(findVoiceChannel(channelId)));
 }
 
 export function voiceCommand(command: string) {

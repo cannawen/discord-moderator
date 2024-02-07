@@ -15,12 +15,13 @@ interface RuleData {
   channel: string;
 }
 
-const data: RuleData[] = [
-  { trigger: "chaos", channel: constants.channelIds.CHAOS },
+const ruleData: RuleData[] = [
   { trigger: "general", channel: constants.channelIds.GENERAL },
+  { trigger: "chaos", channel: constants.channelIds.CHAOS },
   { trigger: "focus", channel: constants.channelIds.FOCUS },
   { trigger: "stream(ing)?", channel: constants.channelIds.STREAMING },
   { trigger: "hiding", channel: constants.channelIds.HIDING },
+  // NOTE: lobby has custom migration that only pulls from Radiant/Dire
 ];
 
 function hasPermission(memberId: string, channel: string) {
@@ -29,50 +30,52 @@ function hasPermission(memberId: string, channel: string) {
     .has(PermissionsBitField.Flags.Connect);
 }
 
-function bringFromChannelToChannel(
-  fromChannelId: string | undefined | null,
-  toChannelId: string,
-  memberId: string
-) {
-  if (fromChannelId === toChannelId) return;
-  if (!hasPermission(memberId, toChannelId)) return;
-
-  winston.info(
-    `Move - ${
-      fromChannelId ? findVoiceChannel(fromChannelId).name : "everyone"
-    } to ${findVoiceChannel(toChannelId).name}`
-  );
-
-  const membersToMove = fromChannelId
-    ? findVoiceChannel(fromChannelId).members
-    : findGuild().members.cache.filter((m) => m.voice.channel);
-
-  moveToVoiceChannel(
-    membersToMove.filter((m) => m.id !== constants.memberIds.CANNA_BOT),
-    toChannelId
-  );
-}
-
-export default data.flatMap((d) => [
+export default ruleData.flatMap((data) => [
   new Rule({
     description: `"take me/us to <channel>" moves members in current channel to <channel>`,
     utterance: (utterance, memberId) => {
-      if (utterance.match(new RegExp(`take (me|us) to ${d.trigger}`, "i"))) {
-        bringFromChannelToChannel(
-          findMemberVoiceChannelId(memberId),
-          d.channel,
-          memberId
+      if (utterance.match(new RegExp(`take (me|us) to ${data.trigger}`, "i"))) {
+        const fromChannelId = findMemberVoiceChannelId(memberId)!;
+        const toChannelId = data.channel;
+
+        if (fromChannelId === toChannelId) return;
+        if (!hasPermission(memberId, toChannelId)) return;
+
+        const membersToMove = findVoiceChannel(fromChannelId).members;
+        moveToVoiceChannel(membersToMove, toChannelId);
+
+        winston.info(
+          `Move - ${findVoiceChannel(fromChannelId).name} to ${
+            findVoiceChannel(toChannelId).name
+          } (${findMember(memberId).displayName}, ${
+            membersToMove.size
+          } members moved)`
         );
       }
     },
   }),
   new Rule({
-    description: `"take everyone/everybody to <channel>" moves all connected members to <channel>`,
+    description: `"take everyone/everybody to <channel>" moves all members connected to voice to <channel>`,
     utterance: (utterance, memberId) => {
       if (
-        utterance.match(new RegExp(`take every(one|body) to ${d.trigger}`, "i"))
+        utterance.match(
+          new RegExp(`take every(one|body) to ${data.trigger}`, "i")
+        )
       ) {
-        bringFromChannelToChannel(null, d.channel, memberId);
+        const toChannelId = data.channel;
+
+        if (!hasPermission(memberId, toChannelId)) return;
+
+        const membersToMove = findGuild().members.cache.filter(
+          (m) => m.voice.channel
+        );
+        moveToVoiceChannel(membersToMove, toChannelId);
+
+        winston.info(
+          `Move - everyone to ${findVoiceChannel(toChannelId).name} (${
+            findMember(memberId).displayName
+          }, ${membersToMove.size} members moved)`
+        );
       }
     },
   }),
