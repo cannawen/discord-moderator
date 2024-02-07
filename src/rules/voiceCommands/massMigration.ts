@@ -10,11 +10,32 @@ import { PermissionsBitField } from "discord.js";
 import Rule from "../../Rule";
 import winston from "winston";
 
+interface RuleData {
+  trigger: string;
+  channel: string;
+}
+
+const data: RuleData[] = [
+  { trigger: "chaos", channel: constants.channelIds.CHAOS },
+  { trigger: "general", channel: constants.channelIds.GENERAL },
+  { trigger: "focus", channel: constants.channelIds.FOCUS },
+  { trigger: "stream(ing)?", channel: constants.channelIds.STREAMING },
+  { trigger: "hiding", channel: constants.channelIds.HIDING },
+];
+
+function hasPermission(memberId: string, channel: string) {
+  return findMember(memberId)
+    .permissionsIn(channel)
+    .has(PermissionsBitField.Flags.Connect);
+}
+
 function bringFromChannelToChannel(
   fromChannelId: string | undefined | null,
-  toChannelId: string
+  toChannelId: string,
+  memberId: string
 ) {
   if (fromChannelId === toChannelId) return;
+  if (!hasPermission(memberId, toChannelId)) return;
 
   winston.info(
     `Move - ${
@@ -32,57 +53,27 @@ function bringFromChannelToChannel(
   );
 }
 
-function hasPermission(memberId: string, channel: string) {
-  return findMember(memberId)
-    .permissionsIn(channel)
-    .has(PermissionsBitField.Flags.Connect);
-}
-
-// TODO this could use some cleaning up
-export default new Rule({
-  description:
-    '"take me/us to <channel>" moves members in the current channel to <channel>. "take everybody/everyone to <channel>" moves all members connected to any voice channel',
-  utterance: (utterance, memberId) => {
-    const member = findMember(memberId).displayName;
-
-    let fromChannel: string | undefined | null;
-    let toChannel: string | undefined;
-
-    if (utterance.match(/^take (me|us)/i)) {
-      fromChannel = findMemberVoiceChannelId(memberId);
-    }
-
-    if (utterance.match(/^take .{2,10} to chaos$/i)) {
-      toChannel = constants.channelIds.CHAOS;
-    }
-
-    if (utterance.match(/^take .{2,10} to general$/i)) {
-      toChannel = constants.channelIds.GENERAL;
-    }
-
-    if (
-      utterance.match(/^take .{2,10} to focus$/i) &&
-      hasPermission(memberId, constants.channelIds.FOCUS)
-    ) {
-      toChannel = constants.channelIds.FOCUS;
-    }
-
-    if (
-      utterance.match(/^take .{2,10} to stream(ing)?$/i) &&
-      hasPermission(memberId, constants.channelIds.STREAMING)
-    ) {
-      toChannel = constants.channelIds.STREAMING;
-    }
-
-    if (
-      utterance.match(/^take .{2,10} to hiding$/i) &&
-      hasPermission(memberId, constants.channelIds.HIDING)
-    ) {
-      toChannel = constants.channelIds.HIDING;
-    }
-
-    if (toChannel) {
-      bringFromChannelToChannel(fromChannel, toChannel);
-    }
-  },
-});
+export default data.flatMap((d) => [
+  new Rule({
+    description: `"take me/us to <channel>" moves members in current channel to <channel>`,
+    utterance: (utterance, memberId) => {
+      if (utterance.match(new RegExp(`take (me|us) to ${d.trigger}`, "i"))) {
+        bringFromChannelToChannel(
+          findMemberVoiceChannelId(memberId),
+          d.channel,
+          memberId
+        );
+      }
+    },
+  }),
+  new Rule({
+    description: `"take everyone/everybody to <channel>" moves all connected members to <channel>`,
+    utterance: (utterance, memberId) => {
+      if (
+        utterance.match(new RegExp(`take every(one|body) to ${d.trigger}`, "i"))
+      ) {
+        bringFromChannelToChannel(null, d.channel, memberId);
+      }
+    },
+  }),
+]);
