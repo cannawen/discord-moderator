@@ -14,7 +14,7 @@
 - `Take everyone/everybody to <channel>` moves all members connected to any voice channel
 - See [here](src/rules/voiceCommands/massMigration.ts) for channel name definitions
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
-- `Coach me` brings dota-coach bot over to the member's current voice channel (does not start coaching)
+- `Coach me` brings dota-coach bot over to the member's current voice channel (and starts coaching Canna)
 - `Come in`, `Enter`, or `Allow` joins a member to a protected channel after knocking
 - `No thank you`, `No thanks`, or `Disallow` does not join them
 - `Hey/OK bot` asks OpenAI's ChatGPT a question. `Hey/OK dad` responds with dad jokes.
@@ -36,7 +36,7 @@
 - `Snapshot` records the last couple minutes of Canna's screen via OBS (saved onto a local machine)
 - `Reconnect` tries to reconnect to Canna's OBS (protected command)
 - `Start/End stream` manages state of [Canna's twitch stream](https://www.twitch.tv/cannadota)
-- Moves users to `mode: streaming` voice channel when appropriate
+  - Moves users to `mode: streaming` voice channel when appropriate
 
 ## Other
 
