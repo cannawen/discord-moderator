@@ -2,10 +2,6 @@ import { findMember, playAudio } from "../../helpers";
 import Rule from "../../Rule";
 import winston from "winston";
 
-function chooseRandomFromArray(array: string[]) {
-  return array[Math.floor(Math.random() * array.length)];
-}
-
 const TRIGGER_PHRASES = [
   "sound ?board",
   "voice ?lines?",
@@ -20,7 +16,8 @@ class Sound {
   public regex: RegExp;
 
   // If no regexString provided, use fileName as regexString
-  // Kind of sketchy. If fileName is an array, regexString must be provided (but it is not enforced programatically)
+  // Kind of sketchy. If fileName is an array, regexString must be provided
+  // (but it is not enforced programatically)
   constructor(
     fileName: string | string[],
     regexString?: string,
@@ -45,7 +42,9 @@ class Sound {
 
   fileName(): string {
     if (Array.isArray(this.fileNameOrNamesArray)) {
-      return chooseRandomFromArray(this.fileNameOrNamesArray);
+      return this.fileNameOrNamesArray[
+        Math.floor(Math.random() * this.fileNameOrNamesArray.length)
+      ];
     } else {
       return this.fileNameOrNamesArray;
     }
