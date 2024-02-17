@@ -70,9 +70,9 @@ export default [
     "(that is|this is|that's) so sad( Alexa play despacito)?",
     false
   ),
-  new Sound("shame", "shame|walk of shame"),
+  new Sound("shame", "shame"),
   new Sound("shame", "walk of shame", false),
-  new Sound("headbonk", "head bunk|ed bock|headbank|head back|headbang", false),
+  new Sound("headbonk", "head ?b..(k|g)", false),
 ].map(
   (sound) =>
     new Rule({
