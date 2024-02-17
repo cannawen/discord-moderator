@@ -21,11 +21,11 @@ class Sound {
   constructor(
     fileName: string | string[],
     regexString?: string,
-    trigger: boolean = true
+    triggerRequired: boolean = true
   ) {
     this.fileNameOrNamesArray = fileName;
     this.regex = new RegExp(
-      `^(${trigger ? TRIGGER_PHRASES.join("|") : ""}) ?(${
+      `^(${TRIGGER_PHRASES.join("|")})${triggerRequired ? "" : "?"} ?(${
         regexString || fileName
       })$`,
       "i"
@@ -72,6 +72,7 @@ export default [
   ),
   new Sound("shame", "shame|walk of shame"),
   new Sound("shame", "walk of shame", false),
+  new Sound("headbonk", "head bunk|ed bock|headbank|head back|headbang", false),
 ].map(
   (sound) =>
     new Rule({
