@@ -1,4 +1,4 @@
-import { findMember, playAudio } from "../../helpers";
+import { findMember, findTextChannel, playAudio } from "../../helpers";
 import constants from "../../constants";
 import OpenAi from "openai";
 import Rule from "../../Rule";
@@ -10,11 +10,17 @@ class Personality {
   systemInstruction: string;
   regexKeyword: string;
   regex: RegExp;
+  postAnswerToBotsChannel: boolean;
 
-  constructor(systemInstruction: string, regexKeyword: string) {
+  constructor(
+    systemInstruction: string,
+    regexKeyword: string,
+    postAnswerToBotsChannel: boolean = false
+  ) {
     this.systemInstruction = systemInstruction;
     this.regexKeyword = regexKeyword;
     this.regex = new RegExp(`(okay|ok|hey|hay) (${this.regexKeyword})`, "i");
+    this.postAnswerToBotsChannel = postAnswerToBotsChannel;
   }
 
   handleQuestion(question: string): Promise<string> {
@@ -58,13 +64,19 @@ export default [
     description: "ask AI question",
     utterance: (utterance, memberId) => {
       if (memberId in state) {
-        state[memberId]
+        const personality = state[memberId];
+        personality
           .handleQuestion(utterance)
           .then((answer) => {
             playAudio(answer);
             winston.info(
               `Question - ${utterance} (${findMember(memberId).displayName})`
             );
+            if (personality.postAnswerToBotsChannel) {
+              findTextChannel(constants.channelIds.BOTS).send(
+                `A collaboration between <@${constants.memberIds.CANNA_BOT}> and <@${memberId}>\n\`${utterance}\`\n\n${answer}`
+              );
+            }
           })
           .catch((e) => {
             playAudio("error.mp3");
@@ -78,11 +90,13 @@ export default [
   [
     new Personality(
       "You are an assistant who creates haikus about Dota 2",
-      "haiku"
+      "haiku",
+      true
     ),
     new Personality(
       "You are an assistant who creates limericks about Dota 2",
-      "limerick|poem"
+      "limerick|poem",
+      true
     ),
     new Personality(
       "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible.",

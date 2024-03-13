@@ -34,6 +34,7 @@ export default {
     RADIANT: process.env.CHANNEL_ID_RADIANT!,
     DIRE: process.env.CHANNEL_ID_DIRE!,
 
+    BOTS: process.env.CHANNEL_ID_BOTS!,
     CLIPS: process.env.CHANNEL_ID_CLIPS!,
     LOGS: process.env.CHANNEL_ID_LOGS!,
     CANNA_LOGS: process.env.CHANNEL_ID_CANNA_LOGS!,

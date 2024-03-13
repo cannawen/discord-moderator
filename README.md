@@ -17,7 +17,6 @@
 - `Coach me` brings dota-coach bot over to the member's current voice channel (and starts coaching Canna)
 - `Come in`, `Enter`, or `Allow` joins a member to a protected channel after knocking
 - `No thank you`, `No thanks`, or `Disallow` does not join them
-- `Hey/OK bot` asks OpenAI's ChatGPT a question. `Hey/OK dad` responds with dad jokes.
 
 ### In-house
 
@@ -45,6 +44,8 @@
 - `Enable audio` allows the bot to play audio again
 - `Stop audio/Stop/Cancel` stops the currently playing audio file
 - `Mute JP` server mutes jproperly for 2 minutes (protected command)
+- `Hey/OK bot` asks OpenAI's ChatGPT a question. `Hey/OK dad` responds with dad jokes
+- `Hey/OK limerick/haiku/poem` responds with a Dota 2-specific poem and posts the results to #bots
 
 ---
 
