@@ -33,7 +33,7 @@ class Personality {
           },
           { role: "user", content: question },
         ],
-        model: "gpt-4",
+        model: "gpt-3.5-turbo",
       })
       .then((completion) => {
         const response = completion.choices[0].message.content;
