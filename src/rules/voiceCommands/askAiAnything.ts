@@ -19,7 +19,7 @@ class Personality {
   ) {
     this.systemInstruction = systemInstruction;
     this.regexKeyword = regexKeyword;
-    this.regex = new RegExp(`(okay|ok|hey|hay) (${this.regexKeyword})`, "i");
+    this.regex = new RegExp(`^(okay|ok|hey|hay) (${this.regexKeyword})$`, "i");
     this.postAnswerToBotsChannel = postAnswerToBotsChannel;
   }
 
