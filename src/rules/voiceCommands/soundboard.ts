@@ -60,9 +60,10 @@ export default [
   new Sound("egg-spearit", "eggs? 2"),
   new Sound("bash", "bash|bosch|back"),
   new Sound("pretty"),
-  new Sound(["hk-canna", "hk-crash"], "hk"),
+  new Sound(["hk-canna", "hk-crash", "hk-both"], "hk"),
   new Sound("hk-canna", "hk 1"),
   new Sound("hk-crash", "hk 2"),
+  new Sound("hk-both", "hk 3"),
   new Sound("highground", "high ?ground"),
   new Sound("despacito"),
   new Sound(
