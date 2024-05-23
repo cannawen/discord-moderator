@@ -51,7 +51,16 @@ function clipCanna() {
   winston.info("OBS - Canna - clipping");
   return Promise.all([
     obsGameCanna.reidentify({}).catch((e) => {
-      winston.error("OBS - Canna Game - save replay audio failed");
+      winston.error("OBS - Canna Game - OBS not connected");
+      throw e;
+    }),
+    obsGameCanna.call("SaveReplayBuffer").catch((e) => {
+      winston.error("OBS - Canna Game - save audio failed");
+      throw e;
+    }),
+
+    obsStreamCanna.reidentify({}).catch((e) => {
+      winston.error("OBS - Canna Stream - OBS not connected");
       throw e;
     }),
     obsStreamCanna.call("SaveReplayBuffer").catch((e) => {
