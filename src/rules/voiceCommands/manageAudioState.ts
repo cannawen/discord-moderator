@@ -14,7 +14,7 @@ export default new Rule({
       playAudio("success.mp3");
     }
     if (utterance.match(/^disable audio$/i)) {
-      playAudio("success.mp3");
+      playAudio("goodbye");
       disableAudioForAnHour();
     }
     if (utterance.match(/^(stop audio|stop|cancel)$/i)) {
