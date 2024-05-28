@@ -25,23 +25,21 @@ let knockingEnabled = true;
 export default [
   new Rule({
     description:
-      "knocks when someone enters a non-protected channel when the bot is in a protected channel",
+      "knocks when someone enters waiting room when the bot is in a protected channel",
     start: () => {
       client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
         // if knocking is not enabled (due to mass migration), do nothing
         if (!knockingEnabled) return;
         // if a user is leaving a voice channel, do nothing
         if (!newVoiceState.channelId) return;
-        // if user was already in a channel, do nothing
-        if (oldVoiceState.channelId) return;
 
         const botChannel = findMemberVoiceChannelId(
           constants.memberIds.CANNA_BOT
         );
-        // if the bot is in a protected channel and a user joins a different channel, knock
+        // if the bot is in a protected channel and a user joins the waiting room, knock
         if (
           isProtectedChannel(botChannel) &&
-          newVoiceState.channelId !== botChannel
+          newVoiceState.channelId === constants.channelIds.WAITING
         ) {
           const displayName = newVoiceState.member?.displayName!;
           winston.info(
@@ -74,7 +72,7 @@ export default [
       const speaker = findMember(memberId).displayName;
       const requester = findMember(memberRequestingToJoin).displayName;
 
-      if (utterance.match(/^(come in|enter|allow)$/i)) {
+      if (utterance.match(/^(come in|enter|allow|yes|ok|okay)$/i)) {
         winston.info(`Move - ${requester} approved (${speaker})`);
         const botChannel = findMemberVoiceChannelId(
           constants.memberIds.CANNA_BOT
@@ -83,7 +81,7 @@ export default [
         memberRequestingToJoin = undefined;
       }
 
-      if (utterance.match(/^(no thank you|no thanks|disallow)$/i)) {
+      if (utterance.match(/^(no thank you|no thanks|disallow|no)$/i)) {
         winston.info(`Move - ${requester} rejected (${speaker})`);
         memberRequestingToJoin = undefined;
         playAudio("success.mp3");

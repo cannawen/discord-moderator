@@ -16,7 +16,7 @@ export default {
     FOCUS: "mode: focus",
     STREAMING: "mode: streaming",
     HIDING: "mode: hiding",
-    SHH: "mode: shh",
+    WAITING: "mode: waiting room",
 
     LOBBY: "Lobby",
     RADIANT: "Radiant",
@@ -28,7 +28,7 @@ export default {
     FOCUS: process.env.CHANNEL_ID_FOCUS!,
     STREAMING: process.env.CHANNEL_ID_STREAMING!,
     HIDING: process.env.CHANNEL_ID_HIDING!,
-    SHH: process.env.CHANNEL_ID_SHH!,
+    WAITING: process.env.CHANNEL_ID_WAITING!,
 
     LOBBY: process.env.CHANNEL_ID_LOBBY!,
     RADIANT: process.env.CHANNEL_ID_RADIANT!,
