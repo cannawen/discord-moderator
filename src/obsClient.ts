@@ -50,23 +50,30 @@ function disconnectCanna() {
 function clipCanna() {
   winston.info("OBS - Canna - clipping");
   return Promise.all([
-    obsGameCanna.reidentify({}).catch((e) => {
-      winston.error("OBS - Canna Game - OBS not connected");
-      throw e;
-    }),
-    obsGameCanna.call("SaveReplayBuffer").catch((e) => {
-      winston.error("OBS - Canna Game - save audio failed");
-      throw e;
-    }),
-
-    obsStreamCanna.reidentify({}).catch((e) => {
-      winston.error("OBS - Canna Stream - OBS not connected");
-      throw e;
-    }),
-    obsStreamCanna.call("SaveReplayBuffer").catch((e) => {
-      winston.error("OBS - Canna Stream - save replay failed");
-      throw e;
-    }),
+    obsGameCanna
+      .reidentify({})
+      .catch((e) => {
+        winston.error("OBS - Canna Game - OBS not connected");
+        throw e;
+      })
+      .then(() => {
+        obsGameCanna.call("SaveReplayBuffer").catch((e) => {
+          winston.error("OBS - Canna Game - save audio failed");
+          throw e;
+        });
+      }),
+    obsStreamCanna
+      .reidentify({})
+      .catch((e) => {
+        winston.error("OBS - Canna Stream - OBS not connected");
+        throw e;
+      })
+      .then(() => {
+        obsStreamCanna.call("SaveReplayBuffer").catch((e) => {
+          winston.error("OBS - Canna Stream - save replay failed");
+          throw e;
+        });
+      }),
   ]).then(() => winston.info("OBS - Canna - saved replay"));
 }
 
