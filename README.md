@@ -6,19 +6,23 @@
 
 ---
 
-# Voice commands
+# Voice Commands
 
-## Member movement
+## Member Movement
 
 - `Take me/us to <channel>` moves members from the current voice channel to `<channel>`
 - `Take everyone/everybody to <channel>` moves all members connected to any voice channel
 - See [here](src/rules/voiceCommands/massMigration.ts) for channel name definitions
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (and starts coaching Canna)
-- `Come in`, `Enter`, or `Allow` joins a member to a protected channel after knocking
-- `No thank you`, `No thanks`, or `Disallow` does not join them
 
-### In-house
+### Protected Channels & Waiting Room
+
+- When the bot is in a protected channel and a user enters the waiting room, the bot knocks and announces the waiting user's name
+- Keywords `Come in`, `Enter`, `Allow`, `Yes`, `OK` moves the waiting user to enter the protected channel
+- Keywords `No thank you`, `No thanks`, `Disallow`, `No` does not move them
+
+### In-House
 
 - `Start in house` or `Should I stay or should I go` enters in-house splitting mode
   - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
@@ -52,5 +56,5 @@
 # What else does the bot do?
 
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
-- Changes Drabz's nickname every two weeks on a 6-week cycle depending on which shift he is working
+- Changes Drabz's nickname depending on what day it is
 - When wrabbit and Target are in the same voice channel, renames it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)
