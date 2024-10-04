@@ -10,7 +10,7 @@ export default new Rule({
     'disconnects user on "see you later nerds" and stops coaching when Canna says it',
   utterance: (utterance, memberId) => {
     if (
-      utterance.match(/^see you later nerds?$/i) ||
+      utterance.match(/^see you later nerd?s?$/i) ||
       utterance.match(/^disconnect$/i)
     ) {
       winston.info(
