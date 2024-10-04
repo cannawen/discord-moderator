@@ -36,10 +36,10 @@ export default [
         const botChannel = findMemberVoiceChannelId(
           constants.memberIds.CANNA_BOT
         );
-        // if the bot is in a protected channel and a user joins the waiting room, knock
+        // if the bot is in a protected channel and a user joins a non-protected channel, knock
         if (
-          isProtectedChannel(botChannel) &&
-          newVoiceState.channelId === constants.channelIds.WAITING
+          isProtectedChannel(botChannel) && 
+          !isProtectedChannel(newVoiceState.channelId)
         ) {
           const displayName = newVoiceState.member?.displayName!;
           winston.info(
