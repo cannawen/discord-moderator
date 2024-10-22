@@ -9,8 +9,6 @@ import Rule from "../Rule";
 import stt from "../speechToText";
 import winston from "winston";
 
-const MEMBERS_WITH_VOICE_COMMANDS_ACTIVATED = [constants.memberIds.CANNA ,constants.memberIds.TEAZY];
-
 // this flag here is very sketchy - there must be a better way to do this
 let listening = false;
 
@@ -23,8 +21,7 @@ export default new Rule({
     if (connection && !listening) {
       listening = true;
       connection?.receiver.speaking.on("start", (memberId) => {
-        if (MEMBERS_WITH_VOICE_COMMANDS_ACTIVATED.includes(memberId)) {
-          stt
+        stt
           .transcribe(connection.receiver, memberId)
           .then((utterance) => {
             if (!utterance) return;
@@ -38,7 +35,6 @@ export default new Rule({
               .map((r) => r.utterance!(utterance, memberId));
           })
           .catch(() => {});
-        }       
       });
 
       connection?.addListener(
