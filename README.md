@@ -8,11 +8,13 @@
 
 # Voice Commands
 
+Bot only listens to Teazy and Canna
+
 ## Member Movement
 
 - `Take me/us to <channel>` moves members from the current voice channel to `<channel>`
 - `Take everyone/everybody to <channel>` moves all members connected to any voice channel
-- See [here](src/rules/voiceCommands/massMigration.ts) for channel name definitions
+  - See [here](src/rules/voiceCommands/massMigration.ts) for channel name definitions
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (and starts coaching Canna)
 
@@ -23,6 +25,8 @@
 - Keywords `No thank you`, `No thanks`, `Disallow`, `No` does not move them
 
 ### In-House
+
+Spllitting in-house teams temporarily broken due to bot only listening to Teazy or Canna
 
 - `Start in house` or `Should I stay or should I go` enters in-house splitting mode
   - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
@@ -35,7 +39,6 @@
 
 ## Clips and Streaming
 
-- `/clip` allows anyone to post to the #clips channel
 - `Snapshot` records the last couple minutes of Canna's screen via OBS (saved onto a local machine)
 - `Reconnect` tries to reconnect to Canna's OBS (protected command)
 - `Start/End stream` manages state of [Canna's twitch stream](https://www.twitch.tv/cannadota)
@@ -55,6 +58,7 @@
 
 # What else does the bot do?
 
+- `/clip` allows anyone to post to the #clips channel
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname depending on what day it is
 - When wrabbit and Target are in the same voice channel, renames it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)
