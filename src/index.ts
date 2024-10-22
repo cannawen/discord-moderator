@@ -51,7 +51,7 @@ discord.once(Events.ClientReady, (c) => {
                 option
                   .setName("file")
                   .setDescription(
-                    "attach clip as a file (beta feature - file must be < 13mb)"
+                    "attach clip as a file (beta feature - file must be < 10mb)"
                   )
               )
               .addStringOption((option) =>
