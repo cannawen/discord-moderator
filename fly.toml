@@ -4,7 +4,7 @@
 #
 
 app = "canna-bot"
-primary_region = "yyz"
+primary_region = "ewr"
 
 [env]
   TZ="America/Edmonton"
