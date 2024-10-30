@@ -22,11 +22,11 @@ export default [
     },
   }),
   new Rule({
-    description: 'if we are in splitting mode, listen to "radiant" or "dire"',
+    description: 'if we are in splitting mode, listen to "radiant" (one) or "dire" (two)',
     utterance: (utterance, memberId) => {
       if (!splittingMode) return;
 
-      if (utterance.match(/^(radiant|radiance)$/i)) {
+      if (utterance.match(/^(radiant|radiance|one|1)$/i)) {
         winston.info(
           `In House - Radiant - ${
             findMember(memberId).displayName
@@ -34,7 +34,7 @@ export default [
         );
         moveToVoiceChannel(memberId, constants.channelIds.RADIANT);
       }
-      if (utterance.match(/^(dyer|tire|dire)$/i)) {
+      if (utterance.match(/^(dyer|tire|dire|two|2)$/i)) {
         winston.info(
           `In House - Dire - ${findMember(memberId).displayName} (${utterance})`
         );

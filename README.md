@@ -26,8 +26,9 @@
 
 - `Start in house` or `Should I stay or should I go` enters in-house splitting mode
   - When members say `Radiant` or `Dire` they get moved to the appropriate voice channel
+  - `Radiant` also aliased to `One`, `Dire` aliased to `Two`
   - `Cancel`, `Stop`, or `Done` stops in-house splitting mode
-  - In-house splitting mode also stops when Canna says `Radiant` or `Dire`
+  - In-house splitting mode also stops when Canna is moved to `Radiant` or `Dire` channel
 - `Reset in house` or `Take me to lobby` moves members in `Radiant` and `Dire` to `Lobby`
 - `There is an imposter among us` or `/amongus` slash command triggers [Dota 2 x Among Us](./AmongUs.md) game mode
 - `Start discussion timer` sets a 10-minute timer with 5 and 1 minute remaining warnings
