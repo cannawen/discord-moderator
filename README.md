@@ -16,10 +16,10 @@
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (and starts coaching Canna)
 
-### Protected Channels & Waiting Room
+### Protected Channel Alerts
 
-- When the bot is in a protected channel and a user enters the waiting room, the bot knocks and announces the waiting user's name
-- Keywords `Come in`, `Enter`, `Allow`, `Yes`, `OK` moves the waiting user to enter the protected channel
+- When the bot is in a protected channel and a user enters a non-protected channel, the bot knocks and announces the user's name
+- Keywords `Come in`, `Enter`, `Allow`, `Yes`, `OK` moves the user to the protected channel
 - Keywords `No thank you`, `No thanks`, `Disallow`, `No` does not move them
 
 ### In-House
@@ -36,7 +36,6 @@
 
 ## Clips and Streaming
 
-- `/clip` allows anyone to post to the #clips channel
 - `Snapshot` records the last couple minutes of Canna's screen via OBS (saved onto a local machine)
 - `Reconnect` tries to reconnect to Canna's OBS (protected command)
 - `Start/End stream` manages state of [Canna's twitch stream](https://www.twitch.tv/cannadota)
@@ -50,12 +49,14 @@
 - `Stop audio/Stop/Cancel` stops the currently playing audio file
 - `Mute JP` server mutes jproperly for 2 minutes (protected command)
 - `Hey/OK bot` asks OpenAI's ChatGPT a question. `Hey/OK dad` responds with dad jokes
+  - `Cancel` stops the ChatGPT request
 - `Hey/OK limerick/haiku/poem` responds with a Dota 2-specific poem and posts the results to #bots
 
 ---
 
 # What else does the bot do?
 
+- `/clip` allows anyone to post to the #clips channel
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname depending on what day it is
 - When wrabbit and Target are in the same voice channel, renames it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)
