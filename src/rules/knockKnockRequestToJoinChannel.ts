@@ -25,7 +25,7 @@ let knockingEnabled = true;
 export default [
   new Rule({
     description:
-      "knocks when someone enters waiting room when the bot is in a protected channel",
+      "knocks when someone enters non-protected channel when the bot is in a protected channel",
     start: () => {
       client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
         // if knocking is not enabled (due to mass migration), do nothing
@@ -36,11 +36,15 @@ export default [
         const botChannel = findMemberVoiceChannelId(
           constants.memberIds.CANNA_BOT
         );
-        // if the bot is in a protected channel and a user joins a non-protected channel, knock
+        // if the bot is in a protected channel 
+        // and a user joins a non-protected channel
+        // and user has moved channels
         if (
           isProtectedChannel(botChannel) && 
-          !isProtectedChannel(newVoiceState.channelId)
+          !isProtectedChannel(newVoiceState.channelId) &&
+          newVoiceState.channelId !== oldVoiceState.channelId
         ) {
+          // knock
           const displayName = newVoiceState.member?.displayName!;
           winston.info(
             `Move - ${displayName} requesting to join ${
