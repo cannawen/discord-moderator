@@ -1,4 +1,5 @@
-import { findMember, playAudio, voiceCommand } from "../../helpers";
+import { findMember, findTextChannel, playAudio, voiceCommand } from "../../helpers";
+import constants from "../../constants";
 import obsClient from "../../obsClient";
 import Rule from "../../Rule";
 import winston from "winston";
@@ -12,6 +13,7 @@ export default [
           .streamCannaStart()
           .then(() => {
             voiceCommand("take me to streaming");
+            findTextChannel(constants.channelIds.BOTS).send("Starting stream at https://www.twitch.tv/cannadota")
             winston.info(
               `OBS - Starting stream (${findMember(memberId).displayName})`
             );
