@@ -11,7 +11,6 @@ export default [
         obsClient
           .streamCannaStart()
           .then(() => {
-            playAudio("visit twitch dot tv slash canna dota");
             voiceCommand("take me to streaming");
             winston.info(
               `OBS - Starting stream (${findMember(memberId).displayName})`
