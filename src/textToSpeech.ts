@@ -2,7 +2,6 @@ import crypto from "crypto";
 import fs = require("fs");
 import OpenAI from "openai";
 import path = require("path");
-import winston = require("winston");
 import constants from "./constants";
 
 const openAi = new OpenAI({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
