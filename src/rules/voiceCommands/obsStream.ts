@@ -2,6 +2,7 @@ import { findMember, findTextChannel, playAudio, voiceCommand } from "../../help
 import constants from "../../constants";
 import obsClient from "../../obsClient";
 import Rule from "../../Rule";
+import twitchClient from "../../twitchClient";
 import winston from "winston";
 
 export default [
@@ -9,6 +10,7 @@ export default [
     description: "when someone says 'start stream', start Canna Stream",
     utterance: (utterance, memberId) => {
       if (utterance.match(/^(begin|start) stream(ing)?$/i)) {
+        twitchClient.connect();
         obsClient
           .streamCannaStart()
           .then(() => {
@@ -31,11 +33,11 @@ export default [
     description: "when someone says 'end stream', stop Canna Stream",
     utterance: (utterance, memberId) => {
       if (utterance.match(/^(end|stop) stream(ing)?$/i)) {
+        twitchClient.disconnect();
         obsClient
           .streamCannaStop()
           .then(() => {
-            playAudio("Stream ended.");
-            voiceCommand("take me to general");
+            playAudio("success.mp3");
             winston.info(
               `OBS - Ending stream (${findMember(memberId).displayName})`
             );

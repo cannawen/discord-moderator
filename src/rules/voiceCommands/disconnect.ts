@@ -1,7 +1,6 @@
 import constants from "../../constants";
-import { findMember } from "../../helpers";
+import { findMember, voiceCommand } from "../../helpers";
 import https from "https";
-import obsClient from "../../obsClient";
 import Rule from "../../Rule";
 import winston from "winston";
 
@@ -19,7 +18,7 @@ export default new Rule({
       findMember(memberId).voice.disconnect();
 
       if (memberId === constants.memberIds.CANNA) {
-        obsClient.streamCannaStop().catch(() => {});
+        voiceCommand("end stream")
 
         https
           .request({

@@ -64,4 +64,7 @@ export default {
   openAi: {
     CHATGPT_SECRET_KEY: process.env.CHATGPT_SECRET_KEY,
   },
+  twitch: {
+    CHANNEL_NAME: "cannadota",
+  }
 };

@@ -16,6 +16,7 @@
     "@flydotio/dockerfile": "^0.3.3",
     "@types/node": "^20.4.2",
     "@types/node-cron": "^3.0.8",
+    "@types/tmi.js": "^1.8.6",
     "rimraf": "^5.0.1",
     "typescript": "^5.1.6"
   },
@@ -31,6 +32,7 @@
     "obs-websocket-js": "^5.0.3",
     "openai": "^4.24.3",
     "opusscript": "^0.0.8",
+    "tmi.js": "^1.8.5",
     "winston": "^3.11.0"
   }
 }
