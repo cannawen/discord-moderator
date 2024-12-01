@@ -42,7 +42,7 @@ export function playAudio(input: string, msDelay: number = 0) {
   if (!audioEnabled) return;
 
   setTimeout(() => {
-    const connection = getVoiceConnection(constants.guildIds.BEST_DOTA);
+    const connection = getVoiceConnection(constants.discord.guildIds.BEST_DOTA);
     if (!connection) {
       winston.warn(`no voice connection; cannot play file ${input}`);
       return;
@@ -80,7 +80,7 @@ export function stopAudio() {
 
 export function findGuild() {
   return client.guilds.cache.find(
-    (g) => g.id === constants.guildIds.BEST_DOTA
+    (g) => g.id === constants.discord.guildIds.BEST_DOTA
   ) as Guild;
 }
 
@@ -113,8 +113,8 @@ export function fetchMessage(channelId: string, messageId: string) {
 export function filterBots(members: Collection<string, GuildMember>) {
   return members.filter(
     (member) =>
-      member.id !== constants.memberIds.CANNA_BOT &&
-      member.id !== constants.memberIds.DOTA_COACH
+      member.id !== constants.discord.memberIds.CANNA_BOT &&
+      member.id !== constants.discord.memberIds.DOTA_COACH
   );
 }
 
@@ -134,14 +134,14 @@ export function moveToVoiceChannel(
 
   members
     // canna-bot will move itself, so do not touch it when moving
-    .filter((m) => m.id !== constants.memberIds.CANNA_BOT)
+    .filter((m) => m.id !== constants.discord.memberIds.CANNA_BOT)
     .forEach((m) => m.voice.setChannel(findVoiceChannel(channelId)));
 }
 
 export function voiceCommand(command: string) {
   rules.forEach((r) => {
     if (r.utterance) {
-      r.utterance(command, constants.memberIds.CANNA_BOT);
+      r.utterance(command, constants.discord.memberIds.CANNA_BOT);
     }
   });
 }

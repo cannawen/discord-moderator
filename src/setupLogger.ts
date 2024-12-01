@@ -10,7 +10,7 @@ class DiscordInfoLogTransport extends Transport {
     });
 
     const { level, message, ...meta } = info;
-    findTextChannel(constants.channelIds.LOGS).send(`[${level}] ${message}`);
+    findTextChannel(constants.discord.channelIds.LOGS).send(`[${level}] ${message}`);
 
     callback();
   }
@@ -23,7 +23,7 @@ class DiscordVerboseCannaLogTransport extends Transport {
     });
 
     const { level, message, ...meta } = info;
-    findTextChannel(constants.channelIds.CANNA_LOGS).send(`${message}`);
+    findTextChannel(constants.discord.channelIds.CANNA_LOGS).send(`${message}`);
 
     callback();
   }

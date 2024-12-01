@@ -14,18 +14,17 @@ import winston from "winston";
 function joinBotToChannel(channelId: string | null | undefined) {
   if (
     channelId &&
-    channelId !== findMemberVoiceChannelId(constants.memberIds.CANNA_BOT)
+    channelId !== findMemberVoiceChannelId(constants.discord.memberIds.CANNA_BOT)
   ) {
     enableAudio();
     winston.info(
-      `Bot ---------- connect ----------------------- ${
-        findVoiceChannel(channelId).name
+      `Bot ---------- connect ----------------------- ${findVoiceChannel(channelId).name
       }`
     );
     joinVoiceChannel({
       adapterCreator: findGuild().voiceAdapterCreator,
       channelId: channelId,
-      guildId: constants.guildIds.BEST_DOTA,
+      guildId: constants.discord.guildIds.BEST_DOTA,
       selfDeaf: false,
       selfMute: false,
     });
@@ -35,9 +34,9 @@ function joinBotToChannel(channelId: string | null | undefined) {
 export default new Rule({
   description: "on tick, manage bot connection to voice channel",
   tick: () => {
-    const cannaChannel = findMemberVoiceChannelId(constants.memberIds.CANNA);
-    const teazyChannel = findMemberVoiceChannelId(constants.memberIds.TEAZY);
-    const botChannel = findMemberVoiceChannelId(constants.memberIds.CANNA_BOT);
+    const cannaChannel = findMemberVoiceChannelId(constants.discord.memberIds.CANNA);
+    const teazyChannel = findMemberVoiceChannelId(constants.discord.memberIds.TEAZY);
+    const botChannel = findMemberVoiceChannelId(constants.discord.memberIds.CANNA_BOT);
 
     // connect to canna channel
     if (cannaChannel) {
@@ -52,11 +51,10 @@ export default new Rule({
       botChannel &&
       filterBots(findVoiceChannel(botChannel).members).size === 0
     ) {
-      findMember(constants.memberIds.CANNA_BOT).voice.disconnect();
+      findMember(constants.discord.memberIds.CANNA_BOT).voice.disconnect();
 
       winston.info(
-        `Bot -------------------- disconnect ---------- ${
-          findVoiceChannel(botChannel).name
+        `Bot -------------------- disconnect ---------- ${findVoiceChannel(botChannel).name
         }`
       );
     }

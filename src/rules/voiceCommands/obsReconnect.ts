@@ -9,7 +9,7 @@ export default new Rule({
     "Reconnect voice command triggers bot to re-initialize obs client",
   utterance: (utterance, memberId) => {
     if (utterance.match(/^reconnect$/i)) {
-      if (memberId === constants.memberIds.CANNA) {
+      if (memberId === constants.discord.memberIds.CANNA) {
         winston.info("OBS - Canna - processing Reconnect");
         obsClient
           .connectCanna()

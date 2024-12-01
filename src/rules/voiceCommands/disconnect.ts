@@ -17,7 +17,7 @@ export default new Rule({
       );
       findMember(memberId).voice.disconnect();
 
-      if (memberId === constants.memberIds.CANNA) {
+      if (memberId === constants.discord.memberIds.CANNA) {
         voiceCommand("end stream")
 
         https

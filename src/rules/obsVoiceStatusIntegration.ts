@@ -9,7 +9,7 @@ export default [
   new Rule({
     description: "on restart, connect Canna's OBS",
     start: () => {
-      const cannaChannel = findMemberVoiceChannelId(constants.memberIds.CANNA);
+      const cannaChannel = findMemberVoiceChannelId(constants.discord.memberIds.CANNA);
 
       if (cannaChannel) {
         obsClient.connectCanna().catch(() => {
@@ -24,7 +24,7 @@ export default [
     start: () => {
       client.on(Events.VoiceStateUpdate, (oldVoiceState, newVoiceState) => {
         if (
-          newVoiceState.member?.id === constants.memberIds.CANNA &&
+          newVoiceState.member?.id === constants.discord.memberIds.CANNA &&
           !oldVoiceState.channelId &&
           newVoiceState.channelId
         ) {
@@ -42,7 +42,7 @@ export default [
       client.on(Events.VoiceStateUpdate, (_, newVoiceState) => {
         // if Canna is leaving a channel
         if (
-          newVoiceState.member?.id === constants.memberIds.CANNA &&
+          newVoiceState.member?.id === constants.discord.memberIds.CANNA &&
           !newVoiceState.channelId
         ) {
           // disconnect OBS

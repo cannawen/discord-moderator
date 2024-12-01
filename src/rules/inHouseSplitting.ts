@@ -28,17 +28,16 @@ export default [
 
       if (utterance.match(/^(radiant|radiance|one|1)$/i)) {
         winston.info(
-          `In House - Radiant - ${
-            findMember(memberId).displayName
+          `In House - Radiant - ${findMember(memberId).displayName
           } (${utterance})`
         );
-        moveToVoiceChannel(memberId, constants.channelIds.RADIANT);
+        moveToVoiceChannel(memberId, constants.discord.channelIds.RADIANT);
       }
       if (utterance.match(/^(dyer|tire|dire|two|2)$/i)) {
         winston.info(
           `In House - Dire - ${findMember(memberId).displayName} (${utterance})`
         );
-        moveToVoiceChannel(memberId, constants.channelIds.DIRE);
+        moveToVoiceChannel(memberId, constants.discord.channelIds.DIRE);
       }
     },
   }),
@@ -50,7 +49,7 @@ export default [
       if (
         utterance.match(/^(done|cancel|stop)$/) ||
         (utterance.match(/^(radiant|radiance|dyer|tire|dire)$/i) &&
-          memberId === constants.memberIds.CANNA)
+          memberId === constants.discord.memberIds.CANNA)
       ) {
         winston.info("In House - Splitting mode disabled");
         splittingMode = false;

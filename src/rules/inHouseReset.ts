@@ -6,7 +6,7 @@ import winston from "winston";
 function moveMembersToLobby(fromChannelId: string) {
   moveToVoiceChannel(
     findVoiceChannel(fromChannelId).members,
-    constants.channelIds.LOBBY
+    constants.discord.channelIds.LOBBY
   );
 }
 
@@ -18,8 +18,8 @@ export default new Rule({
       utterance.match(/^take (us|me) to lobby$/i)
     ) {
       winston.info("Move - Radiant and Dire to Lobby");
-      moveMembersToLobby(constants.channelIds.RADIANT);
-      moveMembersToLobby(constants.channelIds.DIRE);
+      moveMembersToLobby(constants.discord.channelIds.RADIANT);
+      moveMembersToLobby(constants.discord.channelIds.DIRE);
     }
   },
 });

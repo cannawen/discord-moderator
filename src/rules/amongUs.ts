@@ -12,10 +12,10 @@ export default [
     utterance: (utterance) => {
       if (utterance.match(/^(there is|there's) an imposter among us$/i)) {
         const direMembers = filterBots(
-          findVoiceChannel(constants.channelIds.DIRE).members
+          findVoiceChannel(constants.discord.channelIds.DIRE).members
         );
         const radiantMembers = filterBots(
-          findVoiceChannel(constants.channelIds.RADIANT).members
+          findVoiceChannel(constants.discord.channelIds.RADIANT).members
         );
 
         const direImposter = direMembers.random();

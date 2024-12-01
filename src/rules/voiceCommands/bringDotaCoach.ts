@@ -13,12 +13,12 @@ export default new Rule({
     "bring dota-coach to a member's voice channel, or start coaching session",
   utterance: (utterance, memberId) => {
     if (utterance.match(/^coach me$/i)) {
-      if (findMemberVoiceChannelId(constants.memberIds.DOTA_COACH)) {
+      if (findMemberVoiceChannelId(constants.discord.memberIds.DOTA_COACH)) {
         winston.info(
           `Move - dota-coach to ${findMember(memberId).displayName}`
         );
         moveToVoiceChannel(
-          constants.memberIds.DOTA_COACH,
+          constants.discord.memberIds.DOTA_COACH,
           findMemberVoiceChannelId(memberId)!
         );
       } else {

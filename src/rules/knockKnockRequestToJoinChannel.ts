@@ -13,9 +13,9 @@ import winston from "winston";
 
 function isProtectedChannel(channelId: string | undefined | null) {
   return (
-    channelId === constants.channelIds.FOCUS ||
-    channelId === constants.channelIds.HIDING ||
-    channelId === constants.channelIds.STREAMING
+    channelId === constants.discord.channelIds.FOCUS ||
+    channelId === constants.discord.channelIds.HIDING ||
+    channelId === constants.discord.channelIds.STREAMING
   );
 }
 
@@ -34,7 +34,7 @@ export default [
         if (!newVoiceState.channelId) return;
 
         const botChannel = findMemberVoiceChannelId(
-          constants.memberIds.CANNA_BOT
+          constants.discord.memberIds.CANNA_BOT
         );
         // if the bot is in a protected channel 
         // and a user joins a non-protected channel
@@ -78,7 +78,7 @@ export default [
       if (utterance.match(/^(come in|enter|allow|yes|ok|okay|accept)$/i)) {
         winston.info(`Move - ${requester} approved (${speaker})`);
         const botChannel = findMemberVoiceChannelId(
-          constants.memberIds.CANNA_BOT
+          constants.discord.memberIds.CANNA_BOT
         )!;
         moveToVoiceChannel(memberRequestingToJoin, botChannel);
         memberRequestingToJoin = undefined;

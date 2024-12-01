@@ -4,13 +4,13 @@ import Rule from "../Rule";
 import winston from "winston";
 
 function wrabbitChannel() {
-  return findMemberVoiceChannelId(constants.memberIds.WRABBIT);
+  return findMemberVoiceChannelId(constants.discord.memberIds.WRABBIT);
 }
 
 function wrabbitAndTargetInSameChannel() {
   return (
     wrabbitChannel() !== null &&
-    wrabbitChannel() === findMemberVoiceChannelId(constants.memberIds.TARGET)
+    wrabbitChannel() === findMemberVoiceChannelId(constants.discord.memberIds.TARGET)
   );
 }
 
@@ -27,7 +27,7 @@ export default new Rule({
     "When wrabbit and target are together in a channel, rename it Home",
   tick: () => {
     if (wrabbitAndTargetInSameChannel()) {
-      updateChannelName(wrabbitChannel()!, constants.channelNames.HOME);
+      updateChannelName(wrabbitChannel()!, constants.discord.channelNames.HOME);
     } else {
       // These channel names MUST match keys in both channelIds and channelNames
       [
@@ -43,8 +43,8 @@ export default new Rule({
       ].map((channelKey) =>
         // Extremely sketchy cast here to make the compiler happy
         updateChannelName(
-          constants.channelIds[channelKey as "GENERAL"],
-          constants.channelNames[channelKey as "GENERAL"]
+          constants.discord.channelIds[channelKey as "GENERAL"],
+          constants.discord.channelNames[channelKey as "GENERAL"]
         )
       );
     }

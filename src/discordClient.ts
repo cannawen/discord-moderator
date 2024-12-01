@@ -35,7 +35,7 @@ export function initDiscord() {
                 .put(
                     Routes.applicationGuildCommands(
                         constants.discord.APPLICATION_ID,
-                        constants.guildIds.BEST_DOTA
+                        constants.discord.guildIds.BEST_DOTA
                     ),
                     {
                         body: [
@@ -117,7 +117,7 @@ export function initDiscord() {
                         messagePayload = messageText;
                     }
 
-                    findTextChannel(constants.channelIds.CLIPS)
+                    findTextChannel(constants.discord.channelIds.CLIPS)
                         .send(messagePayload)
                         .then((message) => {
                             message.startThread({

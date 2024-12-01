@@ -10,9 +10,9 @@ export default new Rule({
   utterance: (utterance, memberId) => {
     if (
       utterance.match(/^mute jp$/i) &&
-      memberId === constants.memberIds.CANNA
+      memberId === constants.discord.memberIds.CANNA
     ) {
-      const jproperly = findMember(constants.memberIds.JPROPERLY);
+      const jproperly = findMember(constants.discord.memberIds.JPROPERLY);
       if (jproperly.voice.channel === null) {
         return;
       }

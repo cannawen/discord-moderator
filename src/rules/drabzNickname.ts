@@ -36,7 +36,7 @@ export default new Rule({
     cron.schedule("0 0 * * *", () => {
       const today = new Date();
 
-      const drabz = findMember(constants.memberIds.DRABZ);
+      const drabz = findMember(constants.discord.memberIds.DRABZ);
       const drabzNewNickname = drabzNicknameString(today);
 
       if (drabz.nickname !== drabzNewNickname) {

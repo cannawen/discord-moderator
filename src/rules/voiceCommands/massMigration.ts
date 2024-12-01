@@ -16,11 +16,11 @@ interface RuleData {
 }
 
 const ruleData: RuleData[] = [
-  { trigger: "general", channel: constants.channelIds.GENERAL },
-  { trigger: "chaos", channel: constants.channelIds.CHAOS },
-  { trigger: "focus", channel: constants.channelIds.FOCUS },
-  { trigger: "stream(ing)?", channel: constants.channelIds.STREAMING },
-  { trigger: "hiding", channel: constants.channelIds.HIDING },
+  { trigger: "general", channel: constants.discord.channelIds.GENERAL },
+  { trigger: "chaos", channel: constants.discord.channelIds.CHAOS },
+  { trigger: "focus", channel: constants.discord.channelIds.FOCUS },
+  { trigger: "stream(ing)?", channel: constants.discord.channelIds.STREAMING },
+  { trigger: "hiding", channel: constants.discord.channelIds.HIDING },
   // NOTE: lobby has custom migration that only pulls from Radiant/Dire
 ];
 
@@ -45,10 +45,8 @@ export default ruleData.flatMap((data) => [
         moveToVoiceChannel(membersToMove, toChannelId);
 
         winston.info(
-          `Move - ${findVoiceChannel(fromChannelId).name} to ${
-            findVoiceChannel(toChannelId).name
-          } (${findMember(memberId).displayName}, ${
-            membersToMove.size
+          `Move - ${findVoiceChannel(fromChannelId).name} to ${findVoiceChannel(toChannelId).name
+          } (${findMember(memberId).displayName}, ${membersToMove.size
           } members moved)`
         );
       }
@@ -72,8 +70,7 @@ export default ruleData.flatMap((data) => [
         moveToVoiceChannel(membersToMove, toChannelId);
 
         winston.info(
-          `Move - everyone to ${findVoiceChannel(toChannelId).name} (${
-            findMember(memberId).displayName
+          `Move - everyone to ${findVoiceChannel(toChannelId).name} (${findMember(memberId).displayName
           }, ${membersToMove.size} members moved)`
         );
       }

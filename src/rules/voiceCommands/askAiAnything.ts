@@ -73,8 +73,8 @@ export default [
               `Question - ${utterance} (${findMember(memberId).displayName})`
             );
             if (personality.postAnswerToBotsChannel) {
-              findTextChannel(constants.channelIds.BOTS).send(
-                `A collaboration between <@${constants.memberIds.CANNA_BOT}> and <@${memberId}>\n\`${utterance}\`\n\n${answer}`
+              findTextChannel(constants.discord.channelIds.BOTS).send(
+                `A collaboration between <@${constants.discord.memberIds.CANNA_BOT}> and <@${memberId}>\n\`${utterance}\`\n\n${answer}`
               );
             }
           })

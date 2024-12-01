@@ -11,7 +11,7 @@ export default new Rule({
       winston.info(
         `Role - everybody-except-drabz - role added for ${member.displayName}`
       );
-      member.roles.add(constants.roleIds.EVERYONE_EXCEPT_DRABZ);
+      member.roles.add(constants.discord.roleIds.EVERYONE_EXCEPT_DRABZ);
     });
   },
 });
