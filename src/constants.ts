@@ -22,8 +22,8 @@ export default {
       WAITING: "mode: waiting room",
 
       LOBBY: "Lobby",
-      RADIANT: "Radiant",
-      DIRE: "Dire",
+      RADIANT: "Radiant (One)",
+      DIRE: "Dire (Two)",
     },
     channelIds: {
       GENERAL: process.env.CHANNEL_ID_GENERAL!,
