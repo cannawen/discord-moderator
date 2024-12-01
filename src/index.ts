@@ -1,4 +1,5 @@
-import "./setupLogger";
+import logger from "./logger";
 import { initDiscord } from "./discordClient";
 
-initDiscord()
+logger.setup();
+initDiscord();

@@ -29,30 +29,36 @@ class DiscordVerboseCannaLogTransport extends Transport {
   }
 }
 
-const LEVEL = Symbol.for("level");
+function setup() {
+  const LEVEL = Symbol.for("level");
 
-function filterOnly(level: string) {
-  return format((info) => {
-    if (info[LEVEL] === level) {
-      return info;
-    }
-    return false;
-  })();
+  function filterOnly(level: string) {
+    return format((info) => {
+      if (info[LEVEL] === level) {
+        return info;
+      }
+      return false;
+    })();
+  }
+
+  winston.add(new DiscordInfoLogTransport({ level: "info" }));
+  winston.add(
+    new DiscordVerboseCannaLogTransport({
+      level: "verbose",
+      format: filterOnly("verbose"),
+    })
+  );
+  winston.add(
+    new winston.transports.Console({
+      level: "silly",
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      ),
+    })
+  );
 }
 
-winston.add(new DiscordInfoLogTransport({ level: "info" }));
-winston.add(
-  new DiscordVerboseCannaLogTransport({
-    level: "verbose",
-    format: filterOnly("verbose"),
-  })
-);
-winston.add(
-  new winston.transports.Console({
-    level: "silly",
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.simple()
-    ),
-  })
-);
+export default {
+  setup
+}
