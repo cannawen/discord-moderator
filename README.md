@@ -40,6 +40,7 @@
 - `Reconnect` tries to reconnect to Canna's OBS (protected command)
 - `Start/End stream` manages state of [Canna's twitch stream](https://www.twitch.tv/cannadota)
   - Moves users to `mode: streaming` voice channel when appropriate
+  - Also controllable with `/startstream` or `/endstream` commands
 
 ## Other
 

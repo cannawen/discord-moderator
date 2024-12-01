@@ -64,6 +64,12 @@ export function initDiscord() {
                             new SlashCommandBuilder()
                                 .setName("amongus")
                                 .setDescription("Start the Dota 2 x Among Us game mode"),
+                            new SlashCommandBuilder()
+                                .setName("startstream")
+                                .setDescription("Start Canna's twitch stream (if OBS is connected to bot)"),
+                            new SlashCommandBuilder()
+                                .setName("endstream")
+                                .setDescription("End Canna's twitch stream (if OBS is connected to bot)"),
                         ],
                     }
                 );
@@ -135,6 +141,24 @@ export function initDiscord() {
                     });
                 }
                 break;
+            case "startstream":
+                {
+                    winston.info(`Stream - Started by slash command ${interaction.user.displayName}`)
+                    voiceCommand("start streamm");
+                    interaction.reply({
+                        content: "Starting Canna's stream (if Canna's OBS is connected)",
+                        ephemeral: true,
+                    });
+                }
+            case "endstream":
+                {
+                    winston.info(`Stream - Ended by slash command ${interaction.user.displayName}`)
+                    voiceCommand("end streamm");
+                    interaction.reply({
+                        content: "Ending Canna's stream (if Canna's OBS is connected)",
+                        ephemeral: true,
+                    });
+                }
             default:
                 break;
         }
