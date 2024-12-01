@@ -49,7 +49,7 @@ class Sound {
 }
 
 export default [
-  new Sound("slayTogether", "(play|win|lose|blues|slay|when)? ?together"),
+  new Sound("slayTogether", "(play|win|lose|blues|slay|when)? ?together", false),
   new Sound("faster"),
   new Sound("player"),
   new Sound(["egg-canna", "egg-spearit"], "eggs?"),
