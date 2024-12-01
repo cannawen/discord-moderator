@@ -25,19 +25,16 @@ class Sound {
   ) {
     this.fileNameOrNamesArray = fileName;
     this.regex = new RegExp(
-      `^(${TRIGGER_PHRASES.join("|")})${triggerRequired ? "" : "?"} ?(${
-        regexString || fileName
-      })$`,
+      `^(${TRIGGER_PHRASES.join("|")})${triggerRequired ? "" : "?"} ?(${regexString || fileName})$`,
       "i"
     );
   }
 
   description(): string {
-    return `${
-      Array.isArray(this.fileNameOrNamesArray)
-        ? this.fileNameOrNamesArray.join("/")
-        : this.fileNameOrNamesArray
-    } voiceline`;
+    return `${Array.isArray(this.fileNameOrNamesArray)
+      ? this.fileNameOrNamesArray.join("/")
+      : this.fileNameOrNamesArray
+      } voiceline`;
   }
 
   fileName(): string {
@@ -74,6 +71,7 @@ export default [
   new Sound("shame", "shame"),
   new Sound("shame", "walk of shame", false),
   new Sound("headbonk", "head ?b..(k|g)", false),
+  new Sound("awesome", "awesome|teamwork|everything is awesome|we won|winning", false)
 ].map(
   (sound) =>
     new Rule({
@@ -81,9 +79,7 @@ export default [
       utterance: (utterance, memberId) => {
         if (utterance.match(sound.regex)) {
           winston.info(
-            `Audio - soundboard triggered with phrase "${utterance}" (${
-              findMember(memberId).displayName
-            })`
+            `Audio - soundboard triggered with phrase "${utterance}" (${findMember(memberId).displayName})`
           );
           playAudio(`soundboard/${sound.fileName()}.mp3`);
         }
