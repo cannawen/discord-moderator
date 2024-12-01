@@ -4,6 +4,12 @@ export default {
   discord: {
     APPLICATION_ID: process.env.DISCORD_APPLICATION_ID!,
     PRIVATE_TOKEN: process.env.DISCORD_PRIVATE_TOKEN!,
+    slashCommads: {
+      CLIP: "clip",
+      AMONG_US: "amongus",
+      START_STREAM: "startstream",
+      END_STREAM: "endstream",
+    }
   },
   guildIds: {
     BEST_DOTA: process.env.GUILD_ID_BEST_DOTA!,

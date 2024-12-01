@@ -40,7 +40,7 @@ export function initDiscord() {
                     {
                         body: [
                             new SlashCommandBuilder()
-                                .setName("clip")
+                                .setName(constants.discord.slashCommads.CLIP)
                                 .addStringOption((option) =>
                                     option.setName("title").setDescription("title of the thread")
                                 )
@@ -62,13 +62,13 @@ export function initDiscord() {
                                 )
                                 .setDescription("Post a clip"),
                             new SlashCommandBuilder()
-                                .setName("amongus")
+                                .setName(constants.discord.slashCommads.AMONG_US)
                                 .setDescription("Start the Dota 2 x Among Us game mode"),
                             new SlashCommandBuilder()
-                                .setName("startstream")
+                                .setName(constants.discord.slashCommads.START_STREAM)
                                 .setDescription("Start Canna's twitch stream (if OBS is connected to bot)"),
                             new SlashCommandBuilder()
-                                .setName("endstream")
+                                .setName(constants.discord.slashCommads.END_STREAM)
                                 .setDescription("End Canna's twitch stream (if OBS is connected to bot)"),
                         ],
                     }
@@ -85,7 +85,7 @@ export function initDiscord() {
         const command = interaction.commandName;
 
         switch (command) {
-            case "clip":
+            case constants.discord.slashCommads.CLIP:
                 {
                     const member = interaction.member as GuildMember;
 
@@ -132,7 +132,7 @@ export function initDiscord() {
                 }
 
                 break;
-            case "amongus":
+            case constants.discord.slashCommads.AMONG_US:
                 {
                     voiceCommand("there is an imposter among us");
                     interaction.reply({
@@ -141,7 +141,7 @@ export function initDiscord() {
                     });
                 }
                 break;
-            case "startstream":
+            case constants.discord.slashCommads.START_STREAM:
                 {
                     winston.info(`Stream - Started by slash command ${interaction.user.displayName}`)
                     voiceCommand("start streamm");
@@ -150,7 +150,7 @@ export function initDiscord() {
                         ephemeral: true,
                     });
                 }
-            case "endstream":
+            case constants.discord.slashCommads.END_STREAM:
                 {
                     winston.info(`Stream - Ended by slash command ${interaction.user.displayName}`)
                     voiceCommand("end streamm");
