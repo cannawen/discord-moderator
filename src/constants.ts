@@ -14,8 +14,6 @@ export default {
       BEST_DOTA: process.env.GUILD_ID_BEST_DOTA!,
     },
     channelNames: {
-      HOME: "Home <3",
-
       GENERAL: "General",
       CHAOS: "mode: chaos",
       FOCUS: "mode: focus",
@@ -53,9 +51,7 @@ export default {
       DOTA_COACH: process.env.MEMBER_ID_DOTA_COACH!,
       DRABZ: process.env.MEMBER_ID_DRABZ!,
       JPROPERLY: process.env.MEMBER_ID_JPROPERLY!,
-      TARGET: process.env.MEMBER_ID_TARGET!,
       TEAZY: process.env.MEMBER_ID_TEAZY!,
-      WRABBIT: process.env.MEMBER_ID_WRABBIT!,
     },
   },
   studentIds: {

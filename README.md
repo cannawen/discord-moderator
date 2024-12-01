@@ -64,4 +64,4 @@
 
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname depending on what day it is
-- When wrabbit and Target are in the same voice channel, renames it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)
+- Sets the voice channel names to the constants specified in [constants.js](src/constants.ts)

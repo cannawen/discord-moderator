@@ -1,18 +1,7 @@
-import { findMemberVoiceChannelId, findVoiceChannel } from "../helpers";
+import { findVoiceChannel } from "../helpers";
 import constants from "../constants";
 import Rule from "../Rule";
 import winston from "winston";
-
-function wrabbitChannel() {
-  return findMemberVoiceChannelId(constants.discord.memberIds.WRABBIT);
-}
-
-function wrabbitAndTargetInSameChannel() {
-  return (
-    wrabbitChannel() !== null &&
-    wrabbitChannel() === findMemberVoiceChannelId(constants.discord.memberIds.TARGET)
-  );
-}
 
 function updateChannelName(channelId: string, newName: string) {
   const channel = findVoiceChannel(channelId);
@@ -23,30 +12,25 @@ function updateChannelName(channelId: string, newName: string) {
 }
 
 export default new Rule({
-  description:
-    "When wrabbit and target are together in a channel, rename it Home",
+  description: "Have channel names be set by the bot",
   tick: () => {
-    if (wrabbitAndTargetInSameChannel()) {
-      updateChannelName(wrabbitChannel()!, constants.discord.channelNames.HOME);
-    } else {
-      // These channel names MUST match keys in both channelIds and channelNames
-      [
-        "GENERAL",
-        "CHAOS",
-        "FOCUS",
-        "STREAMING",
-        "HIDING",
-        "WAITING",
-        "LOBBY",
-        "RADIANT",
-        "DIRE",
-      ].map((channelKey) =>
-        // Extremely sketchy cast here to make the compiler happy
-        updateChannelName(
-          constants.discord.channelIds[channelKey as "GENERAL"],
-          constants.discord.channelNames[channelKey as "GENERAL"]
-        )
-      );
-    }
-  },
+    // These channel names MUST match keys in both channelIds and channelNames
+    [
+      "GENERAL",
+      "CHAOS",
+      "FOCUS",
+      "STREAMING",
+      "HIDING",
+      "WAITING",
+      "LOBBY",
+      "RADIANT",
+      "DIRE",
+    ].map((channelKey) =>
+      // Extremely sketchy cast here to make the compiler happy
+      updateChannelName(
+        constants.discord.channelIds[channelKey as "GENERAL"],
+        constants.discord.channelNames[channelKey as "GENERAL"]
+      )
+    );
+  }
 });
