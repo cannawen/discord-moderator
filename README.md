@@ -19,7 +19,7 @@
 ### Protected Channel Alerts
 
 - When the bot is in a protected channel and a user enters a non-protected channel, the bot knocks and announces the user's name
-- Keywords `Come in`, `Enter`, `Allow`, `Yes`, `OK` moves the user to the protected channel
+- Keywords `Come in`, `Enter`, `Allow`, `Yes`, `OK`, `Accept` moves the user to the protected channel
 - Keywords `No thank you`, `No thanks`, `Disallow`, `No` does not move them
 
 ### In-House
@@ -62,7 +62,6 @@
 
 # What else does the bot do?
 
-- `/clip` allows anyone to post to the #clips channel
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname depending on what day it is
 - When wrabbit and Target are in the same voice channel, renames it `Home <3` (NOTE: there is a discord rate limit of 2 renames per 10 minutes)

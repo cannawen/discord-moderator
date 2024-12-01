@@ -40,15 +40,14 @@ export default [
         // and a user joins a non-protected channel
         // and user has moved channels
         if (
-          isProtectedChannel(botChannel) && 
+          isProtectedChannel(botChannel) &&
           !isProtectedChannel(newVoiceState.channelId) &&
           newVoiceState.channelId !== oldVoiceState.channelId
         ) {
           // knock
           const displayName = newVoiceState.member?.displayName!;
           winston.info(
-            `Move - ${displayName} requesting to join ${
-              findVoiceChannel(botChannel!).name
+            `Move - ${displayName} requesting to join ${findVoiceChannel(botChannel!).name
             }`
           );
 
@@ -76,7 +75,7 @@ export default [
       const speaker = findMember(memberId).displayName;
       const requester = findMember(memberRequestingToJoin).displayName;
 
-      if (utterance.match(/^(come in|enter|allow|yes|ok|okay)$/i)) {
+      if (utterance.match(/^(come in|enter|allow|yes|ok|okay|accept)$/i)) {
         winston.info(`Move - ${requester} approved (${speaker})`);
         const botChannel = findMemberVoiceChannelId(
           constants.memberIds.CANNA_BOT
