@@ -71,7 +71,7 @@ export default [
   new Sound("shame", "shame"),
   new Sound("shame", "walk of shame", false),
   new Sound("headbonk", "head ?b..(k|g)", false),
-  new Sound("awesome", "awesome|teamwork|everything is awesome|we won|winning", false)
+  new Sound("awesome", "everything is awesome", false)
 ].map(
   (sound) =>
     new Rule({
