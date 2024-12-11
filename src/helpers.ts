@@ -3,7 +3,6 @@ import {
   createAudioPlayer,
   createAudioResource,
   getVoiceConnection,
-  PlayerSubscription,
 } from "@discordjs/voice";
 import {
   Collection,
