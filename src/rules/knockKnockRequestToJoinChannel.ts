@@ -14,8 +14,7 @@ import winston from "winston";
 function isProtectedChannel(channelId: string | undefined | null) {
   return (
     channelId === constants.discord.channelIds.FOCUS ||
-    channelId === constants.discord.channelIds.HIDING ||
-    channelId === constants.discord.channelIds.STREAMING
+    channelId === constants.discord.channelIds.HIDING
   );
 }
 
