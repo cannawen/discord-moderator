@@ -144,7 +144,7 @@ export function initDiscord() {
             case constants.discord.slashCommads.START_STREAM:
                 {
                     winston.info(`Stream - Started by slash command ${interaction.user.displayName}`)
-                    voiceCommand("start streamm");
+                    voiceCommand("start stream");
                     interaction.reply({
                         content: "Starting Canna's stream (if Canna's OBS is connected)",
                         ephemeral: true,
@@ -153,7 +153,7 @@ export function initDiscord() {
             case constants.discord.slashCommads.END_STREAM:
                 {
                     winston.info(`Stream - Ended by slash command ${interaction.user.displayName}`)
-                    voiceCommand("end streamm");
+                    voiceCommand("end stream");
                     interaction.reply({
                         content: "Ending Canna's stream (if Canna's OBS is connected)",
                         ephemeral: true,
