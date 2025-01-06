@@ -1,6 +1,7 @@
 import tmi from "tmi.js";
 import constants from "./constants";
 import { playAudio } from "./helpers";
+import winston from "winston";
 
 const client = new tmi.Client({
     channels: [constants.twitch.CHANNEL_NAME],
@@ -18,7 +19,9 @@ function connect() {
 }
 
 function disconnect() {
-    client.disconnect();
+    client.disconnect().catch((e) => {
+        winston.error(`Twitch - disconnect ${e}`);
+    });
 }
 
 
