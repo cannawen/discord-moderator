@@ -55,6 +55,12 @@ function clipCanna() {
       .catch((e) => {
         winston.error("OBS - Canna Game - OBS not connected");
         throw e;
+      })
+      .then(() => {
+        obsStreamCanna.call("SaveReplayBuffer").catch((e) => {
+          winston.error("OBS - Canna Game - save replay audio failed");
+          throw e;
+        });
       }),
     obsStreamCanna
       .reidentify({})
@@ -110,7 +116,7 @@ function streamCannaStop() {
     );
 }
 
-obsStreamCanna.on("StreamStateChanged", ({ outputActive, outputState }) => {});
+obsStreamCanna.on("StreamStateChanged", ({ outputActive, outputState }) => { });
 
 export default {
   connectCanna,
