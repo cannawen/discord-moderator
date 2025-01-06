@@ -18,8 +18,11 @@ export default new Rule({
       findMember(memberId).voice.disconnect();
 
       if (memberId === constants.discord.memberIds.CANNA) {
-        voiceCommand("end stream")
+        try {
+          voiceCommand("end stream")
+        } catch (e) {
 
+        }
         https
           .request({
             method: "POST",
