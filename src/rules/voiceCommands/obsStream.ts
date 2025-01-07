@@ -41,6 +41,9 @@ export default [
             winston.info(
               `OBS - Ending stream (${findMember(memberId).displayName})`
             );
+            if (findMember(constants.discord.memberIds.CANNA_BOT).voice.channelId === constants.discord.channelIds.STREAMING) {
+              voiceCommand("take me to General")
+            }
           })
           .catch((e) => {
             playAudio("error.mp3");
