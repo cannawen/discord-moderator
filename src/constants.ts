@@ -19,7 +19,6 @@ export default {
       FOCUS: "mode: focus",
       STREAMING: "mode: streaming",
       HIDING: "mode: hiding",
-      WAITING: "mode: waiting room",
 
       LOBBY: "Lobby",
       RADIANT: "Radiant (One)",
@@ -31,7 +30,6 @@ export default {
       FOCUS: process.env.CHANNEL_ID_FOCUS!,
       STREAMING: process.env.CHANNEL_ID_STREAMING!,
       HIDING: process.env.CHANNEL_ID_HIDING!,
-      WAITING: process.env.CHANNEL_ID_WAITING!,
 
       LOBBY: process.env.CHANNEL_ID_LOBBY!,
       RADIANT: process.env.CHANNEL_ID_RADIANT!,

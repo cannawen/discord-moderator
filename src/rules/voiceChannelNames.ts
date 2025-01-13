@@ -21,7 +21,6 @@ export default new Rule({
       "FOCUS",
       "STREAMING",
       "HIDING",
-      "WAITING",
       "LOBBY",
       "RADIANT",
       "DIRE",
