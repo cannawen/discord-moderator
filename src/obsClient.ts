@@ -47,6 +47,15 @@ function disconnectCanna() {
   });
 }
 
+function changeScene(scene: string) {
+  return obsStreamCanna
+    .call("SetCurrentProgramScene", { sceneName: scene })
+    .catch((e) => {
+      winston.error("OBS - Canna Stream - unable to change scene");
+      throw e;
+    });
+}
+
 function clipCanna() {
   winston.info("OBS - Canna - clipping");
   return Promise.all([
@@ -121,6 +130,7 @@ obsStreamCanna.on("StreamStateChanged", ({ outputActive, outputState }) => { });
 export default {
   connectCanna,
   disconnectCanna,
+  changeScene,
   clipCanna,
   reidentifyCanna,
   streamCannaStart,
