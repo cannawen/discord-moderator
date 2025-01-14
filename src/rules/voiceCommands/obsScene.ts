@@ -8,7 +8,7 @@ export default new Rule({
     description:
         "Change OBS scene",
     utterance: (utterance, memberId) => {
-        let regex = utterance.match(/^scene (.+)$/i)
+        let regex = utterance.match(/^OBS (.+)$/i)
         if (regex) {
             if (memberId === constants.discord.memberIds.CANNA) {
                 winston.info(`OBS - Canna - processing scene change to ${regex[1]}`);
