@@ -131,10 +131,14 @@ export function moveToVoiceChannel(
     members = [...member.values()];
   }
 
-  members
-    // canna-bot will move itself, so do not touch it when moving
-    .filter((m) => m.id !== constants.discord.memberIds.CANNA_BOT)
-    .forEach((m) => m.voice.setChannel(findVoiceChannel(channelId)));
+  try {
+    members
+      // canna-bot will move itself, so do not touch it when moving
+      .filter((m) => m.id !== constants.discord.memberIds.CANNA_BOT)
+      .forEach((m) => m.voice.setChannel(findVoiceChannel(channelId)));
+  } catch (error) {
+    winston.error(`Unable to move members to ${channelId}`);
+  }
 }
 
 export function voiceCommand(command: string) {
