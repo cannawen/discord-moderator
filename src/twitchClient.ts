@@ -12,7 +12,7 @@ function connect() {
 
     client.on("message", (channel, tags, message, self) => {
         const messageUsername = tags["username"];
-        if (messageUsername !== constants.twitch.CHANNEL_NAME) {
+        if (messageUsername !== constants.twitch.CHANNEL_NAME && messageUsername !== constants.twitch.DOTABOD && message.charAt(0) !== constants.twitch.COMMAND_PREFIX) {
             playAudio(`${messageUsername} says ${message}`)
         }
     });

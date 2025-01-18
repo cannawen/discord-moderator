@@ -66,5 +66,7 @@ export default {
   },
   twitch: {
     CHANNEL_NAME: "cannadota",
+    COMMAND_PREFIX: "!",
+    DOTABOD: "dotabod",
   }
 };
