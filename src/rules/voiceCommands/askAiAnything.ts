@@ -104,7 +104,7 @@ export default [
     ),
     new Personality(
       "You are a helpful assistant who answers questions in one short sentence.",
-      "bot|but|bought"
+      "bot|bought"
     ),
   ].map(
     (personality) =>
