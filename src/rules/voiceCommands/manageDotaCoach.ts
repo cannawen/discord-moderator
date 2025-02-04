@@ -8,7 +8,7 @@ import https from "https";
 import Rule from "../../Rule";
 import winston from "winston";
 
-export default new Rule({
+export default [new Rule({
   description:
     "bring dota-coach to a member's voice channel, or start coaching session",
   utterance: (utterance, memberId) => {
@@ -35,4 +35,19 @@ export default new Rule({
       }
     }
   },
-});
+}),
+new Rule({
+  description:
+    "move dota-coach to Lobby",
+  utterance: (utterance, memberId) => {
+    if (utterance.match(/^kick bot$/i) && findMemberVoiceChannelId(constants.discord.memberIds.DOTA_COACH)) {
+      winston.info(
+        `Move - dota-coach to Lobby`
+      );
+      moveToVoiceChannel(
+        constants.discord.memberIds.DOTA_COACH,
+        constants.discord.channelIds.LOBBY
+      );
+    }
+  },
+})];

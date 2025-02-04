@@ -9,6 +9,7 @@
 - See [here](src/rules/voiceCommands/massMigration.ts) for channel name definitions
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (or starts coaching with Canna's ID if bot is not currently in any channel)
+- `Kick bot` moves dota-coach to `Lobby` channel
 
 ## Protected Channel Alerts
 
