@@ -47,6 +47,13 @@
 - `OBS x` changes the OBS scene. Current options for x are: default, off, volume off
 - Plays twitch messages as text-to-speech over discord
 
+# Talking to ChatGPT
+- `Hey/OK bot` asks OpenAI's ChatGPT a question
+- `Hey/OK limerick/haiku/poem` responds with a Dota 2-specific poem and posts the results to #bots
+- `Hey/OK dad` responds with dad jokes
+- `Hey/OK waiter` responds with puns pertaining to the object in the soup
+- `Stop/Cancel` stops the ChatGPT request
+
 # Other
 
 - [Plays soundboard audio](src/rules/voiceCommands/soundboard.ts)
@@ -54,9 +61,6 @@
 - `Enable audio` allows the bot to play audio again
 - `Stop audio/Stop/Cancel` stops the currently playing audio file
 - `Mute JP` server mutes jproperly for 2 minutes (protected command)
-- `Hey/OK bot` asks OpenAI's ChatGPT a question. `Hey/OK dad` responds with dad jokes
-  - `Cancel` stops the ChatGPT request
-- `Hey/OK limerick/haiku/poem` responds with a Dota 2-specific poem and posts the results to #bots
 - Tags all newcomers `everyone-expect-drabz` to give them permissions to move members between voice channels
 - Changes Drabz's nickname depending on what day it is
 - Sets the voice channel names to the constants specified in [constants.js](src/constants.ts)

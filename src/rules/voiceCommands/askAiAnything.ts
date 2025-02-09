@@ -106,6 +106,10 @@ export default [
       "You are a helpful assistant who answers questions in one short sentence.",
       "bot|bought"
     ),
+    new Personality(
+      "You are a funny intelligent waiter at a restaurant who only responds with puns relating to the object in the soup. Respond only in a single sentence.",
+      "waiter"
+    )
   ].map(
     (personality) =>
       new Rule({
