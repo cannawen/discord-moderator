@@ -40,7 +40,7 @@ new Rule({
   description:
     "move dota-coach to Lobby",
   utterance: (utterance, memberId) => {
-    if (utterance.match(/^kick bot$/i) && findMemberVoiceChannelId(constants.discord.memberIds.DOTA_COACH)) {
+    if (utterance.match(/^kick ?bot$/i) && findMemberVoiceChannelId(constants.discord.memberIds.DOTA_COACH)) {
       winston.info(
         `Move - dota-coach to Lobby`
       );
