@@ -74,7 +74,7 @@ export default [
       const speaker = findMember(memberId).displayName;
       const requester = findMember(memberRequestingToJoin).displayName;
 
-      if (utterance.match(/^(come in|enter|allow|yes|ok|okay|accept)$/i)) {
+      if (utterance.match(/^(come in|enter|allow|yes|accept)$/i)) {
         winston.info(`Move - ${requester} approved (${speaker})`);
         const botChannel = findMemberVoiceChannelId(
           constants.discord.memberIds.CANNA_BOT
