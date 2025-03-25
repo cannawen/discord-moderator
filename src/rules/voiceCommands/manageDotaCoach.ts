@@ -8,17 +8,18 @@ import https from "https";
 import Rule from "../../Rule";
 import winston from "winston";
 
-export default [new Rule({
+export default [
+new Rule({
   description:
     "bring dota-coach to a member's voice channel, or start coaching session",
   utterance: (utterance, memberId) => {
     if (utterance.match(/^coach me$/i)) {
-      if (findMemberVoiceChannelId(constants.discord.memberIds.DOTA_COACH)) {
+      if (findMemberVoiceChannelId(constants.discord.memberIds.DOTA_COACH_NEW)) {
         winston.info(
           `Move - dota-coach to ${findMember(memberId).displayName}`
         );
         moveToVoiceChannel(
-          constants.discord.memberIds.DOTA_COACH,
+          constants.discord.memberIds.DOTA_COACH_NEW,
           findMemberVoiceChannelId(memberId)!
         );
       } else {
@@ -28,7 +29,7 @@ export default [new Rule({
         https
           .request({
             method: "POST",
-            hostname: "dota-coach.fly.dev",
+            hostname: "dotacoach.eastus.azurecontainer.io:8080",
             path: `/coach/${constants.studentIds.CANNA}/start`,
           })
           .end();
@@ -36,6 +37,7 @@ export default [new Rule({
     }
   },
 }),
+
 new Rule({
   description:
     "move dota-coach to Lobby",

@@ -113,7 +113,8 @@ export function filterBots(members: Collection<string, GuildMember>) {
   return members.filter(
     (member) =>
       member.id !== constants.discord.memberIds.CANNA_BOT &&
-      member.id !== constants.discord.memberIds.DOTA_COACH
+      member.id !== constants.discord.memberIds.DOTA_COACH &&
+      member.id !== constants.discord.memberIds.DOTA_COACH_NEW
   );
 }
 

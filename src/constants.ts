@@ -47,6 +47,7 @@ export default {
       CANNA: process.env.MEMBER_ID_CANNA!,
       CANNA_BOT: process.env.MEMBER_ID_CANNA_BOT!,
       DOTA_COACH: process.env.MEMBER_ID_DOTA_COACH!,
+      DOTA_COACH_NEW: process.env.MEMBER_ID_DOTA_COACH_NEW!,
       DRABZ: process.env.MEMBER_ID_DRABZ!,
       JPROPERLY: process.env.MEMBER_ID_JPROPERLY!,
       TEAZY: process.env.MEMBER_ID_TEAZY!,
