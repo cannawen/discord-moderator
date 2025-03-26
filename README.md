@@ -48,11 +48,13 @@
 - Plays twitch messages as text-to-speech over discord
 
 # Talking to ChatGPT
+
 - `Hey/OK bot` asks OpenAI's ChatGPT a question
 - `Hey/OK limerick/haiku/poem` responds with a Dota 2-specific poem and posts the results to #bots
 - `Hey/OK dad` responds with dad jokes
 - `Hey/OK waiter` responds with puns pertaining to the object in the soup
 - `Stop/Cancel` stops the ChatGPT request
+- `Draw me <prompt>` uses Dall-E 3 to generate an image and posts to #bots
 
 # Other
 
