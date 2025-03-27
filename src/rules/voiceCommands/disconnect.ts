@@ -23,8 +23,8 @@ export default new Rule({
         https
           .request({
             method: "POST",
-            hostname: "dota-coach.fly.dev",
-            path: `/coach/${constants.studentIds.CANNA}/stop`,
+            hostname: constants.dotaCoach.DOMAIN,
+            path: `/coach/${constants.dotaCoach.CANNA_STUDENT_ID}/stop`,
           })
           .end();
       }

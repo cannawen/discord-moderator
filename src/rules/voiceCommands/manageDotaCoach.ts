@@ -29,8 +29,8 @@ new Rule({
         https
           .request({
             method: "POST",
-            hostname: "dotacoach.eastus.azurecontainer.io:8080",
-            path: `/coach/${constants.studentIds.CANNA}/start`,
+            hostname: constants.dotaCoach.DOMAIN,
+            path: `/coach/${constants.dotaCoach.CANNA_STUDENT_ID}/start`,
           })
           .end();
       }
