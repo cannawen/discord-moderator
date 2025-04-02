@@ -55,7 +55,7 @@ export default {
   },
   dotaCoach: {
     CANNA_STUDENT_ID: process.env.STUDENT_ID_CANNA!,
-    DOMAIN: "dotacoach.eastus.azurecontainer.io:8080",
+    DOMAIN: "dotacoach.eastus.azurecontainer.io",
   },
   obs: {
     CANNA_STREAM_SERVER: process.env.OBS_SERVER_CANNA_STREAM!,

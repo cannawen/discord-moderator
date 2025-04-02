@@ -1,6 +1,6 @@
 import constants from "../../constants";
 import { findMember, voiceCommand } from "../../helpers";
-import https from "https";
+import http from "http";
 import Rule from "../../Rule";
 import winston from "winston";
 
@@ -18,13 +18,14 @@ export default new Rule({
       findMember(memberId).voice.disconnect();
 
       if (memberId === constants.discord.memberIds.CANNA) {
-        https
-          .request({
-            method: "POST",
-            hostname: constants.dotaCoach.DOMAIN,
-            path: `/coach/${constants.dotaCoach.CANNA_STUDENT_ID}/stop`,
-          })
-          .end();
+        http
+        .request({
+          method: "POST",
+          hostname: constants.dotaCoach.DOMAIN,
+          path: `/coach/${constants.dotaCoach.CANNA_STUDENT_ID}/stop`,
+          port: 8080,
+        })
+        .end();
 
         voiceCommand("end stream")
       }
