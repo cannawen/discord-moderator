@@ -1,10 +1,7 @@
+import { createTtsBuffer } from "./openAiClient";
 import crypto from "crypto";
 import fs = require("fs");
-import OpenAI from "openai";
 import path = require("path");
-import constants from "./constants";
-
-const openAi = new OpenAI({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
 const TTS_DIRECTORY = "audio/tts-cache";
 if (!fs.existsSync(TTS_DIRECTORY)) {
@@ -16,16 +13,10 @@ function ttsPath(ttsString: string) {
   return path.join(TTS_DIRECTORY, `${hash}.mp3`);
 }
 
-async function create(ttsString: string): Promise<void> {
-  // this cast to any is a bit suspect; but I think it may be the library's fault?
-  const mp3: any = await openAi.audio.speech.create({
-    model: "tts-1",
-    voice: "alloy",
-    input: ttsString,
-  });
-
-  const buffer = Buffer.from(await mp3.arrayBuffer());
-  await fs.promises.writeFile(path.resolve(ttsPath(ttsString)), buffer);
+function create(ttsString: string): Promise<void> {
+  return createTtsBuffer(ttsString).then((buffer) => {
+    fs.promises.writeFile(path.resolve(ttsPath(ttsString)), buffer);
+  })
 }
 
 export default {

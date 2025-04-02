@@ -1,5 +1,7 @@
 import constants from "./constants";
+import fs = require("fs");
 import OpenAi from "openai";
+import path from "path";
 
 const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
@@ -20,3 +22,14 @@ export function createImage(prompt: string): Promise<string> {
         }
     });
 }
+
+export async function createTtsBuffer(ttsString: string): Promise<Buffer> {
+    // this cast to any is a bit suspect; but I think it may be the library's fault?
+    const mp3: any = await openAi.audio.speech.create({
+      model: "tts-1",
+      voice: "alloy",
+      input: ttsString,
+    });
+  
+    return Buffer.from(await mp3.arrayBuffer());
+  }
