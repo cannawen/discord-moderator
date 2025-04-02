@@ -18,8 +18,6 @@ export default new Rule({
       findMember(memberId).voice.disconnect();
 
       if (memberId === constants.discord.memberIds.CANNA) {
-        voiceCommand("end stream")
-
         https
           .request({
             method: "POST",
@@ -27,6 +25,8 @@ export default new Rule({
             path: `/coach/${constants.dotaCoach.CANNA_STUDENT_ID}/stop`,
           })
           .end();
+
+        voiceCommand("end stream")
       }
     }
   },
