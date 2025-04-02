@@ -1,28 +1,8 @@
 import { findMember, findTextChannel, playAudio } from "../../helpers";
 import constants from "../../constants";
-import OpenAi from "openai";
+import { createImage } from "../../openAiClient";
 import Rule from "../../Rule";
 import winston from "winston";
-
-const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
-
-function createImage(question: string): Promise<string> {
-    return openAi.images.generate({
-        model:"dall-e-3",
-        prompt:question,
-        n: 1,
-        size: "1792x1024",
-        style: "natural",
-        quality: "standard",
-    }).then((completion) => {
-        const response = completion.data[0].url;
-        if (response) {
-            return response;
-        } else {
-            throw "Did not recieve response";
-        }
-    });
-}
 
 export default [
   new Rule({
