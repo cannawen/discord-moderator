@@ -59,7 +59,7 @@
 # Other
 
 - [Plays soundboard audio](src/rules/voiceCommands/soundboard.ts)
-- `Disable audio` stops the bot from playing any audio for 1 hour (or until the bot leaves/rejoins)
+- `Disable/Mute audio` stops the bot from playing any audio for 1 hour (or until the bot leaves/rejoins)
 - `Enable audio` allows the bot to play audio again
 - `Stop audio/Stop/Cancel` stops the currently playing audio file
 - `Mute JP` server mutes jproperly for 2 minutes (protected command)

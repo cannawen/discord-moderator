@@ -13,7 +13,7 @@ export default new Rule({
       enableAudio();
       playAudio("success.mp3");
     }
-    if (utterance.match(/^disable audio$/i)) {
+    if (utterance.match(/^(disable|mute) audio$/i)) {
       playAudio("goodbye");
       disableAudioForAnHour();
     }
