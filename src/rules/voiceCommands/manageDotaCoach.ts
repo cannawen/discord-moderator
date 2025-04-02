@@ -1,6 +1,7 @@
 import {
   findMember,
   findMemberVoiceChannelId,
+  findVoiceChannel,
   moveToVoiceChannel,
 } from "../../helpers";
 import constants from "../../constants";
@@ -52,4 +53,23 @@ new Rule({
       );
     }
   },
-})];
+}),
+
+new Rule({
+  description:
+    "move dota-coach to different channel than New Dota Coach",
+  tick: () => {
+    const dotaCoachChannel = findMemberVoiceChannelId(constants.discord.memberIds.DOTA_COACH);
+    const newDotaCoachChannel = findMemberVoiceChannelId(constants.discord.memberIds.DOTA_COACH_NEW);
+    if (dotaCoachChannel && dotaCoachChannel === newDotaCoachChannel) {
+      const destination = dotaCoachChannel === constants.discord.channelIds.LOBBY
+                          ? constants.discord.channelIds.FOCUS 
+                          : constants.discord.channelIds.LOBBY;
+      winston.info(
+        `Move - dota-coach to ${findVoiceChannel(destination).name}`
+      );
+      moveToVoiceChannel(constants.discord.memberIds.DOTA_COACH, destination);
+    }
+  },
+})
+];

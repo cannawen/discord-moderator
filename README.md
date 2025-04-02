@@ -10,6 +10,7 @@
 - `See you later nerds` or `Disconnect` disconnects the speaker from Discord
 - `Coach me` brings dota-coach bot over to the member's current voice channel (or starts coaching with Canna's ID if bot is not currently in any channel)
 - `Kick bot` moves dota-coach to `Lobby` channel
+- Ensures dota-coach and New Dota Coach are not in the same channel
 
 ## Protected Channel Alerts
 
