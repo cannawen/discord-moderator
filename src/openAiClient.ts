@@ -7,10 +7,7 @@ export function handleQuestion(question: string, system: string): Promise<string
   return openAi.chat.completions
     .create({
       messages: [
-        {
-          role: "system",
-          content: system,  
-        },
+        { role: "system", content: system },
         { role: "user", content: question },
       ],
       model: "gpt-4o-mini",
@@ -26,30 +23,32 @@ export function handleQuestion(question: string, system: string): Promise<string
 }
 
 export function createImage(prompt: string): Promise<string> {
-    return openAi.images.generate({
-        model: "dall-e-3",
-        prompt: prompt,
-        n: 1,
-        size: "1792x1024",
-        style: "natural",
-        quality: "standard",
-    }).then((completion) => {
-        const response = completion.data[0].url;
-        if (response) {
-            return response;
-        } else {
-            throw new Error("Did not recieve response");
-        }
+  return openAi.images
+    .generate({
+      model: "dall-e-3",
+      prompt: prompt,
+      n: 1,
+      size: "1792x1024",
+      style: "natural",
+      quality: "standard",
+    })
+    .then((completion) => {
+      const response = completion.data[0].url;
+      if (response) {
+          return response;
+      } else {
+          throw new Error("Did not recieve response");
+      }
     });
 }
 
 export async function createTtsBuffer(ttsString: string): Promise<Buffer> {
-    // this cast to any is a bit suspect; but I think it may be the library's fault?
-    const mp3: any = await openAi.audio.speech.create({
-      model: "tts-1",
-      voice: "alloy",
-      input: ttsString,
-    });
-  
-    return Buffer.from(await mp3.arrayBuffer());
-  }
+  // this cast to any is a bit suspect; but I think it may be the library's fault?
+  const mp3: any = await openAi.audio.speech.create({
+    model: "tts-1",
+    voice: "alloy",
+    input: ttsString,
+  });
+
+  return Buffer.from(await mp3.arrayBuffer());
+}
