@@ -9,18 +9,18 @@ const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 class Personality {
   regexKeyword: string;
   regex: RegExp;
-  postAnswerToBotsChannel: boolean;
   promptHandler: (utterance: string) => Promise<string>;
+  successHandler: (utterance: string, memberId: string) => void
 
   constructor(
     regexKeyword: string,
     promptHandler: (utterance: string) => Promise<string>,
-    postAnswerToBotsChannel: boolean = false
+    successHandler: (utterance: string, memberId: string) => void,
   ) {
     this.regexKeyword = regexKeyword;
     this.regex = new RegExp(`^(okay|ok|hey|hay) (${this.regexKeyword})$`, "i");
-    this.postAnswerToBotsChannel = postAnswerToBotsChannel;
     this.promptHandler = promptHandler;
+    this.successHandler = successHandler;
   }
 }
 
@@ -41,9 +41,26 @@ function handleQuestion(question: string, system: string): Promise<string> {
       if (response) {
         return response;
       } else {
-        throw "Did not recieve response";
+        throw new Error("Did not recieve response");
       }
     });
+}
+
+function playResponseAndPost(response: string, memberId: string)  {
+  playAudio(response);
+  winston.info(
+    `Question - ${response} (${findMember(memberId).displayName})`
+  );
+  findTextChannel(constants.discord.channelIds.BOTS).send(
+    `A collaboration between <@${constants.discord.memberIds.CANNA_BOT}> and <@${memberId}>\n\`${response}`
+  );
+}
+
+function playResponse(response: string, memberId: string) {
+  playAudio(response);
+  winston.info(
+    `Question - ${response} (${findMember(memberId).displayName})`
+  );
 }
 
 let state: { [key: string]: Personality } = {};
@@ -65,18 +82,11 @@ export default [
     utterance: (utterance, memberId) => {
       if (memberId in state) {
         const personality = state[memberId];
-        
+        console.log("personality", personality);
         personality.promptHandler(utterance)
           .then((answer) => {
-            playAudio(answer);
-            winston.info(
-              `Question - ${utterance} (${findMember(memberId).displayName})`
-            );
-            if (personality.postAnswerToBotsChannel) {
-              findTextChannel(constants.discord.channelIds.BOTS).send(
-                `A collaboration between <@${constants.discord.memberIds.CANNA_BOT}> and <@${memberId}>\n\`${utterance}\`\n\n${answer}`
-              );
-            }
+            console.log(answer)
+            personality.successHandler(answer, memberId)
           })
           .catch((e) => {
             playAudio("error.mp3");
@@ -91,24 +101,27 @@ export default [
     new Personality(
       "haiku",
       (utterance) => handleQuestion(utterance, "You are an assistant who creates haikus about Dota 2"),
-      true
+      playResponseAndPost,
     ),
     new Personality(
       "limerick|poem",
       (utterance) => handleQuestion(utterance, "You are an assistant who creates limericks about Dota 2"),
-      true
+      playResponseAndPost
     ),
     new Personality(
       "dad",
       (utterance) => handleQuestion(utterance, "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible."),
+      playResponse,
     ),
     new Personality(
       "bot|bought",
       (utterance) => handleQuestion(utterance, "You are a helpful assistant who answers questions in one short sentence."),
+      playResponse,
     ),
     new Personality(
       "waiter",
       (utterance) => handleQuestion(utterance, "You are a funny intelligent waiter at a restaurant who only responds with puns relating to the object in the soup. Respond only in a single sentence."),
+      playResponse,
     )
   ].map(
     (personality) =>
