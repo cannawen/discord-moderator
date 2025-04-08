@@ -28,8 +28,8 @@ export function createImage(prompt: string): Promise<string> {
       model: "dall-e-3",
       prompt: prompt,
       n: 1,
-      size: "1792x1024",
-      style: "natural",
+      size: "1024x1024",
+      style: "vivid",
       quality: "standard",
     })
     .then((completion) => {
