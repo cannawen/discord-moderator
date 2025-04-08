@@ -27,7 +27,7 @@ export default new Rule({
         })
         .end();
 
-        voiceCommand("end stream")
+        voiceCommand("end stream quietly")
       }
     }
   },

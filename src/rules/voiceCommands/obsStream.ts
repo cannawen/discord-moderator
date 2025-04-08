@@ -32,12 +32,16 @@ export default [
   new Rule({
     description: "when someone says 'end stream', stop Canna Stream",
     utterance: (utterance, memberId) => {
-      if (utterance.match(/^(end|stop) stream(ing)?$/i)) {
+      const regex = utterance.match(/^(end|stop) stream(ing)? ?(quiet|silent)?(ly)?$/i);
+      if (regex) {
+        const silent = regex[3];
         twitchClient.disconnect();
         obsClient
           .streamCannaStop()
           .then(() => {
-            playAudio("success.mp3");
+            if (!silent) { 
+              playAudio("success.mp3"); 
+            }
             winston.info(
               `OBS - Ending stream (${findMember(memberId).displayName})`
             );
@@ -46,7 +50,9 @@ export default [
             }
           })
           .catch((e) => {
-            playAudio("error.mp3");
+            if (!silent) {
+              playAudio("error.mp3");
+            }
             winston.error(`OBS - Unable to end stream`);
             winston.error(e);
           });

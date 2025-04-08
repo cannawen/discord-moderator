@@ -45,6 +45,7 @@
   - Moves users to `mode: streaming` voice channel when appropriate
   - Also controllable with `/startstream` or `/endstream` commands
   - Canna's `Disconnect/See you later nerds` voice command also stops stream
+  - `End stream silently/quietly` does not provide audio feedback on if stream was successfully ended
 - `OBS x` changes the OBS scene. Current options for x are: default, off, volume off
 - Plays twitch messages as text-to-speech over discord
 
