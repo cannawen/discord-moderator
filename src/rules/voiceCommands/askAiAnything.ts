@@ -11,16 +11,19 @@ class Personality {
   regexKeyword: string;
   regex: RegExp;
   postAnswerToBotsChannel: boolean;
+  responseHandler: (utterance: string, system: string) => Promise<string>;
 
   constructor(
     systemInstruction: string,
     regexKeyword: string,
+    responseHandler: (utterance: string, system: string) => Promise<string>,
     postAnswerToBotsChannel: boolean = false
   ) {
     this.systemInstruction = systemInstruction;
     this.regexKeyword = regexKeyword;
     this.regex = new RegExp(`^(okay|ok|hey|hay) (${this.regexKeyword})$`, "i");
     this.postAnswerToBotsChannel = postAnswerToBotsChannel;
+    this.responseHandler = responseHandler;
   }
 }
 
@@ -91,24 +94,29 @@ export default [
     new Personality(
       "You are an assistant who creates haikus about Dota 2",
       "haiku",
+      handleQuestion,
       true
     ),
     new Personality(
       "You are an assistant who creates limericks about Dota 2",
       "limerick|poem",
+      handleQuestion,
       true
     ),
     new Personality(
       "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible.",
-      "dad"
+      "dad",
+      handleQuestion,
     ),
     new Personality(
       "You are a helpful assistant who answers questions in one short sentence.",
-      "bot|bought"
+      "bot|bought",
+      handleQuestion,
     ),
     new Personality(
       "You are a funny intelligent waiter at a restaurant who only responds with puns relating to the object in the soup. Respond only in a single sentence.",
-      "waiter"
+      "waiter",
+      handleQuestion,
     )
   ].map(
     (personality) =>
