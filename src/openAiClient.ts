@@ -1,7 +1,5 @@
 import constants from "./constants";
-import fs = require("fs");
 import OpenAi from "openai";
-import path from "path";
 
 const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
