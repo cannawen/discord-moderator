@@ -7,23 +7,20 @@ import winston from "winston";
 const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
 class Personality {
-  systemInstruction: string;
   regexKeyword: string;
   regex: RegExp;
   postAnswerToBotsChannel: boolean;
-  responseHandler: (utterance: string, system: string) => Promise<string>;
+  promptHandler: (utterance: string) => Promise<string>;
 
   constructor(
-    systemInstruction: string,
     regexKeyword: string,
-    responseHandler: (utterance: string, system: string) => Promise<string>,
+    promptHandler: (utterance: string) => Promise<string>,
     postAnswerToBotsChannel: boolean = false
   ) {
-    this.systemInstruction = systemInstruction;
     this.regexKeyword = regexKeyword;
     this.regex = new RegExp(`^(okay|ok|hey|hay) (${this.regexKeyword})$`, "i");
     this.postAnswerToBotsChannel = postAnswerToBotsChannel;
-    this.responseHandler = responseHandler;
+    this.promptHandler = promptHandler;
   }
 }
 
@@ -33,7 +30,7 @@ function handleQuestion(question: string, system: string): Promise<string> {
       messages: [
         {
           role: "system",
-          content: system,
+          content: system,  
         },
         { role: "user", content: question },
       ],
@@ -69,7 +66,7 @@ export default [
       if (memberId in state) {
         const personality = state[memberId];
         
-        handleQuestion(utterance, personality.systemInstruction)
+        personality.promptHandler(utterance)
           .then((answer) => {
             playAudio(answer);
             winston.info(
@@ -92,31 +89,26 @@ export default [
 ].concat(
   [
     new Personality(
-      "You are an assistant who creates haikus about Dota 2",
       "haiku",
-      handleQuestion,
+      (utterance) => handleQuestion(utterance, "You are an assistant who creates haikus about Dota 2"),
       true
     ),
     new Personality(
-      "You are an assistant who creates limericks about Dota 2",
       "limerick|poem",
-      handleQuestion,
+      (utterance) => handleQuestion(utterance, "You are an assistant who creates limericks about Dota 2"),
       true
     ),
     new Personality(
-      "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible.",
       "dad",
-      handleQuestion,
+      (utterance) => handleQuestion(utterance, "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible."),
     ),
     new Personality(
-      "You are a helpful assistant who answers questions in one short sentence.",
       "bot|bought",
-      handleQuestion,
+      (utterance) => handleQuestion(utterance, "You are a helpful assistant who answers questions in one short sentence."),
     ),
     new Personality(
-      "You are a funny intelligent waiter at a restaurant who only responds with puns relating to the object in the soup. Respond only in a single sentence.",
       "waiter",
-      handleQuestion,
+      (utterance) => handleQuestion(utterance, "You are a funny intelligent waiter at a restaurant who only responds with puns relating to the object in the soup. Respond only in a single sentence."),
     )
   ].map(
     (personality) =>
