@@ -44,7 +44,7 @@ function postPicture(prompt: string, url: string, memberId: string) {
     findTextChannel(constants.discord.channelIds.BOTS).send(`\`${prompt}\` by <@${memberId}> and <@${constants.discord.memberIds.CANNA_BOT}>`)
     findTextChannel(constants.discord.channelIds.BOTS).send(url)
     winston.info(
-        `Picture - ${prompt} (${findMember(memberId).displayName})`
+        `Picture - ${prompt} ${url} (${findMember(memberId).displayName})`
     );
 }
 
