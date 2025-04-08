@@ -8,7 +8,7 @@ export default [
   new Rule({
     description: "draw me asks Dall-e to draw something",
     utterance: (utterance, memberId) => {
-      const regex = utterance.match(/^(draw me|tommy) (.+)$/i)
+      const regex = utterance.match(/^(draw me|tommy|imagine) (.+)$/i)
       if (regex) {
         const prompt = regex[2];
         playAudio(`processing ${prompt}`)
