@@ -70,7 +70,16 @@ export function initDiscord() {
                             new SlashCommandBuilder()
                                 .setName(constants.discord.slashCommads.END_STREAM)
                                 .setDescription("End Canna's twitch stream (if OBS is connected to bot)"),
-                        ],
+                            new SlashCommandBuilder()
+                                .setName(constants.discord.slashCommads.DRAW)
+                                .addStringOption((option) =>
+                                    option
+                                        .setName("prompt")
+                                        .setDescription("prompt for Dall-E")
+                                        .setRequired(true)
+                                )
+                                .setDescription("Draw an image using Dall-E"),
+                            ],
                     }
                 );
         } catch (error) {
@@ -158,6 +167,17 @@ export function initDiscord() {
                         content: "Ending Canna's stream (if Canna's OBS is connected)",
                         ephemeral: true,
                     });
+                }
+            case constants.discord.slashCommads.DRAW:
+                {
+                    const prompt = interaction.options.getString("prompt");
+
+                    interaction.reply({
+                        content: "Processing...",
+                        ephemeral: true,
+                    });
+
+                    voiceCommand(`draw me ${prompt}`);
                 }
             default:
                 break;

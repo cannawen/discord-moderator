@@ -57,6 +57,7 @@
 - `Hey/OK waiter` responds with puns pertaining to the object in the soup
 - `Stop/Cancel` stops the ChatGPT request
 - `Draw me <prompt>` uses Dall-E 3 to generate an image and posts to #bots
+  - Also responds to `imagine <prompt>` or `/draw` slash command
 
 # Other
 

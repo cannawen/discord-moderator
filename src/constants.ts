@@ -9,6 +9,7 @@ export default {
       AMONG_US: "amongus",
       START_STREAM: "startstream",
       END_STREAM: "endstream",
+      DRAW: "draw",
     },
     guildIds: {
       BEST_DOTA: process.env.GUILD_ID_BEST_DOTA!,
