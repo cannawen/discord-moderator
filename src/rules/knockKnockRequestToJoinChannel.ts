@@ -31,6 +31,8 @@ export default [
         if (!knockingEnabled) return;
         // if a user is leaving a voice channel, do nothing
         if (!newVoiceState.channelId) return;
+        // if user is a bot, do nothing
+        if (newVoiceState.member?.user.bot) return;
 
         const botChannel = findMemberVoiceChannelId(
           constants.discord.memberIds.CANNA_BOT
