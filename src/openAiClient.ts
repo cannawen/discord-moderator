@@ -3,6 +3,28 @@ import OpenAi from "openai";
 
 const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
+export function handleQuestion(question: string, system: string): Promise<string> {
+  return openAi.chat.completions
+    .create({
+      messages: [
+        {
+          role: "system",
+          content: system,  
+        },
+        { role: "user", content: question },
+      ],
+      model: "gpt-4o-mini",
+    })
+    .then((completion) => {
+      const response = completion.choices[0].message.content;
+      if (response) {
+        return response;
+      } else {
+        throw new Error("Did not recieve response");
+      }
+    });
+}
+
 export function createImage(prompt: string): Promise<string> {
     return openAi.images.generate({
         model: "dall-e-3",

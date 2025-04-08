@@ -1,11 +1,8 @@
+import { createImage, handleQuestion } from "../../openAiClient";
 import { findMember, findTextChannel, playAudio } from "../../helpers";
 import constants from "../../constants";
-import { createImage } from "../../openAiClient";
-import OpenAi from "openai";
 import Rule from "../../Rule";
 import winston from "winston";
-
-const openAi = new OpenAi({ apiKey: constants.openAi.CHATGPT_SECRET_KEY });
 
 class Personality {
   regexKeyword: string;
@@ -25,35 +22,13 @@ class Personality {
   }
 }
 
-function handleQuestion(question: string, system: string): Promise<string> {
-  return openAi.chat.completions
-    .create({
-      messages: [
-        {
-          role: "system",
-          content: system,  
-        },
-        { role: "user", content: question },
-      ],
-      model: "gpt-4o-mini",
-    })
-    .then((completion) => {
-      const response = completion.choices[0].message.content;
-      if (response) {
-        return response;
-      } else {
-        throw new Error("Did not recieve response");
-      }
-    });
-}
-
 function playResponseAndPost(prompt: string, response: string, memberId: string)  {
   playAudio(response);
   winston.info(
     `Question - ${response} (${findMember(memberId).displayName})`
   );
   findTextChannel(constants.discord.channelIds.BOTS).send(
-    `A collaboration between <@${constants.discord.memberIds.CANNA_BOT}> and <@${memberId}>\n\`${response}\``
+    `A collaboration between <@${memberId}> and <@${constants.discord.memberIds.CANNA_BOT}>\n\`\`\`\n${response}\n\`\`\``
   );
 }
 
@@ -62,11 +37,6 @@ function playResponse(prompt: string, response: string, memberId: string) {
   winston.info(
     `Question - ${response} (${findMember(memberId).displayName})`
   );
-}
-
-function handleDrawing(prompt: string): Promise<string> {
-  playAudio(`processing ${prompt}`)
-  return createImage(prompt)
 }
 
 function postPicture(prompt: string, url: string, memberId: string) {
@@ -113,7 +83,10 @@ export default [
   [
     new Personality(
       "draw|imagine",
-      (utterance) => handleDrawing(utterance),
+      (utterance) => { 
+        playAudio(`processing ${utterance}`);
+        return createImage(utterance)
+      },
       postPicture,
     ),
     new Personality(
