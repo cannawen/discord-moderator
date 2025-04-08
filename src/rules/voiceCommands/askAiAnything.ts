@@ -22,28 +22,28 @@ class Personality {
     this.regex = new RegExp(`^(okay|ok|hey|hay) (${this.regexKeyword})$`, "i");
     this.postAnswerToBotsChannel = postAnswerToBotsChannel;
   }
+}
 
-  handleQuestion(question: string): Promise<string> {
-    return openAi.chat.completions
-      .create({
-        messages: [
-          {
-            role: "system",
-            content: this.systemInstruction,
-          },
-          { role: "user", content: question },
-        ],
-        model: "gpt-4o-mini",
-      })
-      .then((completion) => {
-        const response = completion.choices[0].message.content;
-        if (response) {
-          return response;
-        } else {
-          throw "Did not recieve response";
-        }
-      });
-  }
+function handleQuestion(question: string, system: string): Promise<string> {
+  return openAi.chat.completions
+    .create({
+      messages: [
+        {
+          role: "system",
+          content: system,
+        },
+        { role: "user", content: question },
+      ],
+      model: "gpt-4o-mini",
+    })
+    .then((completion) => {
+      const response = completion.choices[0].message.content;
+      if (response) {
+        return response;
+      } else {
+        throw "Did not recieve response";
+      }
+    });
 }
 
 let state: { [key: string]: Personality } = {};
@@ -65,8 +65,8 @@ export default [
     utterance: (utterance, memberId) => {
       if (memberId in state) {
         const personality = state[memberId];
-        personality
-          .handleQuestion(utterance)
+        
+        handleQuestion(utterance, personality.systemInstruction)
           .then((answer) => {
             playAudio(answer);
             winston.info(
