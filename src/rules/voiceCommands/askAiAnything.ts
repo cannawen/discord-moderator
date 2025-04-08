@@ -1,5 +1,6 @@
 import { findMember, findTextChannel, playAudio } from "../../helpers";
 import constants from "../../constants";
+import { createImage } from "../../openAiClient";
 import OpenAi from "openai";
 import Rule from "../../Rule";
 import winston from "winston";
@@ -10,12 +11,12 @@ class Personality {
   regexKeyword: string;
   regex: RegExp;
   promptHandler: (utterance: string) => Promise<string>;
-  successHandler: (utterance: string, memberId: string) => void
+  successHandler: (prompt: string, response: string, memberId: string) => void
 
   constructor(
     regexKeyword: string,
     promptHandler: (utterance: string) => Promise<string>,
-    successHandler: (utterance: string, memberId: string) => void,
+    successHandler: (prompt: string, response: string, memberId: string) => void,
   ) {
     this.regexKeyword = regexKeyword;
     this.regex = new RegExp(`^(okay|ok|hey|hay) (${this.regexKeyword})$`, "i");
@@ -46,21 +47,35 @@ function handleQuestion(question: string, system: string): Promise<string> {
     });
 }
 
-function playResponseAndPost(response: string, memberId: string)  {
+function playResponseAndPost(prompt: string, response: string, memberId: string)  {
   playAudio(response);
   winston.info(
     `Question - ${response} (${findMember(memberId).displayName})`
   );
   findTextChannel(constants.discord.channelIds.BOTS).send(
-    `A collaboration between <@${constants.discord.memberIds.CANNA_BOT}> and <@${memberId}>\n\`${response}`
+    `A collaboration between <@${constants.discord.memberIds.CANNA_BOT}> and <@${memberId}>\n\`${response}\``
   );
 }
 
-function playResponse(response: string, memberId: string) {
+function playResponse(prompt: string, response: string, memberId: string) {
   playAudio(response);
   winston.info(
     `Question - ${response} (${findMember(memberId).displayName})`
   );
+}
+
+function handleDrawing(prompt: string): Promise<string> {
+  playAudio(`processing ${prompt}`)
+  return createImage(prompt)
+}
+
+function postPicture(prompt: string, url: string, memberId: string) {
+    playAudio("success.mp3")
+    findTextChannel(constants.discord.channelIds.BOTS).send(`\`${prompt}\` by <@${memberId}> and <@${constants.discord.memberIds.CANNA_BOT}>`)
+    findTextChannel(constants.discord.channelIds.BOTS).send(url)
+    winston.info(
+        `Picture - ${prompt} (${findMember(memberId).displayName})`
+    );
 }
 
 let state: { [key: string]: Personality } = {};
@@ -82,11 +97,9 @@ export default [
     utterance: (utterance, memberId) => {
       if (memberId in state) {
         const personality = state[memberId];
-        console.log("personality", personality);
         personality.promptHandler(utterance)
           .then((answer) => {
-            console.log(answer)
-            personality.successHandler(answer, memberId)
+            personality.successHandler(utterance, answer, memberId)
           })
           .catch((e) => {
             playAudio("error.mp3");
@@ -98,6 +111,11 @@ export default [
   }),
 ].concat(
   [
+    new Personality(
+      "draw|imagine",
+      (utterance) => handleDrawing(utterance),
+      postPicture,
+    ),
     new Personality(
       "haiku",
       (utterance) => handleQuestion(utterance, "You are an assistant who creates haikus about Dota 2"),

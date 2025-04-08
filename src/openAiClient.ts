@@ -16,7 +16,7 @@ export function createImage(prompt: string): Promise<string> {
         if (response) {
             return response;
         } else {
-            throw "Did not recieve response";
+            throw new Error("Did not recieve response");
         }
     });
 }

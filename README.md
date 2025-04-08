@@ -55,9 +55,9 @@
 - `Hey/OK limerick/haiku/poem` responds with a Dota 2-specific poem and posts the results to #bots
 - `Hey/OK dad` responds with dad jokes
 - `Hey/OK waiter` responds with puns pertaining to the object in the soup
+- `Hey/OK draw/imagine <prompt>` uses Dall-E 3 to generate an image and posts to #bots
+  - Or use `/draw` slash command
 - `Stop/Cancel` stops the ChatGPT request
-- `Draw me <prompt>` uses Dall-E 3 to generate an image and posts to #bots
-  - Also responds to `imagine <prompt>` or `/draw` slash command
 
 # Other
 
