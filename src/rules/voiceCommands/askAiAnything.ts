@@ -1,8 +1,10 @@
 import { createImage, handleQuestion } from "../../openAiClient";
 import { findMember, findTextChannel, playAudio } from "../../helpers";
 import constants from "../../constants";
+import discord from "../../discordClient";
 import Rule from "../../Rule";
 import winston from "winston";
+import { Attachment, AttachmentBuilder, MessagePayload } from "discord.js";
 
 class Personality {
   regexKeyword: string;
@@ -39,12 +41,15 @@ function playResponse(prompt: string, response: string, memberId: string) {
   );
 }
 
-function postPicture(prompt: string, url: string, memberId: string) {
+function postPicture(prompt: string, filePath: string, memberId: string) {
     playAudio("success.mp3")
     findTextChannel(constants.discord.channelIds.BOTS).send(`\`${prompt}\` by <@${memberId}> and <@${constants.discord.memberIds.CANNA_BOT}>`)
-    findTextChannel(constants.discord.channelIds.BOTS).send(url)
+    findTextChannel(constants.discord.channelIds.BOTS).send({
+      files: [new AttachmentBuilder(filePath)]
+    })
+    // findTextChannel(constants.discord.channelIds.BOTS).send(filePath)
     winston.info(
-        `Picture - ${prompt} ${url} (${findMember(memberId).displayName})`
+        `Picture - ${prompt} ${filePath} (${findMember(memberId).displayName})`
     );
 }
 
