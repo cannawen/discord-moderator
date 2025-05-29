@@ -105,7 +105,7 @@ export default [
       playResponse,
     ),
     new Personality(
-      "bot|bought",
+      "bot|bought|siri|cortana|alexa|google|chatgpt|gpt|openai|assistant",
       (utterance) => handleQuestion(utterance, "You are a helpful assistant who answers questions in one short sentence."),
       playResponse,
     ),
