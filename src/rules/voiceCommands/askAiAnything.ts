@@ -100,20 +100,10 @@ export default [
       playResponseAndPost
     ),
     new Personality(
-      "dad",
-      (utterance) => handleQuestion(utterance, "You are a funny assistant who answers questions in one short sentence. Respond with puns when possible."),
-      playResponse,
-    ),
-    new Personality(
       "bot|bought|siri|cortana|alexa|google|chatgpt|gpt|openai|assistant",
       (utterance) => handleQuestion(utterance, "You are a helpful assistant who answers questions in one short sentence."),
       playResponse,
     ),
-    new Personality(
-      "waiter",
-      (utterance) => handleQuestion(utterance, "You are a funny intelligent waiter at a restaurant who only responds with puns relating to the object in the soup. Respond only in a single sentence."),
-      playResponse,
-    )
   ].map(
     (personality) =>
       new Rule({
