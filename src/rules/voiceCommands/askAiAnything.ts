@@ -16,7 +16,7 @@ class Personality {
     successHandler: (prompt: string, response: string, memberId: string) => void,
   ) {
     this.regexKeyword = regexKeyword;
-    this.regex = new RegExp(`^(okay|ok|hey|hay) (${this.regexKeyword})$`, "i");
+    this.regex = new RegExp(`^(okay|ok) (${this.regexKeyword})$`, "i");
     this.promptHandler = promptHandler;
     this.successHandler = successHandler;
   }
