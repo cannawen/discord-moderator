@@ -15,7 +15,7 @@ export default new Rule({
       winston.info(
         `Disconnect - ${findMember(memberId).displayName} (${utterance})`
       );
-      findMember(memberId).voice.disconnect();
+      findMember(memberId).voice.disconnect(utterance);
 
       if (memberId === constants.discord.memberIds.CANNA) {
         http
