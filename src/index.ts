@@ -1,5 +1,6 @@
 import constants from "./constants";
 import { findMember } from "./helpers";
+import { getVoiceConnection } from "@discordjs/voice";
 import { initDiscord } from "./discordClient";
 import logger from "./logger";
 import winston from "winston";
@@ -14,9 +15,11 @@ function handleShutdown() {
     isShuttingDown = true;
 
     winston.info("Received shutdown signal, shutting down gracefully...");
-    findMember(constants.discord.memberIds.CANNA_BOT).voice.disconnect().then(() => {
-        process.exit(0);
-    });
+    const connection = getVoiceConnection(constants.discord.guildIds.BEST_DOTA);
+    if (connection) {
+        connection.destroy();
+    }
+    process.exit(0);
 }
 
 process.on("SIGINT", handleShutdown);

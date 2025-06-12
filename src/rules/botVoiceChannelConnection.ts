@@ -2,12 +2,11 @@ import {
   enableAudio,
   filterBots,
   findGuild,
-  findMember,
   findMemberVoiceChannelId,
   findVoiceChannel,
 } from "../helpers";
+import { getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import constants from "../constants";
-import { joinVoiceChannel } from "@discordjs/voice";
 import Rule from "../Rule";
 import winston from "winston";
 
@@ -51,7 +50,10 @@ export default new Rule({
       botChannel &&
       filterBots(findVoiceChannel(botChannel).members).size === 0
     ) {
-      findMember(constants.discord.memberIds.CANNA_BOT).voice.disconnect();
+      const connection = getVoiceConnection(constants.discord.guildIds.BEST_DOTA);
+      if (connection) {
+        connection.destroy();
+      }
 
       winston.info(
         `Bot -------------------- disconnect ---------- ${findVoiceChannel(botChannel).name
