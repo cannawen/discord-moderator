@@ -10,6 +10,7 @@ export default new Rule({
   utterance: (utterance, memberId) => {
     if (
       utterance.match(/^see you later nerd?s?$/i) ||
+      utterance.match(/^dark farewell$/i) ||
       utterance.match(/^disconnect$/i)
     ) {
       winston.info(
