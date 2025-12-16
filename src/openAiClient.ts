@@ -33,9 +33,9 @@ export function createImage(prompt: string): Promise<string> {
       quality: "standard",
     })
     .then((completion) => {
-      const response = completion.data[0].url;
-      if (response) {
-          return response;
+      const response = completion.data;
+      if (response && response[0].url) {
+          return response[0].url;
       } else {
           throw new Error("Did not recieve response");
       }
