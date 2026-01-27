@@ -58,12 +58,6 @@ export default {
     CANNA_STUDENT_ID: process.env.STUDENT_ID_CANNA!,
     DOMAIN: "dotacoach.eastus.azurecontainer.io",
   },
-  obs: {
-    CANNA_STREAM_SERVER: process.env.OBS_SERVER_CANNA_STREAM!,
-    CANNA_STREAM_SERVER_PASSWORD: process.env.OBS_SERVER_CANNA_STREAM_PASSWORD!,
-    CANNA_GAME_SERVER: process.env.OBS_SERVER_CANNA_GAME!,
-    CANNA_GAME_SERVER_PASSWORD: process.env.OBS_SERVER_CANNA_GAME_PASSWORD!,
-  },
   openAi: {
     CHATGPT_SECRET_KEY: process.env.CHATGPT_SECRET_KEY,
   },

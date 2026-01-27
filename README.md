@@ -33,22 +33,6 @@
 - `Start discussion timer` sets a 10-minute timer with 5 and 1 minute remaining warnings
   - `Stop/Cancel` or `Stop/Cancel discussion timer` cancels the remainder of the timers
 
-# Clipping
-
-- `/clip` allows anyone to post to the #clips channel
-- `Snapshot` records the last couple minutes of Canna's screen via OBS (saved onto a local machine)
-- `Reconnect` tries to reconnect to Canna's OBS (protected command)
-
-# Streaming (https://www.twitch.tv/cannadota)
-
-- `Start/End stream` manages state of [Canna's twitch stream](https://www.twitch.tv/cannadota)
-  - Moves users to `mode: streaming` voice channel when appropriate
-  - Also controllable with `/startstream` or `/endstream` commands
-  - Canna's `Disconnect/See you later nerds` voice command also stops stream
-  - `End stream silently/quietly` does not provide audio feedback on if stream was successfully ended
-- `OBS x` changes the OBS scene. Current options for x are: default, off, volume off
-- Plays twitch messages as text-to-speech over discord
-
 # Talking to ChatGPT
 
 - `Hey/OK bot` asks OpenAI's ChatGPT a question

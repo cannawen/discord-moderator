@@ -30,15 +30,6 @@ RUN npm prune --omit=dev
 # Final stage for app image
 FROM base
 
-# Install packages for tailscale
-RUN apk update && \
-    apk add ca-certificates iptables ip6tables && \
-    rm -rf /var/cache/apk/*
-
-COPY --from=docker.io/tailscale/tailscale:stable /usr/local/bin/tailscaled /app/tailscaled
-COPY --from=docker.io/tailscale/tailscale:stable /usr/local/bin/tailscale /app/tailscale
-RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
-
 # Copy built application
 COPY --from=build /app /app
 
