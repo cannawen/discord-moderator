@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createTtsBuffer } from "./openAiClient";
 import crypto from "crypto";
 import fs = require("fs");
@@ -14,6 +15,18 @@ function ttsPath(ttsString: string) {
 }
 
 function create(ttsString: string): Promise<void> {
+    const encodedAudio = encodeURIComponent(ttsString);
+    return axios({
+        method: "get",
+        responseType: "stream",
+        url: `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedAudio}&tl=en&client=tw-ob`,
+    }).then((response) =>
+        response.data.pipe(fs.createWriteStream(ttsPath(ttsString)))
+    );
+}
+
+// Uses OpenAI but is out of credits atm
+function _create(ttsString: string): Promise<void> {
   return createTtsBuffer(ttsString).then((buffer) => {
     fs.promises.writeFile(path.resolve(ttsPath(ttsString)), buffer);
   })
