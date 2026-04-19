@@ -14,7 +14,7 @@ function ttsPath(ttsString: string) {
   return path.join(TTS_DIRECTORY, `${hash}.mp3`);
 }
 
-function create(ttsString: string): Promise<void> {
+function _create(ttsString: string): Promise<void> {
     const encodedAudio = encodeURIComponent(ttsString);
     return axios({
         method: "get",
@@ -26,7 +26,7 @@ function create(ttsString: string): Promise<void> {
 }
 
 // Uses OpenAI but is out of credits atm
-function _create(ttsString: string): Promise<void> {
+function create(ttsString: string): Promise<void> {
   return createTtsBuffer(ttsString).then((buffer) => {
     fs.promises.writeFile(path.resolve(ttsPath(ttsString)), buffer);
   })
